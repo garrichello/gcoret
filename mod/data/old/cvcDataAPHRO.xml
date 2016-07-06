@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="APHRO" rootpath="/mnt/megaraid2/data/APHRODITE/0.25x0.25/" datapath="" fullname="APHRODITE Reanalysis" datatype="NCDF">
+	<variable name="precip" fullname="Daily precipitation analysis interpolated on 0.25 grid" type='precipitation'>
+		<meta>
+			<vars longitude='longitude' latitude='latitude' level='-' time='time'/>
+			<dims longitude='longitude' latitude='latitude' level='-' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="1d" subpath="1d/" description="1-day step">
+			<file level="sfc" name="APHRO_RU_025deg_V1003R1.%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="rstn" fullname="Ratio of 0.05deg-grids with station [%]" type='other'>
+		<meta>
+			<vars longitude='longitude' latitude='latitude' level='-' time='time'/>
+			<dims longitude='longitude' latitude='latitude' level='-' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="1d" subpath="1d/" description="1-day step">
+			<file level="sfc" name="APHRO_RU_025deg_V1003R1.%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>	

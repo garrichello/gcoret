@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="JRA25NC" rootpath="/mnt/megaraid/data/JRA25.nc/" datapath="data/" fullname="JMA/CRIEPI JRA-25 Reanalysis" datatype="NCDF">
+  <variable name="TMP" fullname="Temperature" type='temperature'>
+    <meta>
+      <vars longitude='lon' latitude='lat' level='level' time='initial_time'/>
+      <dims longitude='lon' latitude='lat' level='level' time=''/>
+      <filespan value='6h'/>
+    </meta>
+    <timestep name="6h" subpath="" description="6h step sampling">
+      <file level="1000mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="950mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="850mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="700mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="600mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="500mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="400mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="300mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="250mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="200mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="150mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="100mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="70mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="50mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="30mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="20mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="10mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="7mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="5mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="3mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="2mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="1mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="0mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+  <variable name="TMP2M" fullname="Temperature" type='temperature'>
+    <meta>
+      <vars longitude='lon' latitude='lat' level='level' time='initial_time'/>
+      <dims longitude='lon' latitude='lat' level='level' time=''/>
+      <filespan value='6h'/>
+    </meta>
+    <timestep name="6h" subpath="" description="6h step sampling">
+      <file level="2m" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+  <variable name="UGRD" fullname="U wind" type='U-component'>
+    <meta>
+      <vars longitude='lon' latitude='lat' level='level' time='initial_time'/>
+      <dims longitude='lon' latitude='lat' level='level' time=''/>
+      <filespan value='6h'/>
+    </meta>
+    <timestep name="6h" subpath="" description="6h step sampling">
+      <file level="1000mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="950mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="850mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="700mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="600mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="500mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="400mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="300mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="250mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="200mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="150mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="100mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="70mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="50mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="30mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="20mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="10mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="7mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="5mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="3mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="2mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="1mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="0mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+  <variable name="UGRD10M" fullname="U wind" type='U-component'>
+    <meta>
+      <vars longitude='lon' latitude='lat' level='level' time='initial_time'/>
+      <dims longitude='lon' latitude='lat' level='level' time=''/>
+      <filespan value='6h'/>
+    </meta>
+    <timestep name="6h" subpath="" description="6h step sampling">
+      <file level="10m" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+  <variable name="VGRD" fullname="V wind" type='V-component'>
+    <meta>
+      <vars longitude='lon' latitude='lat' level='level' time='initial_time'/>
+      <dims longitude='lon' latitude='lat' level='level' time=''/>
+      <filespan value='6h'/>
+    </meta>
+    <timestep name="6h" subpath="" description="6h step sampling">
+      <file level="1000mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="950mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="850mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="700mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="600mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="500mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="400mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="300mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="250mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="200mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="150mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="100mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="70mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="50mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="30mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="20mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="10mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="7mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="5mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="3mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="2mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="1mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="0mb" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+  <variable name="VGRD10M" fullname="V wind" type='V-component'>
+    <meta>
+      <vars longitude='lon' latitude='lat' level='level' time='initial_time'/>
+      <dims longitude='lon' latitude='lat' level='level' time=''/>
+      <filespan value='6h'/>
+    </meta>
+    <timestep name="6h" subpath="" description="6h step sampling">
+      <file level="10m" name="GribFinal/anl_p25/%year%%mm%/anl_p25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+  <variable name="SOILM" fullname="Soil moisture content" type='other'>
+    <meta>
+      <vars longitude='lon' latitude='lat' level='level' time='initial_time'/>
+      <dims longitude='lon' latitude='lat' level='level' time=''/>
+      <filespan value='6h'/>
+    </meta>
+    <timestep name="6h" subpath="" description="6h step sampling">
+      <file level="1" name="GribFinal/anl_land25/%year%%mm%/anl_land25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="2" name="GribFinal/anl_land25/%year%%mm%/anl_land25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+      <file level="3" name="GribFinal/anl_land25/%year%%mm%/anl_land25.%year%%mm%%dd%%hh%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+</dataset>  

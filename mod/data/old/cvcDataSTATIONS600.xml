@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="STATIONS600" rootpath="/home/garry/svn/gcoret/local_data/STATIONS600/none/" datapath="" fullname="Stations 600" datatype="DBF">
+	<variable name="prcp" fullname="Daily averaged precipitation" type='precipitation'>
+		<meta>
+			<filespan value=""/>
+		</meta>
+		<timestep name="1d" subpath="1d/" description="1-day step">
+			<file level="sfc" name="catalogue.dbf" fcst="0" grid="S"></file>
+		</timestep>
+	</variable>
+	<variable name="tmp" fullname="Daily averaged temperature" type='temperature'>
+		<meta>
+			<filespan value=""/>
+		</meta>
+		<timestep name="1d" subpath="1d/" description="1-day step">
+			<file level="sfc" name="catalogue.dbf" fcst="0" grid="S"></file>
+		</timestep>
+	</variable>
+</dataset>	

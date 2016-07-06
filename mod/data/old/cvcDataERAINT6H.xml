@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="ERAINT6H" rootpath="/mnt/megaraid/data/ERA40Int_6hour/" datapath="" fullname="ERA40 Interim 6hour output" datatype="NCDF">
+	<variable name="u10" fullname="10 metre U wind component" type='U-wind'>
+		<meta>
+			<vars longitude='longitude' latitude='latitude' level='' time='time'/>
+			<dims longitude='longitude' latitude='latitude' level='' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="6h" subpath="" description="6-hours step sampling">
+			<file level="10m" name="output_%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="v10" fullname="10 metre V wind component" type='V-wind'>
+		<meta>
+			<vars longitude='longitude' latitude='latitude' level='' time='time'/>
+			<dims longitude='longitude' latitude='latitude' level='' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="6h" subpath="" description="6-hours step sampling">
+			<file level="10m" name="output_%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="t2m" fullname="2 metre temperature" type='temperature'>
+		<meta>
+			<vars longitude='longitude' latitude='latitude' level='' time='time'/>
+			<dims longitude='longitude' latitude='latitude' level='' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="6h" subpath="" description="6-hours step sampling">
+			<file level="2m" name="output_%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="msl" fullname="Mean sea level pressure" type='pressure'>
+		<meta>
+			<vars longitude='longitude' latitude='latitude' level='' time='time'/>
+			<dims longitude='longitude' latitude='latitude' level='' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="6h" subpath="" description="6-hours step sampling">
+			<file level="msl" name="output_%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="sd" fullname="Snow depth" type='other'>
+		<meta>
+			<vars longitude='longitude' latitude='latitude' level='' time='time'/>
+			<dims longitude='longitude' latitude='latitude' level='' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="6h" subpath="" description="6-hours step sampling">
+			<file level="sfc" name="output_%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="sstk" fullname="Sea surface temperature" type='other'>
+		<meta>
+			<vars longitude='longitude' latitude='latitude' level='' time='time'/>
+			<dims longitude='longitude' latitude='latitude' level='' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="6h" subpath="" description="6-hours step sampling">
+			<file level="sfc" name="output_%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="tp" fullname="Total precipitation" type='other'>
+		<meta>
+			<vars longitude='longitude' latitude='latitude' level='' time='time'/>
+			<dims longitude='longitude' latitude='latitude' level='' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="6h" subpath="" description="6-hours step sampling">
+			<file level="sfc" name="prcp/output_%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>	

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="NOAA" rootpath="/mnt/megariad/data/ds131/" datapath="" fullname="NOAA-CIRES Twentieth Century Global Reanalysis Version I (1908-1958)" datatype="NCDF">
+	<variable name="TMP_GDS0_ISBL_10" fullname="Temperature" type='temperature'>
+		<meta>
+			<vars longitude='g0_lon_3' latitude='g0_lat_2' level='lv_ISBL1' time='initial_time0_hours'/>
+			<dims longitude='g0_lon_3' latitude='g0_lat_2' level='lv_ISBL1' time='initial_time0_hours'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="6h" subpath="" description="6h step sampling">
+			<file level="1000mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="950mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="900mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="850mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="800mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="750mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="700mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="650mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="600mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="550mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="500mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="450mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="400mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="350mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="300mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="250mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="200mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="150mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="100mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="70mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="50mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="30mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="20mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+			<file level="10mb" name="tmp/mean/pgrbanl_mean_%year%_TMP_pres.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>	

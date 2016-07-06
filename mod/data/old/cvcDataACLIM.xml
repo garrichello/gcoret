@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="ACLIM" rootpath="/mnt/qnap/Data/ACLIM/" datapath="" fullname="ACLIM Model" datatype="NCDF">
+	<variable name="t" fullname="Air temperature" type='temperature'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='plev' time='time'/>
+			<dims longitude='i' latitude='j' level='k' time='time'/>
+			<filespan value='1y'/>
+		</meta>
+		<timestep name="1d" subpath="daily/t/" description="1-day step sampling">
+			<file level="1000mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="850mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="700mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="500mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="400mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="300mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="250mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="200mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="150mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="100mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="70mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="50mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="30mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="20mb" name="t%year%.nc" fcst="0" grid="L"></file>
+			<file level="10mb" name="t%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>

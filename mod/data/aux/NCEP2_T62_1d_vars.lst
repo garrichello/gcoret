@@ -1,0 +1,7 @@
+vars (name, units, long name, levels list):
+v> prate : 4xDaily Precipitation Rate at surface : Kg/m^2/s : prate.sfc.gauss.%year%.nc
+t> 19790101 : 20030513
+v> skt : Mean daily SST/Land Skin Temperature : degK : skt.sfc.gauss.%year%.nc
+t> 19830101 : 20030513
+v> soilw : mean Daily Volumetric Soil Moisture between 0-10 cm Below Ground Level : fraction : soilw.0-10cm.gauss.%year%.nc
+t> 19830101 : 20030513

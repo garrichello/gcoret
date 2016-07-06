@@ -1,0 +1,14 @@
+t> 18691101 20101231
+
+v> ALBDO_98_SFC_ave3h : % : Albedo : ALBDO_sfc/sflxgrbfg_mean_%year%_ALBDO_sfc.grib.nc
+l> ""
+v> PRATE_98_SFC_ave3h : kg/m^2/s : Precipitation rate : ALBDO_sfc/sflxgrbfg_mean_%year%_ALBDO_sfc.grib.nc
+l> ""
+v> PRES_98_SFC : Pa : Pressure : ALBDO_sfc/sflxgrbfg_mean_%year%_ALBDO_sfc.grib.nc
+l> ""
+v> SNO_D_98_SFC : m : Snow depth : ALBDO_sfc/sflxgrbfg_mean_%year%_ALBDO_sfc.grib.nc
+l> ""
+v> SNOWC_98_SFC_ave3h : % : Snow cover : ALBDO_sfc/sflxgrbfg_mean_%year%_ALBDO_sfc.grib.nc
+l> ""
+v> TMP_98_SFC_10 : K : Temperature : ALBDO_sfc/sflxgrbfg_mean_%year%_ALBDO_sfc.grib.nc
+l> ""

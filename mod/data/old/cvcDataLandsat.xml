@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="LANDSAT" rootpath="/Users/garry/Work/data/glovis/data/landsat" datapath="" fullname="Landsat 5 imagery" datatype="TIFF">
+	<variable name="5B10" fullname="Landsat 5 spectral band 1" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l5/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L5%path%%row%_%row%%year%%mm%%dd%_B10.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="5B20" fullname="Landsat 5 spectral band 2" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l5/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L5%path%%row%_%row%%year%%mm%%dd%_B20.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="5B30" fullname="Landsat 5 spectral band 3" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l5/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L5%path%%row%_%row%%year%%mm%%dd%_B30.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="5B40" fullname="Landsat 5 spectral band 4" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l5/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L5%path%%row%_%row%%year%%mm%%dd%_B40.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="5B50" fullname="Landsat 5 spectral band 5" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l5/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L5%path%%row%_%row%%year%%mm%%dd%_B50.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="5B60" fullname="Landsat 5 spectral band 6" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l5/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L5%path%%row%_%row%%year%%mm%%dd%_B60.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="5B70" fullname="Landsat 5 spectral band 7" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l5/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L5%path%%row%_%row%%year%%mm%%dd%_B70.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="7B10" fullname="Landsat 7 spectral band 1" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l7slc_off/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L7%path%%row%_%row%%year%%mm%%dd%_B10.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="7B20" fullname="Landsat 7 spectral band 2" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l7slc_off/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L7%path%%row%_%row%%year%%mm%%dd%_B20.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="7B30" fullname="Landsat 7 spectral band 3" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l7slc_off/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L7%path%%row%_%row%%year%%mm%%dd%_B30.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="7B40" fullname="Landsat 7 spectral band 4" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l7slc_off/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L7%path%%row%_%row%%year%%mm%%dd%_B40.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="7B50" fullname="Landsat 7 spectral band 5" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l7slc_off/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L7%path%%row%_%row%%year%%mm%%dd%_B50.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="7B60" fullname="Landsat 7 spectral band 6" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l7slc_off/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L7%path%%row%_%row%%year%%mm%%dd%_B60.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="7B70" fullname="Landsat 7 spectral band 7" type='band'>
+		<meta>
+			<filespan value='1d'/> 
+		</meta>
+		<timestep name="1d" subpath="/l7slc_off/p%path%/r%row%/y%year%" description="1 day step sampling">
+			<file level="sfc" name="/L7%path%%row%_%row%%year%%mm%%dd%_B70.TIF" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>	

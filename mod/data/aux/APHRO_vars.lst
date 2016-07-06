@@ -1,0 +1,9 @@
+times (start, end)
+t>1951 : 2007
+
+vars (name, longname, units, path, name template):
+v> precip : daily precipitation analysis interpolated onto 0.25deg grids [mm/day] : mm/day : APHRO_RU_025deg_V1003R1.%year%.nc
+l> "" "" "single level"
+
+v> rstn : ratio of 0.05deg-grids with station [%] : % : APHRO_RU_025deg_V1003R1.%year%.nc
+l> "" "" "single level"

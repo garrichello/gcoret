@@ -1,0 +1,112 @@
+times (start, end)
+t> 19570901 : 20020831
+
+vars (name, units, long name, levels list)
+v> MWP : s : Mean wave period : sfc/%year%.nc
+l> ""
+v> MWD : degrees : Mean wave direction : sfc/%year%.nc
+l> ""
+v> SWH : m : Significant wave height : sfc/%year%.nc
+l> ""
+v>  TSN : K : Temperature of snow layer : sfc/%year%.nc
+l> ""
+v>  STL4 : K : Soil temperature level 4 : sfc/%year%.nc
+l> ""
+v> STRC : W m**-2 : Surface net thermal radiation, clear sky : sfc/%year%.nc
+l> ""
+v> SSRC : W m**-2 : Surface net solar radiation, clear sky : sfc/%year%.nc
+l> ""
+v> TTRC : W m**-2 : Top net thermal radiation, clear sky : sfc/%year%.nc
+l> ""
+v> TSRC : W m**-2 : Top net solar radiation, clear sky : sfc/%year%.nc
+l> ""
+v> TCO3 : kg m**-2 : Total column ozone : sfc/%year%.nc
+l> ""
+v> RO : m : Runoff : sfc/%year%.nc
+l> ""
+v> MGWS : N m**-2 s : Meridional component of gravity wave stress : sfc/%year%.nc
+l> ""
+v> LGWS : N m**-2 s : Latitudinal component of gravity wave stress : sfc/%year%.nc
+l> ""
+v> HCC : (0 - 1) : High cloud cover : sfc/%year%.nc
+l> ""
+v> MCC : (0 - 1) : Medium cloud cover : sfc/%year%.nc
+l> ""
+v> LCC : (0 - 1) : Low cloud cover : sfc/%year%.nc
+l> ""
+v> STL3 : K : Soil temperature level 3 : sfc/%year%.nc
+l> ""
+v> E : m of water : Evaporation : sfc/%year%.nc
+l> ""
+v> NSSS : N m**-2 s : North-South surface stress : sfc/%year%.nc
+l> ""
+v> EWSS : N m**-2 s : East-West surface stress : sfc/%year%.nc
+l> ""
+v> TTR : W m**-2 s : Top thermal radiation : sfc/%year%.nc
+l> ""
+v> TSR : W m**-2 s : Top solar radiation : sfc/%year%.nc
+l> ""
+v> STR : W m**-2 s : Surface thermal radiation : sfc/%year%.nc
+l> ""
+v> SSR : W m**-2 s : Surface solar radiation : sfc/%year%.nc
+l> ""
+v> STRD : W m**-2 s : Surface thermal radiation downwards : sfc/%year%.nc
+l> ""
+v> STL2 : K : Soil temperature level 2 : sfc/%year%.nc
+l> ""
+v> SSRD : W m**-2 s : Surface solar radiation downwards : sfc/%year%.nc
+l> ""
+v> 2D : K : 2 metre dewpoint temperature : sfc/%year%.nc
+l> ""
+v> 2T : K : 2 metre temperature : sfc/%year%.nc
+l> ""
+v> 10V : m s**-1 : 10 metre V wind component : sfc/%year%.nc
+l> ""
+v> 10U : m s**-1 : 10 metre U wind component : sfc/%year%.nc
+l> ""
+v> TCC : (0 - 1) : Total cloud cover : sfc/%year%.nc
+" 
+v> BLH : m : Boundary layer height : sfc/%year%.nc
+l> ""
+v> MSL : Pa : Mean sea level pressure : sfc/%year%.nc
+l> ""
+v> SLHF : W m**-2 s : Surface latent heat flux : sfc/%year%.nc
+l> ""
+v> SSHF : W m**-2 s : Surface sensible heat flux : sfc/%year%.nc
+l> ""
+v> SF : m of water equivalent : Snowfall (convective + stratiform) : sfc/%year%.nc
+l> ""
+v> CP : m : Convective precipitation : sfc/%year%.nc
+l> ""
+v> LSP : m : Stratiform precipitation (Large scale precipitation) : sfc/%year%.nc
+l> ""
+v> SD : m of water equivalent : Snow depth : sfc/%year%.nc
+l> ""
+v> STL1 : K : Soil temperature level 1 : sfc/%year%.nc
+l> ""
+v> TCWV : kg m**-2 : Total column water vapour : sfc/%year%.nc
+l> ""
+v> TCW : kg m**-2 : Total column water : sfc/%year%.nc
+l> ""
+v> SMLT : m of water : Snowmelt : sfc/%year%.nc
+l> ""
+v> ES : m of water : Snow evaporation : sfc/%year%.nc
+l> ""
+v> SWVL4 : m**3 m**-3 : Volumetric soil water layer 4 : sfc/%year%.nc
+l> ""
+v> SWVL3 : m**3 m**-3 : Volumetric soil water layer 3 : sfc/%year%.nc
+l> ""
+v> SWVL2 : m**3 m**-3 : Volumetric soil water layer 2 : sfc/%year%.nc
+l> ""
+v> SWVL1 : m**3 m**-3 : Volumetric soil water layer 1 : sfc/%year%.nc
+l> ""
+v> ISTL4 : K : Ice surface temperature layer 4 : sfc/%year%.nc
+l> ""
+v> ISTL3 : K : Ice surface temperature layer 3 : sfc/%year%.nc
+l> ""
+v> ISTL2 : K : Ice surface temperature layer 2 : sfc/%year%.nc
+l> ""
+v> ISTL1 : K : Ice surface temperature layer 1 : sfc/%year%.nc
+l> ""
+v> CI : (0-1) : Sea-ice cover : sfc/%year%.nc
+l> ""

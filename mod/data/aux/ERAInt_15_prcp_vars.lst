@@ -1,0 +1,6 @@
+times (start, end):
+t> 19890101 : 20101231
+
+vars (name, units, long name, levels list):
+v> tp : m : Total precipitation : prcp/output_%year%.nc
+l> ""

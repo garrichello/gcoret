@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="GPCC" rootpath="/mnt/megaraid/data/GPCC/" datapath="" fullname="GPCC monthly precpitation data" datatype="NCDF">
+	<variable name="prcp" fullname="Precipitation totals [mm/month]" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='-' time='time'/>
+			<dims longitude='lon' latitude='lat' level='-' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="1m" subpath="" description="1-month step">
+			<file level="sfc" name="%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dev" fullname="Precipitation deviation from normals v2010 [mm/month]" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='-' time='time'/>
+			<dims longitude='lon' latitude='lat' level='-' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="1m" subpath="" description="1-month step">
+			<file level="sfc" name="%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="ngaug" fullname="Number of gauges per grid" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='-' time='time'/>
+			<dims longitude='lon' latitude='lat' level='-' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="1m" subpath="" description="1-month step">
+			<file level="sfc" name="%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>	

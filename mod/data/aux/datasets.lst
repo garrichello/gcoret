@@ -1,0 +1,12 @@
+name longname organization rootpath orgurl
+"APHRODITE" "Asian Precipitation - Highly-Resolved Observational Data Integration Towards Evaluation of Water Resources (APHRODITE's Water Resources)" "RIHN/MRI, Japan" "/mnt/megaraid2/data/APHRODITE/" "http://www.chikyu.ac.jp/precip/index.html"
+"ERA40" "ECMWF 40 Year Re-analysis" "ECMWF, UK" "/mnt/megaraid2/data/ERA40/" "http://www.ecmwf.int/research/era/do/get/era-40"
+"ERAInt" "ECMWF Interim Re-analysis" "ECMWF, UK" "/mnt/megaraid2/data/ERAInt/" "http://www.ecmwf.int/research/era/do/get/era-interim"
+"GPCC" "DWD GPCC Full Data Reanalysis V.5" "DWD GPCC, Germany" "/mnt/megaraid2/data/GPCC/" "http://www.dwd.de/bvbw/appmanager/bvbw/dwdwwwDesktop?_nfpb=true&_pageLabel=_dwdwww_klima_umwelt_datenzentren_wzn&T12402418261141376142184gsbDocumentPath=BEA__Navigation%2FKlima__Umwelt%2FKlimadatenzentren__WZN.html%3F__nnn%3Dtrue"
+"JRA25" "Japanese 25-year Reanalysis Project" "JMA/CRIEPI, Japan" "/mnt/dataraid2/data/JRA25/" "http://www.jreap.org/indexe.html"
+"MACC" "COPERNICUS Monitoring Atmospheric Composition and Climate Project - Interim Implementation" "COPERNICUS Project, EU" "/mnt/megaraid2/data/MACC/" "http://www.copernicus-atmosphere.eu/about/project/"
+"MERRA" "NASA/GMAO Modern-Era Retrospective Analysis for Research and Applications" "NASA GMAO, USA" "/mnt/megaraid2/data/MERRA/" "http://gmao.gsfc.nasa.gov/merra/"
+"NCEP2" "NCEP-DOE AMIP-II Reanalysis" "NOAA/OAR/ESRL PSD, Boulder, Colorado, USA" "/mnt/megaraid2/data/NCEP2/" "http://www.esrl.noaa.gov/psd/data/gridded/data.ncep.reanalysis2.html"
+"STATIONS600" "Local observations from 600 meteostations for Russia and CIS" "RIHMI-WDC, Russia" "/mnt/megaraid2/data/STATIONS600/" "http://www.meteo.ru"
+"DS131" "NOAA-CIRES Twentieth Century Global Reanalysis Version II" "NOAA/CIRES, USA" "/mnt/megaraid2/data/ds131.1/" "http://rda.ucar.edu/datasets/DS131/"
+

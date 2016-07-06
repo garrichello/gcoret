@@ -1,0 +1,22 @@
+times (start, end):
+t> 19790101 : 20121231
+
+vars (name, units, long name, levels list)
+v> es : m of water : Snow evaporation : fc_output_%year%.nc
+l> ""
+v> smlt : m of water : Snowmelt : fc_output_%year%.nc
+l> ""
+v> lspf : s : Large-scale precipitation fraction : fc_output_%year%.nc
+l> ""
+v> lsp : m : Stratiform precipitation (Large-scale precipitation) : fc_output_%year%.nc
+l> ""
+v> cp : m : Convective precipitation : fc_output_%year%.nc
+l> ""
+v> e : m of water : Evaporation : fc_output_%year%.nc
+l> ""
+v> tp : m : Total precipitation : fc_output_%year%.nc
+l> ""
+v> csf : m of water equivalent : Convective snowfall : fc_output_%year%.nc
+l> ""
+v> lsf : m of water equivalent : Large-scale snowfall : fc_output_%year%.nc
+l> ""

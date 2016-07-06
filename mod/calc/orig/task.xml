@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE task SYSTEM "ctdl.dtd">
+<task uid='Task1' owner='Owner1' root_path='/opt/gcore' data_module_path=''>
+  <computing system="calculator" type="LOCAL" ip="127.0.0.1"/>
+  <data uid='NCDC' type='dataset'>
+    <description title='NCEP1 data ' name='Temperature' units='K'/><!-- JS name, units - from table describing dataset; set after dataset descr -->
+
+    <dataset name='NCEP1'/><!-- JS name - dataset id -->
+    <variable name='tmp' tempk2c='no'/><!-- JS, tempk2c=no default, user can set; display only for temperatures -->
+    <region units='degrees' lon0='0'><!-- JS, polygon -->
+        <point lon='-180' lat='88'/>  
+        <point lon='180' lat='88'/>
+        <point lon='180' lat='-88'/>
+        <point lon='-180' lat='-88'/>
+    </region>
+    <levels values='sfc'/><!-- JS, levels through comma; now 1 level only-->
+    <time template='YYYYMMDDHH' step='Monthly'><!-- JS step-->
+      <segment name='Seg1' beginning='1991010100' ending='1991013118'/><!-- JS all, name to generate -->
+      <!--segment name='Seg2' beginning='1992010100' ending='1992013118'/-->
+    </time>
+  </data>
+  <data uid='Result1' type='array' kind='map'><!-- array - const for result; kind depends on module: map!!!, stations, points -->
+    <description title='Time averaged data' name='Temperature' units='C'/><!-- JS -->
+  </data>
+
+<!-- Processing module parameters section -->
+    <!-- Parameter example -->
+    <!-- param uid='bound' type='float'>5.0</param -->
+  <data uid='ProcessingConfiguration' type='parameter'>
+    <description title='ProcessingParameters' name='' units=''/>                
+  </data>
+
+<!-- NETCDF data -->
+  <destination uid='File1' type='raw'><!-- uid to be generated, then used in processing -->
+    <file name='./output/output.nc' type='netcdf'/> <!--type: 'netcdf', 'geotiff'; 'bin', xml' --><!-- PHP pathname -->
+  </destination>
+
+  <destination uid='Image1' type='image'><!-- uid gener, passed to Visualization1, type: image/raw -->
+    <file name='./output/output4.TIFF' type='geotiff'/><!-- image pathname including file extension - PHP; type=shape | geotiff -->
+    <projection name='cylindrical'><!-- CONST -->
+      <p0lon units='degrees'>0</p0lon>
+        <p0lat units='degrees'>0</p0lat>
+        <rot units='degrees'>0</rot>
+        <limits units='degrees'>
+          <limit role='left'>-180</limit>
+          <limit role='right'>180</limit>
+          <limit role='top'>90</limit>
+          <limit role='bottom'>-90</limit>
+        </limits>
+    </projection>
+    <coastline visible='no' hires='no'/>
+    <rivers visible='no' hires='yes'/>
+    <countries visible='no' hires='no'/>
+    <graphics title='NCEP1 Reanalysis temperature' kind='shaded'><!-- JS Title, kind: 'shaded', 'contour', 'station', 'tile'; 'multiline', 'vector', 'regress2d' -->
+      <width units='pixels'>3072</width><!-- CONST, 2048, *3 -->
+      <height units='pixels'>2304</height><!-- CONST, 1536, *3 -->
+      <axis>
+        <x name='Time' units='' scale='linear' visible='yes'/> <!-- Name: 'Time' is RESERVED and means Time! scale: 'linear', 'log10' -->
+        <y name='Temperature' units='K' scale='linear' visible='yes'/>
+        <z name='Height' units='m' scale='linear' visible='no'/>
+      </axis>      
+      <lines> <!-- for graphics kind=='multiline' -->
+        <line name='Line1' style='solid' symbol='asterisk' color='auto' thick='1.5' visible='yes'/> <!-- style: 'solid', 'dotted', 'dashed'; color: 'auto', 'red', ... ; symbol: 'plus', 'asterisk', 'period', 'diamond', 'triangle', 'square', 'X' -->
+      </lines>
+      <legend title='Temperature' kind='file' type='continuous' position='right'><!-- title from data descr, kind = embedded | none | file, position: 'right', 'left', 'top', 'bottom' (only for kind=='embedded') -->
+        <units>C</units>
+        <ncolors>11</ncolors> <!-- number of discrete colors in legend -->
+        <nlabels>11</nlabels> <!-- !!! number of labels in legend -->
+        <limited>no</limited> <!-- fixed legend limits: yes/no -->
+        <minimum>0</minimum> <!-- ignored if limited == no -->
+        <maximum>1500</maximum> <!-- ignored if limited == no -->
+        <file name='output-legend.sld' type='xml'/><!-- PHP -->
+      </legend>
+        <colortable>RAINBOW</colortable><!-- CONST -->
+        <colorscale>linear</colorscale><!-- CONST -->
+        <blackbg>no</blackbg><!-- CONST -->
+        <smoothing>yes</smoothing><!-- CONST, user defined? -->
+        <steps>30</steps>
+    </graphics>
+  </destination>
+<!-- Processing block -->
+  <processing uid='Process1' class='cvcCalcTimeMean' module_path=''><!-- uid - gener; class=CONST - module name, to be taken from PPO  table
+                                                                      , module_path - ''-->
+    <input uid='Input1' data='NCDC'/><!-- uid - to be generated; data=uid <data> #1 -->
+    <input uid="ProcessingConfigurationInput" data="ProcessingConfiguration"/>
+    <output uid='Output1' data='Result1'/><!-- uid, data=uid <data> #2 -->
+  </processing>
+
+  <processing uid='Visualization1' class='cvcOutput'><!-- uid gener class=CONST-->
+    <input uid='Data1' data='Result1'/>
+    <input uid='Destination' data='Image1'/><!-- uid gener, data=destination uid -->
+  </processing>
+
+  <processing uid='Visualization2' class='cvcOutput'><!-- uid gener class=CONST-->
+    <input uid='Data2' data='Result1'/>
+    <input uid='Destination2' data='File1'/><!-- uid gener, data=destination uid -->
+  </processing>
+</task>

@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="PLASIM" rootpath="/mnt/qnap/Data/PLASIM/" datapath="" fullname="PLASIM output" datatype="NCDF">
+	<meta>
+		<levels name="levels" values="#1;#2;#3;#4;#5;#6"/>
+	</meta>
+<!-- Variable dt -->
+	<variable name="dtA1B" fullname="Temperature, scenario SRES A1B" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dt_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dtA2" fullname="Temperature, scenario SRES A2" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dt_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dtB1" fullname="Temperature, scenario SRES B1" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dt_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dtB2" fullname="Temperature, scenario SRES B2" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dt_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dtControl" fullname="Temperature, control scenario (CO2 = 360 ppm)" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dt_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dtRCP3PD" fullname="Temperature, RCP3PD" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dt_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dtRCP45" fullname="Temperature, RCP45" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dt_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dtRCP6" fullname="Temperature, RCP6" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dt_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dtRCP85" fullname="Temperature, RCP85" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dt_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+<!-- Variable atsa -->	
+	<variable name="atsaA1B" fullname="Temperature at surface, scenario SRES A1B" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="atsa_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="atsaA2" fullname="Temperature at surface, scenario SRES A2" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="atsa_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="atsaB1" fullname="Temperature at surface, scenario SRES B1" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="atsa_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="atsaB2" fullname="Temperature at surface, scenario SRES B2" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="atsa_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="atsaControl" fullname="Temperature at surface, control scenario (CO2 = 360 ppm)" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="atsa_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="atsaRCP3PD" fullname="Temperature at surface, RCP3PD" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="atsa_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="atsaRCP45" fullname="Temperature at surface, RCP45" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="atsa_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="atsaRCP6" fullname="Temperature at surface, RCP6" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="atsa_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="atsaRCP85" fullname="Temperature at surface, RCP85" type='temperature'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="atsa_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+<!-- Variable dq -->	
+	<variable name="dqA1B" fullname="Precipitation, scenario SRES A1B" type='precipitation'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dq_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dqA2" fullname="Precipitation, scenario SRES A2" type='precipitation'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dq_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dqB1" fullname="Precipitation, scenario SRES B1" type='precipitation'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dq_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dqB2" fullname="Precipitation, scenario SRES B2" type='precipitation'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dq_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dqControl" fullname="Precipitation, control scenario (CO2 = 360 ppm)" type='precipitation'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dq_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dqRCP3PD" fullname="Precipitation, RCP3PD" type='precipitation'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dq_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dqRCP45" fullname="Precipitation, RCP45" type='precipitation'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dq_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dqRCP6" fullname="Precipitation, RCP6" type='precipitation'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dq_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dqRCP85" fullname="Precipitation, RCP85" type='precipitation'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dq_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+<!-- Variable dveg -->	
+	<variable name="dvegA1B" fullname="Vegetation, scenario SRES A1B" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dveg_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvegA2" fullname="Vegetation, scenario SRES A2" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dveg_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvegB1" fullname="Vegetation, scenario SRES B1" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dveg_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvegB2" fullname="Vegetation, scenario SRES B2" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dveg_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvegControl" fullname="Vegetation, control scenario (CO2 = 360 ppm)" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dveg_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvegRCP3PD" fullname="Vegetation, RCP3PD" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dveg_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvegRCP45" fullname="Vegetation, RCP45" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dveg_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvegRCP6" fullname="Vegetation, RCP6" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dveg_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvegRCP85" fullname="Vegetation, RCP85" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dveg_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+<!-- Variable dforest -->	
+	<variable name="dforestA1B" fullname="Forest, scenario SRES A1B" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dforest_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dforestA2" fullname="Forest, scenario SRES A2" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dforest_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dforestB1" fullname="Forest, scenario SRES B1" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dforest_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dforestB2" fullname="Forest, scenario SRES B2" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dforest_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dforestControl" fullname="Forest, control scenario (CO2 = 360 ppm)" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dforest_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dforestRCP3PD" fullname="Forest, RCP3PD" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dforest_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dforestRCP45" fullname="Forest, RCP45" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dforest_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dforestRCP6" fullname="Forest, RCP6" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dforest_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dforestRCP85" fullname="Forest, RCP85" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dforest_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+<!-- Variable aprl -->	
+	<variable name="aprlA1B" fullname="Large precipitation, scenario SRES A1B" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprl_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprlA2" fullname="Large precipitation, scenario SRES A2" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprl_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprlB1" fullname="Large precipitation, scenario SRES B1" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprl_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprlB2" fullname="Large precipitation, scenario SRES B2" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprl_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprlControl" fullname="Large precipitation, control scenario (CO2 = 360 ppm)" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprl_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprlRCP3PD" fullname="Large precipitation, RCP3PD" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprl_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprlRCP45" fullname="Large precipitation, RCP45" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprl_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprlRCP6" fullname="Large precipitation, RCP6" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprl_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprlRCP85" fullname="Large precipitation, RCP85" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprl_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+<!-- Variable aprc -->	
+	<variable name="aprcA1B" fullname="Convective precipitation, scenario SRES A1B" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprc_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprcA2" fullname="Convective precipitation, scenario SRES A2" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprc_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprcB1" fullname="Convective precipitation, scenario SRES B1" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprc_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprcB2" fullname="Convective precipitation, scenario SRES B2" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprc_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprcControl" fullname="Convective precipitation, control scenario (CO2 = 360 ppm)" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprc_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprcRCP3PD" fullname="Convective precipitation, RCP3PD" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprc_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprcRCP45" fullname="Convective precipitation, RCP45" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprc_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprcRCP6" fullname="Convective precipitation, RCP6" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprc_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="aprcRCP85" fullname="Convective precipitation, RCP85" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="aprc_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+<!-- Variable dp -->	
+	<variable name="dpA1B" fullname="Surface pressure, scenario SRES A1B" type='pressure'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dp_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dpA2" fullname="Surface pressure, scenario SRES A2" type='pressure'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dp_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dpB1" fullname="Surface pressure, scenario SRES B1" type='pressure'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dp_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dpB2" fullname="Surface pressure, scenario SRES B2" type='pressure'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dp_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dpControl" fullname="Surface pressure, control scenario (CO2 = 360 ppm)" type='pressure'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dp_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dpRCP3PD" fullname="Surface pressure, RCP3PD" type='pressure'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dp_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dpRCP45" fullname="Surface pressure, RCP45" type='pressure'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dp_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dpRCP6" fullname="Surface pressure, RCP6" type='pressure'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dp_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dpRCP85" fullname="Surface pressure, RCP85" type='pressure'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dp_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+<!-- Variable du -->
+	<variable name="duA1B" fullname="Zonal wind, scenario SRES A1B" type='u-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="du_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="duA2" fullname="Zonal wind, scenario SRES A2" type='u-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="du_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="duB1" fullname="Zonal wind, scenario SRES B1" type='u-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="du_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="duB2" fullname="Zonal wind, scenario SRES B2" type='u-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="du_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="duControl" fullname="Zonal wind, control scenario (CO2 = 360 ppm)" type='u-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="du_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="duRCP3PD" fullname="Zonal wind, RCP3PD" type='u-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="du_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="duRCP45" fullname="Zonal wind, RCP45" type='u-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="du_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="duRCP6" fullname="Zonal wind, RCP6" type='u-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="du_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="duRCP85" fullname="Zonal wind, RCP85" type='u-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="du_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+<!-- Variable dv -->
+	<variable name="dvA1B" fullname="Meridional wind, scenario SRES A1B" type='v-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dv_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvA2" fullname="Meridional wind, scenario SRES A2" type='v-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dv_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvB1" fullname="Meridional wind, scenario SRES B1" type='v-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dv_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvB2" fullname="Meridional wind, scenario SRES B2" type='v-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dv_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvControl" fullname="Meridional wind, control scenario (CO2 = 360 ppm)" type='v-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dv_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvRCP3PD" fullname="Meridional wind, RCP3PD" type='v-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dv_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvRCP45" fullname="Meridional wind, RCP45" type='v-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dv_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvRCP6" fullname="Meridional wind, RCP6" type='v-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dv_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dvRCP85" fullname="Meridional wind, RCP85" type='v-wind'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="%levels%" name="dv_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+<!-- Variable dls -->	
+	<variable name="dlsA1B" fullname="Land-sea mask, scenario SRES A1B" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dls_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dlsA2" fullname="Land-sea mask, scenario SRES A2" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dls_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dlsB1" fullname="Land-sea mask, scenario SRES B1" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dls_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dlsB2" fullname="Land-sea mask, scenario SRES B2" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dls_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dlsControl" fullname="Land-sea mask, control scenario (CO2 = 360 ppm)" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dls_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dlsRCP3PD" fullname="Land-sea mask, RCP3PD" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dls_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dlsRCP45" fullname="Land-sea mask, RCP45" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dls_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dlsRCP6" fullname="Land-sea mask, RCP6" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dls_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="dlsRCP85" fullname="Land-sea mask, RCP85" type='other'>
+		<meta>
+			<filespan value="100y"/>
+		</meta> 
+		<timestep name="1d" subpath="" description="1 day step sampling">
+			<file level="sfc" name="dls_2000_2100.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>	

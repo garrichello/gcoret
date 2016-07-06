@@ -1,0 +1,14 @@
+times (start, end):
+t> 19790101 : 20091021
+
+vars (name, units, long name, levels list):
+v> TSG_GDS4_SFC : K : Ground temperature : anl_land/%year%%mm%/anl_land.%year%%mm%%dd%%hh%.nc
+l> ""
+v> TSC_GDS4_SFC : K : Canopy temperature : anl_land/%year%%mm%/anl_land.%year%%mm%%dd%%hh%.nc
+l> ""
+v> SOILW_GDS4_SFC : fraction or mm : Soil wetness or water content : anl_land/%year%%mm%/anl_land.%year%%mm%%dd%%hh%.nc
+l> ""
+v> SOILT_GDS4_SFC : K : Soil temperature : anl_land/%year%%mm%/anl_land.%year%%mm%%dd%%hh%.nc
+l> ""
+v> SNWE_GDS4_SFC : m : Water equivalent snow depth : anl_land/%year%%mm%/anl_land.%year%%mm%%dd%%hh%.nc
+l> ""

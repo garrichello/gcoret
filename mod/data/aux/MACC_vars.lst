@@ -1,0 +1,14 @@
+times (start, end):
+t> 20030101 : 20121231
+
+vars (name, units, long name, levels list):
+v> ch4 : kg kg**-1 : Methane : %year%/macc_ch4_%year%%mm%.nc
+l> 1000 : 925 : 850 : 700 : 600 : 500 : 400 : 300 : 250 : 200 : 150 : 100 : 70 : 50 : 30 : 20 : 10 : 7 : 5 : 3 : 2 : 1
+v> t : K : Temperature : %year%/macc_tmp_%year%%mm%.nc
+l> 1000 : 925 : 850 : 700 : 600 : 500 : 400 : 300 : 250 : 200 : 150 : 100 : 70 : 50 : 30 : 20 : 10 : 7 : 5 : 3 : 2 : 1
+v> u : m s**-1 : U component of wind : %year%/macc_uwind_%year%%mm%.nc
+l> 1000 : 925 : 850 : 700 : 600 : 500 : 400 : 300 : 250 : 200 : 150 : 100 : 70 : 50 : 30 : 20 : 10 : 7 : 5 : 3 : 2 : 1
+v> v : m s**-1 : V component of wind : %year%/macc_vwind_%year%%mm%.nc
+l> 1000 : 925 : 850 : 700 : 600 : 500 : 400 : 300 : 250 : 200 : 150 : 100 : 70 : 50 : 30 : 20 : 10 : 7 : 5 : 3 : 2 : 1
+v> w : Pa s**-1 : Vertical velocity : %year%/macc_vvel_%year%%mm%.nc
+l> 1000 : 925 : 850 : 700 : 600 : 500 : 400 : 300 : 250 : 200 : 150 : 100 : 70 : 50 : 30 : 20 : 10 : 7 : 5 : 3 : 2 : 1

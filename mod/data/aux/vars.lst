@@ -1,0 +1,315 @@
+precip : mm/day  : daily precipitation analysis interpolated onto 0.25deg grids [mm/day]
+rstn : %  : ratio of 0.05deg-grids with station [%]
+CAPE_GDS0_SFC_10  : J/kg  : Convective available. potential energy 
+CIN_GDS0_SFC_10  : J/kg  : Convective inhibition 
+C_WAT_GDS0_EATM_10  : kg/m^2  : Cloud water 
+HGT_GDS0_ISBL  : gpm  : Geopotential height 
+HGT_GDS0_SFC_10  : gpm  : Geopotential height 
+HGT_GDS0_TRO_10  : gpm  : Geopotential height 
+POT_GDS0_SIGL_10  : K  : Potential temperature 
+PRES_GDS0_SFC_10  : Pa  : Pressure 
+PRES_GDS0_TRO_10  : Pa  : Pressure 
+PRMSL_GDS0_MSL_10  : Pa  : Pressure reduced to MSL 
+P_WAT_GDS0_EATM_10  : kg/m^2  : Precipitable water 
+R_H_GDS0_ISBL_10  : %  : Relative humidity 
+R_H_GDS0_SIGL_10  : %  : Relative humidity 
+SPF_H_GDS0_ISBL_10  : kg/kg  : Specific humidity 
+TMP_GDS0_ISBL  : K  : Temperature 
+TMP_GDS0_SIGL_10  : K  : Temperature 
+TMP_GDS0_TRO_10  : K  : Temperature 
+TOZONE_GDS0_EATM_10  : Dobson  : Total ozone 
+U_GRD_GDS0_TRO_10  : m/s  : u-component of wind 
+U_GRD_GDS0_ISBL  : m/s  : u-component of wind 
+U_GRD_GDS0_SIGL_10  : m/s  : u-component of wind 
+V_GRD_GDS0_ISBL  : m/s  : v-component of wind 
+V_GRD_GDS0_SIGL_10  : m/s  : v-component of wind 
+V_GRD_GDS0_TRO_10  : m/s  : v-component of wind 
+V_VEL_GDS0_ISBL_10  : Pa/s  : Pressure vertical velocity 
+V_VEL_GDS0_SIGL_10  : Pa/s  : Pressure vertical velocity 
+ALBDO_98_SFC_ave3h : % : Albedo 
+PRATE_98_SFC_ave3h : kg/m^2/s : Precipitation rate 
+PRES_98_SFC : Pa : Pressure 
+SNO_D_98_SFC : m : Snow depth 
+SNOWC_98_SFC_ave3h : % : Snow cover 
+TMP_98_SFC_10 : K : Temperature 
+O3 : kg kg**-1 : Ozone mass mixing ratio 
+R : % : Relative humidity 
+D : s**-1 : Divergence 
+VO : s**-1 : Vorticity (relative) 
+W : Pa s**-1 : Vertical velocity 
+Q : kg kg**-1 : Specific humidity 
+V : m s**-1 : V velocity 
+U : m s**-1 : U velocity 
+T : K : Temperature 
+Z : m**2 s**-2 : Geopotential 
+PV : K m**2 kg**-1 s**-1 : Potential vorticity" pl/%year%.nc
+TSN : K : Temperature of snow layer sfc/%year%.nc 
+STL4 : K : Soil temperature level 4 sfc/%year%.nc 
+STRC : W m**-2 : Surface net thermal radiation, clear sky sfc/%year%.nc 
+SSRC : W m**-2 : Surface net solar radiation, clear sky sfc/%year%.nc 
+TTRC : W m**-2 : Top net thermal radiation, clear sky sfc/%year%.nc 
+TSRC : W m**-2 : Top net solar radiation, clear sky sfc/%year%.nc 
+TCO3 : kg m**-2 : Total column ozone sfc/%year%.nc 
+RO : m : Runoff sfc/%year%.nc 
+MGWS : N m**-2 s : Meridional component of gravity wave stress sfc/%year%.nc 
+LGWS : N m**-2 s : Latitudinal component of gravity wave stress sfc/%year%.nc  
+HCC : (0 - 1) : High cloud cover sfc/%year%.nc 
+MCC : (0 - 1) : Medium cloud cover sfc/%year%.nc 
+LCC : (0 - 1) : Low cloud cover sfc/%year%.nc 
+STL3 : K : Soil temperature level 3 sfc/%year%.nc 
+E : m of water : Evaporation sfc/%year%.nc 
+NSSS : N m**-2 s : North-South surface stress sfc/%year%.nc 
+EWSS : N m**-2 s : East-West surface stress sfc/%year%.nc 
+TTR : W m**-2 s : Top thermal radiation sfc/%year%.nc 
+TSR : W m**-2 s : Top solar radiation sfc/%year%.nc 
+STR : W m**-2 s : Surface thermal radiation sfc/%year%.nc 
+SSR : W m**-2 s : Surface solar radiation sfc/%year%.nc 
+STRD : W m**-2 s : Surface thermal radiation downwards sfc/%year%.nc 
+STL2 : K : Soil temperature level 2 sfc/%year%.nc 
+SSRD : W m**-2 s : Surface solar radiation downwards sfc/%year%.nc 
+2D : K : 2 metre dewpoint temperature sfc/%year%.nc 
+2T : K : 2 metre temperature sfc/%year%.nc 
+10V : m s**-1 : 10 metre V wind component sfc/%year%.nc 
+10U : m s**-1 : 10 metre U wind component sfc/%year%.nc 
+TCC : (0 - 1) : Total cloud cover sfc/%year%.nc 
+BLH : m : Boundary layer height sfc/%year%.nc 
+MSL : Pa : Mean sea level pressure sfc/%year%.nc 
+SLHF : W m**-2 s : Surface latent heat flux sfc/%year%.nc 
+SSHF : W m**-2 s : Surface sensible heat flux sfc/%year%.nc 
+SF : m of water equivalent : Snowfall (convective + stratiform) sfc/%year%.nc 
+CP : m : Convective precipitation sfc/%year%.nc 
+LSP : m : Stratiform precipitation (Large scale precipitation) sfc/%year%.nc 
+SD : m of water equivalent : Snow depth sfc/%year%.nc 
+STL1 : K : Soil temperature level 1 sfc/%year%.nc 
+TCWV : kg m**-2 : Total column water vapour sfc/%year%.nc 
+TCW : kg m**-2 : Total column water sfc/%year%.nc 
+SMLT : m of water : Snowmelt sfc/%year%.nc 
+ES : m of water : Snow evaporation sfc/%year%.nc 
+SWVL4 : m**3 m**-3 : Volumetric soil water layer 4 sfc/%year%.nc 
+SWVL3 : m**3 m**-3 : Volumetric soil water layer 3 sfc/%year%.nc 
+SWVL2 : m**3 m**-3 : Volumetric soil water layer 2 sfc/%year%.nc 
+SWVL1 : m**3 m**-3 : Volumetric soil water layer 1 sfc/%year%.nc 
+ISTL4 : K : Ice surface temperature layer 4 sfc/%year%.nc 
+ISTL3 : K : Ice surface temperature layer 3 sfc/%year%.nc 
+ISTL2 : K : Ice surface temperature layer 2 sfc/%year%.nc 
+ISTL1 : K : Ice surface temperature layer 1 sfc/%year%.nc 
+CI : (0-1) : Sea-ice cover sfc/%year%.nc 
+O3 : kg kg**-1 : Ozone mass mixing ratio 
+R : % : Relative humidity 
+D : s**-1 : Divergence 
+VO : s**-1 : Vorticity (relative) 
+W : Pa s**-1 : Vertical velocity 
+Q : kg kg**-1 : Specific humidity 
+V : m s**-1 : V velocity 
+U : m s**-1 : U velocity 
+T : K : Temperature 
+Z : m**2 s**-2 : Geopotential 
+PV : K m**2 kg**-1 s**-1 : Potential vorticity" pl/%year%.nc
+TSN : K : Temperature of snow layer sfc/%year%.nc 
+STL4 : K : Soil temperature level 4 sfc/%year%.nc 
+STRC : W m**-2 : Surface net thermal radiation, clear sky sfc/%year%.nc 
+SSRC : W m**-2 : Surface net solar radiation, clear sky sfc/%year%.nc 
+TTRC : W m**-2 : Top net thermal radiation, clear sky sfc/%year%.nc 
+TSRC : W m**-2 : Top net solar radiation, clear sky sfc/%year%.nc 
+TCO3 : kg m**-2 : Total column ozone sfc/%year%.nc 
+RO : m : Runoff sfc/%year%.nc 
+MGWS : N m**-2 s : Meridional component of gravity wave stress sfc/%year%.nc 
+LGWS : N m**-2 s : Latitudinal component of gravity wave stress sfc/%year%.nc  
+HCC : (0 - 1) : High cloud cover sfc/%year%.nc 
+MCC : (0 - 1) : Medium cloud cover sfc/%year%.nc 
+LCC : (0 - 1) : Low cloud cover sfc/%year%.nc 
+STL3 : K : Soil temperature level 3 sfc/%year%.nc 
+E : m of water : Evaporation sfc/%year%.nc 
+NSSS : N m**-2 s : North-South surface stress sfc/%year%.nc 
+EWSS : N m**-2 s : East-West surface stress sfc/%year%.nc 
+TTR : W m**-2 s : Top thermal radiation sfc/%year%.nc 
+TSR : W m**-2 s : Top solar radiation sfc/%year%.nc 
+STR : W m**-2 s : Surface thermal radiation sfc/%year%.nc 
+SSR : W m**-2 s : Surface solar radiation sfc/%year%.nc 
+STRD : W m**-2 s : Surface thermal radiation downwards sfc/%year%.nc 
+STL2 : K : Soil temperature level 2 sfc/%year%.nc 
+SSRD : W m**-2 s : Surface solar radiation downwards sfc/%year%.nc 
+2D : K : 2 metre dewpoint temperature sfc/%year%.nc 
+2T : K : 2 metre temperature sfc/%year%.nc 
+10V : m s**-1 : 10 metre V wind component sfc/%year%.nc 
+10U : m s**-1 : 10 metre U wind component sfc/%year%.nc 
+TCC : (0 - 1) : Total cloud cover sfc/%year%.nc 
+BLH : m : Boundary layer height sfc/%year%.nc 
+MSL : Pa : Mean sea level pressure sfc/%year%.nc 
+SLHF : W m**-2 s : Surface latent heat flux sfc/%year%.nc 
+SSHF : W m**-2 s : Surface sensible heat flux sfc/%year%.nc 
+SF : m of water equivalent : Snowfall (convective + stratiform) sfc/%year%.nc 
+CP : m : Convective precipitation sfc/%year%.nc 
+LSP : m : Stratiform precipitation (Large scale precipitation) sfc/%year%.nc 
+SD : m of water equivalent : Snow depth sfc/%year%.nc 
+STL1 : K : Soil temperature level 1 sfc/%year%.nc 
+TCWV : kg m**-2 : Total column water vapour sfc/%year%.nc 
+TCW : kg m**-2 : Total column water sfc/%year%.nc 
+SMLT : m of water : Snowmelt sfc/%year%.nc 
+ES : m of water : Snow evaporation sfc/%year%.nc 
+SWVL4 : m**3 m**-3 : Volumetric soil water layer 4 sfc/%year%.nc 
+SWVL3 : m**3 m**-3 : Volumetric soil water layer 3 sfc/%year%.nc 
+SWVL2 : m**3 m**-3 : Volumetric soil water layer 2 sfc/%year%.nc 
+SWVL1 : m**3 m**-3 : Volumetric soil water layer 1 sfc/%year%.nc 
+ISTL4 : K : Ice surface temperature layer 4 sfc/%year%.nc 
+ISTL3 : K : Ice surface temperature layer 3 sfc/%year%.nc 
+ISTL2 : K : Ice surface temperature layer 2 sfc/%year%.nc 
+ISTL1 : K : Ice surface temperature layer 1 sfc/%year%.nc 
+CI : (0-1) : Sea-ice cover sfc/%year%.nc 
+O3 : kg kg**-1 : Ozone mass mixing ratio 
+R : % : Relative humidity 
+D : s**-1 : Divergence 
+VO : s**-1 : Vorticity (relative) 
+W : Pa s**-1 : Vertical velocity 
+Q : kg kg**-1 : Specific humidity 
+V : m s**-1 : V velocity 
+U : m s**-1 : U velocity 
+T : K : Temperature 
+Z : m**2 s**-2 : Geopotential 
+PV : K m**2 kg**-1 s**-1 : Potential vorticity" pl/%year%.nc
+MWP : s : Mean wave period 
+MWD : degrees : Mean wave direction 
+SWH : m : Significant wave height 
+TSN : K : Temperature of snow layer 
+STL4 : K : Soil temperature level 4 
+STRC : W m**-2 : Surface net thermal radiation, clear sky 
+SSRC : W m**-2 : Surface net solar radiation, clear sky 
+TTRC : W m**-2 : Top net thermal radiation, clear sky 
+TSRC : W m**-2 : Top net solar radiation, clear sky 
+TCO3 : kg m**-2 : Total column ozone 
+RO : m : Runoff 
+MGWS : N m**-2 s : Meridional component of gravity wave stress 
+LGWS : N m**-2 s : Latitudinal component of gravity wave stress 
+HCC : (0 - 1) : High cloud cover 
+MCC : (0 - 1) : Medium cloud cover 
+LCC : (0 - 1) : Low cloud cover 
+STL3 : K : Soil temperature level 3 
+E : m of water : Evaporation 
+NSSS : N m**-2 s : North-South surface stress 
+EWSS : N m**-2 s : East-West surface stress 
+TTR : W m**-2 s : Top thermal radiation 
+TSR : W m**-2 s : Top solar radiation 
+STR : W m**-2 s : Surface thermal radiation 
+SSR : W m**-2 s : Surface solar radiation 
+STRD : W m**-2 s : Surface thermal radiation downwards 
+STL2 : K : Soil temperature level 2 
+SSRD : W m**-2 s : Surface solar radiation downwards 
+2D : K : 2 metre dewpoint temperature 
+2T : K : 2 metre temperature 
+10V : m s**-1 : 10 metre V wind component 
+10U : m s**-1 : 10 metre U wind component 
+TCC : (0 - 1) : Total cloud cover 
+BLH : m : Boundary layer height 
+MSL : Pa : Mean sea level pressure 
+SLHF : W m**-2 s : Surface latent heat flux 
+SSHF : W m**-2 s : Surface sensible heat flux 
+SF : m of water equivalent : Snowfall (convective + stratiform) 
+CP : m : Convective precipitation 
+LSP : m : Stratiform precipitation (Large scale precipitation) 
+SD : m of water equivalent : Snow depth 
+STL1 : K : Soil temperature level 1 
+TCWV : kg m**-2 : Total column water vapour 
+TCW : kg m**-2 : Total column water 
+SMLT : m of water : Snowmelt 
+ES : m of water : Snow evaporation 
+SWVL4 : m**3 m**-3 : Volumetric soil water layer 4 
+SWVL3 : m**3 m**-3 : Volumetric soil water layer 3 
+SWVL2 : m**3 m**-3 : Volumetric soil water layer 2 
+SWVL1 : m**3 m**-3 : Volumetric soil water layer 1 
+ISTL4 : K : Ice surface temperature layer 4 
+ISTL3 : K : Ice surface temperature layer 3 
+ISTL2 : K : Ice surface temperature layer 2 
+ISTL1 : K : Ice surface temperature layer 1 
+CI : (0-1) : Sea-ice cover 
+rsn : kg m**-3 : Snow density 
+sstk : K : Sea surface temperature 
+sp : Pa : Surface pressure 
+sd : m of water equivalent : Snow depth 
+msl : Pa : Mean sea level pressure 
+u10 : m s**-1 : 10 metre U wind component 
+v10 : m s**-1 : 10 metre V wind component 
+t2m : K : 2 metre temperature 
+stl1 : K : Soil temperature level 1 
+stl2 : K : Soil temperature level 2 
+stl3 : K : Soil temperature level 3 
+stl4 : K : Soil temperature level 4 
+tsn : K : Temperature of snow layer 
+es : m of water : Snow evaporation 
+smlt : m of water : Snowmelt 
+lspf : s : Large-scale precipitation fraction 
+lsp : m : Stratiform precipitation (Large-scale precipitation) 
+cp : m : Convective precipitation 
+e : m of water : Evaporation 
+tp : m : Total precipitation 
+csf : m of water equivalent : Convective snowfall 
+lsf : m of water equivalent : Large-scale snowfall 
+u10 : m s**-1 : 10 metre U wind component 
+v10 : m s**-1 : 10 metre V wind component 
+t2m : K : 2 metre temperature 
+msl : Pa : Mean sea level pressure 
+sd : m of water equivalent : Snow depth 
+sstk : K : Sea surface temperature 
+tp : m : Total precipitation 
+prcp : mm/month : Precipitation totals 
+dev : mm/month : Deviation from normals v2010 
+ngaug :  : Number of gauges per grid 
+SNOW_D_GDS0_SFC : m : Snow depth 
+TSG : K : Ground temperature 
+TSC : K : Canopy temperature 
+SOILW : fraction or mm : Soil wetness or water content 
+SOILT : K : Soil temperature 
+SNWE : m : Water equivalent snow depth 
+CWAT : kg m^-2 : Cloud water 
+SPFH2M : kg kg^-1 : Specific humidity 
+SPFH : kg kg^-1 : Specific humidity 
+VGRD10M : m s^-1 : v-component of wind 
+VGRD : m s^-1 : v-component of wind 
+UGRD10M : m s^-1 : u-component of wind 
+UGRD : m s^-1 : u-component of wind 
+DEPR2M : K : Dewpoint depression (or deficit) 
+DEPR : K : Dewpoint depression (or deficit) 
+TMP2M : K : Temperature 
+TMP : K : Temperature 
+HGT : gpm : Geopotential height 
+PRMSL : Pa : Pressure reduced to MSL 
+SNOW_D_GDS4_SFC : m : Snow depth 
+TSG_GDS4_SFC : K : Ground temperature 
+TSC_GDS4_SFC : K : Canopy temperature 
+SOILW_GDS4_SFC : fraction or mm : Soil wetness or water content 
+SOILT_GDS4_SFC : K : Soil temperature 
+SNWE_GDS4_SFC : m : Water equivalent snow depth 
+CWAT : kg m^-2 : Cloud water 
+SPFH2M : kg kg^-1 : Specific humidity 
+SPFH : kg kg^-1 : Specific humidity 
+VGRD10M : m s^-1 : v-component of wind 
+VGRD : m s^-1 : v-component of wind 
+UGRD10M : m s^-1 : u-component of wind 
+UGRD : m s^-1 : u-component of wind 
+DEPR2M : K : Dewpoint depression (or deficit) 
+DEPR : K : Dewpoint depression (or deficit) 
+TMP2M : K : Temperature 
+TMP : K : Temperature 
+HGT : gpm : Geopotential height 
+PRMSL : Pa : Pressure reduced to MSL 
+ch4 : kg kg**-1 : Methane 
+t : K : Temperature 
+u : m s**-1 : U component of wind 
+v : m s**-1 : V component of wind 
+w : Pa s**-1 : Vertical velocity 
+air : degK : 4xDaily Air temperature 
+hgt : m : 4xDaily Geopotential height 
+pr_wtr : kg/m^2 : 6-Hourly Precipitable Water for Entire Atmosphere 
+pres : Pa : 4xDaily Pressure at surface 
+shum : kg/kg : 4xDaily specific humidity 
+slp : Pa : 4xDaily Sea Level Pressure 
+uwnd : m/s : 4xDaily U-wind 
+vwnd : m/s : 4xDaily V wind 
+prate : Kg/m^2/s : 4xDaily Precipitation Rate at surface
+skt : degK : Mean daily SST/Land Skin Temperature
+soilw : fraction : mean Daily Volumetric Soil Moisture between 0-10 cm Below Ground Level
+air : degK : 4xDaily Air temperature at 2 m
+skt : degK : SST/Land Skin Temperature
+soilw : fraction : 4xDaily Volumetric Soil Moisture between 0-10 cm Below Ground Level
+soilw : fraction : 4xDaily Volumetric Soil Moisture between 10-200 cm Below Ground Level
+tmp : degK  : 4xDaily Temperature between 10-200 cm below ground level
+weasd : kg/m^2 : 4xDaily Water Equiv. of Accum. Snow Depth at surface

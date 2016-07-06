@@ -1,0 +1,48 @@
+none  :     : single level
+sfc   :     : surface
+msl   :     : mean sea level
+2m    :     : 2 meters
+10m   :     : 10 meters
+1000. : hPa : isobaric level at 1000 hPa
+975.0 : hPa : isobaric level at 975 hPa
+950.0 : hPa : isobaric level at 950 hPa
+925.0 : hPa : isobaric level at 925 hPa
+900.0 : hPa : isobaric level at 900 hPa
+875.0 : hPa : isobaric level at 875 hPa
+850.0 : hPa : isobaric level at 850 hPa
+825.0 : hPa : isobaric level at 825 hPa
+800.0 : hPa : isobaric level at 800 hPa
+775.0 : hPa : isobaric level at 775 hPa
+750.0 : hPa : isobaric level at 750 hPa
+725.0 : hPa : isobaric level at 725 hPa
+700.0 : hPa : isobaric level at 700 hPa
+650.0 : hPa : isobaric level at 650 hPa
+600.0 : hPa : isobaric level at 600 hPa
+550.0 : hPa : isobaric level at 550 hPa
+500.0 : hPa : isobaric level at 500 hPa
+450.0 : hPa : isobaric level at 450 hPa
+400.0 : hPa : isobaric level at 400 hPa
+350.0 : hPa : isobaric level at 350 hPa
+300.0 : hPa : isobaric level at 300 hPa
+250.0 : hPa : isobaric level at 250 hPa
+200.0 : hPa : isobaric level at 200 hPa
+150.0 : hPa : isobaric level at 150 hPa
+100.0 : hPa : isobaric level at 100 hPa
+70.0 : hPa : isobaric level at 70 hPa
+50.0 : hPa : isobaric level at 50 hPa
+40.0 : hPa : isobaric level at 40 hPa
+30.0 : hPa : isobaric level at 30 hPa
+20.0 : hPa : isobaric level at 20 hPa
+10.0 : hPa : isobaric level at 10 hPa
+7.0 : hPa : isobaric level at 7 hPa
+5.0 : hPa : isobaric level at 5 hPa
+4.0 : hPa : isobaric level at 4 hPa
+3.0 : hPa : isobaric level at 3 hPa
+2.0 : hPa : isobaric level at 2 hPa
+1.0 : hPa : isobaric level at 1 hPa
+0.7 : hPa : isobaric level at 0.7 hPa
+0.5 : hPa : isobaric level at 0.5 hPa
+0.4 : hPa : isobaric level at 0.4 hPa
+0.3 : hPa : isobaric level at 0.3 hPa
+0.1 : hPa : isobaric level at 0.1 hPa
+0   : hPa : isobaric level at 0 hPa

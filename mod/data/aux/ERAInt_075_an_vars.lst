@@ -1,0 +1,30 @@
+times (start, end)
+t> 19790101 : 20121231
+
+vars (name, units, long name, levels list)
+v> rsn : kg m**-3 : Snow density : an_output_%year%.nc
+l> 
+v> sstk : K : Sea surface temperature : an_output_%year%.nc
+l> 
+v> sp : Pa : Surface pressure : an_output_%year%.nc
+l> 
+v> sd : m of water equivalent : Snow depth : an_output_%year%.nc
+l> 
+v> msl : Pa : Mean sea level pressure : an_output_%year%.nc
+l> 
+v> u10 : m s**-1 : 10 metre U wind component : an_output_%year%.nc
+l> 
+v> v10 : m s**-1 : 10 metre V wind component : an_output_%year%.nc
+l> 
+v> t2m : K : 2 metre temperature : an_output_%year%.nc
+l> 
+v> stl1 : K : Soil temperature level 1 : an_output_%year%.nc
+l> 
+v> stl2 : K : Soil temperature level 2 : an_output_%year%.nc
+l> 
+v> stl3 : K : Soil temperature level 3 : an_output_%year%.nc
+l> 
+v> stl4 : K : Soil temperature level 4 : an_output_%year%.nc
+l> 
+v> tsn : K : Temperature of snow layer : an_output_%year%.nc
+l> 

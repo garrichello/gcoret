@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="NCEP2" rootpath="/mnt/megaraid/data/reanalysis-2/" datapath="" fullname="NCEP/DOE Reanalysis 2" datatype="NCDF">
+	<variable name="air" fullname="Air temperature" type='temperature'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='' time='time'/>
+			<dims longitude='lon' latitude='lat' level='' time='time'/>
+			<filespan value='1y'/>
+		</meta>
+		<timestep name="6h" subpath="" description="6h step sampling">
+			<file level="sfc" name="reAN_sst_4xDAY/skt.sfc.gauss.%year%.nc" fcst="6" grid="G"></file>
+			<file level="2m" name="reAN_surf/air.2m.gauss.%year%.nc" fcst="6" grid="G"></file>
+			<file level="1000mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="925mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="850mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="700mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="600mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="500mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="400mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="300mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="250mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="200mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="150mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="100mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="70mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="50mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="30mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="20mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+			<file level="10mb" name="reANALYSIS/air.%year%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="skt" fullname="Skin temperature" type='temperature'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='' time='time'/>
+			<dims longitude='lon' latitude='lat' level='' time='time'/>
+			<filespan value='1y'/>
+		</meta>
+		<timestep name="6h" subpath="" description="6h step sampling">
+			<file level="sfc" name="reAN_sst_4xDAY/skt.sfc.gauss.%year%.nc" fcst="6" grid="G"></file>
+		</timestep>
+	</variable>
+</dataset>

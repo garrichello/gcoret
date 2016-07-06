@@ -1,0 +1,7 @@
+1d    : 1 day step : 1d/
+1m    : 1 month step : 1m/
+1m6h  : 1 month step at 0, 6, 12 and 18 hours : 1m6h/
+6h    : 6 hours step : 6h/
+10d   : 10 days step : 10d/
+const : constant values : const/
+

@@ -1,0 +1,10 @@
+times (start, end):
+t> 19010101 : 20091231
+
+vars (name, units, long name, levels list):
+v> prcp : mm/month : Precipitation totals : %year%.nc
+l> ""
+v> dev : mm/month : Deviation from normals v2010 : %year%.nc
+l> ""
+v> ngaug :  : Number of gauges per grid : %year%.nc
+l> ""

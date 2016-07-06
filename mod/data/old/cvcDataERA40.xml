@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="ERA40" rootpath="/mnt/megaraid/data/ERA40.nc/dataserver/" datapath="" fullname="ECMWF ERA-40 Reanalysis" datatype="NCDF">
+	<variable name="2T" fullname="2 metre temperature" type='temperature'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/> 
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value="1m"/>
+		</meta> 
+		<timestep name="6h" subpath="" description="6h step sampling">
+			<file level="2m" name="e4oper/sfc/%year%%mm%01.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="T" fullname="Temperature" type='temperature'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/> 
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value="1m"/>
+		</meta> 
+		<timestep name="6h" subpath="" description="6h step sampling">
+			<file level="1000mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="925mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="850mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="775mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="700mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="600mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="500mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="400mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="300mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="250mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="200mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="150mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="100mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="70mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="50mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="30mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="20mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="10mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="7mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="5mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="3mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="2mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="1mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="U" fullname="U velocity" type='U-component'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/> 
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value="1m"/>
+		</meta> 
+		<timestep name="6h" subpath="" description="6h step sampling">
+			<file level="1000mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="925mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="850mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="775mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="700mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="600mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="500mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="400mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="300mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="250mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="200mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="150mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="100mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="70mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="50mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="30mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="20mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="10mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="7mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="5mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="3mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="2mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="1mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="V" fullname="V velocity" type='V-component'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/> 
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value="1m"/>
+		</meta> 
+		<timestep name="6h" subpath="" description="6h step sampling">
+			<file level="1000mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="925mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="850mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="775mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="700mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="600mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="500mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="400mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="300mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="250mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="200mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="150mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="100mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="70mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="50mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="30mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="20mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="10mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="7mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="5mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="3mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="2mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+			<file level="1mb" name="e4oper/pl/%year%%mm%01.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>

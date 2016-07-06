@@ -1,0 +1,19 @@
+vars (name, units, long name, levels list):
+v> air : 4xDaily Air temperature at 2 m : degK : air.2m.gauss.%year%.nc
+l> ""
+t> 19790101 : 20031231
+v> skt : SST/Land Skin Temperature : degK : skt.sfc.gauss.%year%.nc
+l> ""
+t> 19790101 : 20030712
+v> soilw : 4xDaily Volumetric Soil Moisture between 0-10 cm Below Ground Level : fraction : soilw.0-10cm.gauss.%year%.nc
+l> 
+t> 19790101 : 19821231
+v> soilw : 4xDaily Volumetric Soil Moisture between 10-200 cm Below Ground Level : fraction : soilw.10-200cm.gauss.%year%.nc
+l> ""
+t> 19790101 : 20040919
+v> tmp : 4xDaily Temperature between 10-200 cm below ground level : degK : tmp.10-200cm.gauss.%year%.nc
+l> ""
+t> 19790101 : 20040919
+v> weasd : 4xDaily Water Equiv. of Accum. Snow Depth at surface : kg/m^2 : weasd.sfc.gauss.%year%.nc
+l> ""
+t> 19790101 : 20030705

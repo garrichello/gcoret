@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="INMCM4H" rootpath="/mnt/qnap/Data/INM/" datapath="inmcm4/historical/" fullname="INM CM4 Model" datatype="NCDF">
+	<variable name="ta" fullname="Air temperature" type='temperature'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='plev' time='time'/>
+			<dims longitude='lon' latitude='lat' level='plev' time='time'/>
+			<filespan value='5y'/>
+		</meta>
+		<timestep name="1d" subpath="day/atmos/ta/r1i1p1/" description="1-day step sampling">
+			<file level="100000Pa" name="ta_day_inmcm4_historical_r1i1p1_%year1%0101-%year2%1231.nc" fcst="0" grid="L"></file>
+			<file level="85000Pa" name="ta_day_inmcm4_historical_r1i1p1_%year1%0101-%year2%1231.nc" fcst="0" grid="L"></file>
+			<file level="70000Pa" name="ta_day_inmcm4_historical_r1i1p1_%year1%0101-%year2%1231.nc" fcst="0" grid="L"></file>
+			<file level="50000Pa" name="ta_day_inmcm4_historical_r1i1p1_%year1%0101-%year2%1231.nc" fcst="0" grid="L"></file>
+			<file level="25000Pa" name="ta_day_inmcm4_historical_r1i1p1_%year1%0101-%year2%1231.nc" fcst="0" grid="L"></file>
+			<file level="10000Pa" name="ta_day_inmcm4_historical_r1i1p1_%year1%0101-%year2%1231.nc" fcst="0" grid="L"></file>
+			<file level="5000Pa" name="ta_day_inmcm4_historical_r1i1p1_%year1%0101-%year2%1231.nc" fcst="0" grid="L"></file>
+			<file level="1000Pa" name="ta_day_inmcm4_historical_r1i1p1_%year1%0101-%year2%1231.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>

@@ -1,0 +1,30 @@
+times (start, end):
+t> 19790101 : 20091021
+
+vars (name, units, long name, levels list):
+v> CWAT : kg m^-2 : Cloud water : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> 100 : 150 : 200 : 250 : 300 : 400 : 500 : 600 : 700 : 850 : 925 : 1000
+v> SPFH2M : kg kg^-1 : Specific humidity : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> ""
+v> SPFH : kg kg^-1 : Specific humidity : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> 100 : 150 : 200 : 250 : 300 : 400 : 500 : 600 : 700 : 850 : 925 : 1000
+v> VGRD10M : m s^-1 : v-component of wind : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> ""
+v> VGRD : m s^-1 : v-component of wind : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> 0 : 1 : 2 : 3 : 5 : 7 : 10 : 20 : 30 : 50 : 70 : 100 : 150 : 200 : 250 : 300 : 400 : 500 : 600 : 700 : 850 : 925 : 1000
+v> UGRD10M : m s^-1 : u-component of wind : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> ""
+v> UGRD : m s^-1 : u-component of wind : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> 0 : 1 : 2 : 3 : 5 : 7 : 10 : 20 : 30 : 50 : 70 : 100 : 150 : 200 : 250 : 300 : 400 : 500 : 600 : 700 : 850 : 925 : 1000
+v> DEPR2M : K : Dewpoint depression (or deficit) : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> ""
+v> DEPR : K : Dewpoint depression (or deficit) : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> 300 : 400 : 500 : 600 : 700 : 850 : 925 : 1000
+v> TMP2M : K : Temperature : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> ""
+v> TMP : K : Temperature : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> 0 : 1 : 2 : 3 : 5 : 7 : 10 : 20 : 30 : 50 : 70 : 100 : 150 : 200 : 250 : 300 : 400 : 500 : 600 : 700 : 850 : 925 : 1000
+v> HGT : gpm : Geopotential height : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> 0 : 1 : 2 : 3 : 5 : 7 : 10 : 20 : 30 : 50 : 70 : 100 : 150 : 200 : 250 : 300 : 400 : 500 : 600 : 700 : 850 : 925 : 1000"
+v> PRMSL : Pa : Pressure reduced to MSL : anl_p/%year%%mm%/anl_p.%year%%mm%%dd%%hh%.nc
+l> ""

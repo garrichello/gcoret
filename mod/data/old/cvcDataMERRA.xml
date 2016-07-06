@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="MERRA" rootpath="/mnt/megaraid/data/MERRA/" datapath="" fullname="MERRA Reanalysis" datatype="NCDF">
+  <variable name="t" fullname="Air temperature" type='temperature'>
+    <meta>
+      <vars longitude='longitude' latitude='latitude' level='levels' time='time'/>
+      <dims longitude='longitude' latitude='latitude' level='levels' time='time'/>
+      <filespan value='1d'/>
+    </meta>
+    <timestep name="6h" subpath="%year%/" description="6h step sampling">
+      <file level="1000mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="975mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="950mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="925mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="900mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="875mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="850mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="825mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="800mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="775mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="750mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="725mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="700mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="650mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="600mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="550mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="500mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="450mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="400mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="350mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="300mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="250mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="200mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="150mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="100mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="70mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="50mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="40mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="30mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="20mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="10mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="7mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="5mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="4mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="3mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="2mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="1mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="0.7mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="0.5mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="0.4mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="0.3mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+      <file level="0.1mb" name="MERRA100.prod.assim.inst6_3d_ana_Np.%year%%mm%%dd%.SUB.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+</dataset>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="SIBNCDC" rootpath="/mnt/repository/storage/data/SIBNCDC_SE/" datapath="" fullname="NCDC dataset for Siberia 1958-2010 selected edition" datatype="DBF">
+	<variable name="prcp" fullname="Daily averaged precipitation" type='precipitation'>
+		<meta>
+			<filespan value=""/>
+		</meta>
+		<timestep name="1d" subpath="DATA_PRCP/" description="1-day step">
+			<file level="sfc" name="Siberia_62stations.dbf" fcst="0" grid="S"></file>
+		</timestep>
+	</variable>
+	<variable name="tmp" fullname="Daily averaged temperature" type='temperature'>
+		<meta>
+			<filespan value=""/>
+		</meta>
+		<timestep name="1d" subpath="DATA_TMP/" description="1-day step">
+			<file level="sfc" name="Siberia_62stations.dbf" fcst="0" grid="S"></file>
+		</timestep>
+	</variable>
+</dataset>	

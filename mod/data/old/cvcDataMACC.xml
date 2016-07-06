@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="MACC" rootpath="/mnt/megaraid2/data/MACC/" datapath="" fullname="MACC Reanalysis" datatype="NCDF">
+  <variable name="ch4" fullname="Methane concentration" type='concentration'>
+    <meta>
+      <vars longitude='longitude' latitude='latitude' level='level' time='time'/>
+      <dims longitude='longitude' latitude='latitude' level='level' time='time'/>
+      <filespan value='1m'/>
+    </meta>
+    <timestep name="6h" subpath="ch4/%year%/" description="6h step sampling">
+      <file level="1000mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="925mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="850mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="700mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="600mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="500mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="400mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="300mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="250mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="200mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="150mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="100mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="70mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="50mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="30mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="20mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="10mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="7mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="5mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="3mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="2mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="1mb" name="macc_ch4_%year%%mm%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+  <variable name="t" fullname="Atmosphere temperature" type='temperature'>
+    <meta>
+      <vars longitude='longitude' latitude='latitude' level='level' time='time'/>
+      <dims longitude='longitude' latitude='latitude' level='level' time='time'/>
+      <filespan value='1m'/>
+    </meta>
+    <timestep name="6h" subpath="tmp/%year%/" description="6h step sampling">
+      <file level="1000mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="925mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="850mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="700mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="600mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="500mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="400mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="300mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="250mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="200mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="150mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="100mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="70mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="50mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="30mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="20mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="10mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="7mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="5mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="3mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="2mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="1mb" name="macc_tmp_%year%%mm%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+  <variable name="u" fullname="U-component of wind" type='wind'>
+    <meta>
+      <vars longitude='longitude' latitude='latitude' level='level' time='time'/>
+      <dims longitude='longitude' latitude='latitude' level='level' time='time'/>
+      <filespan value='1m'/>
+    </meta>
+    <timestep name="6h" subpath="uwind/%year%/" description="6h step sampling">
+      <file level="1000mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="925mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="850mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="700mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="600mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="500mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="400mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="300mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="250mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="200mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="150mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="100mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="70mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="50mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="30mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="20mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="10mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="7mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="5mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="3mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="2mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="1mb" name="macc_uwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+  <variable name="v" fullname="V-component of wind" type='wind'>
+    <meta>
+      <vars longitude='longitude' latitude='latitude' level='level' time='time'/>
+      <dims longitude='longitude' latitude='latitude' level='level' time='time'/>
+      <filespan value='1m'/>
+    </meta>
+    <timestep name="6h" subpath="vwind/%year%/" description="6h step sampling">
+      <file level="1000mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="925mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="850mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="700mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="600mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="500mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="400mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="300mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="250mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="200mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="150mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="100mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="70mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="50mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="30mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="20mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="10mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="7mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="5mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="3mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="2mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+      <file level="1mb" name="macc_vwind_%year%%mm%.nc" fcst="0" grid="L"></file>
+    </timestep>
+  </variable>
+</dataset>

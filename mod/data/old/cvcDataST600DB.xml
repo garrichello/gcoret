@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="ST600DB" rootpath="testdb" datapath="stations" fullname="Stations 600" datatype="PGIS">
+	<variable name="prcp" fullname="Daily averaged precipitation" type='precipitation'>
+		<timestep name="1d" subpath="" description="1-day step">
+			<file level="sfc" name="st_data" fcst="0" grid="S"></file>
+		</timestep>
+	</variable>
+	<variable name="prcp_feat" fullname="Daily averaged featured precipitation" type='precipitation'>
+		<timestep name="1d" subpath="" description="1-day step">
+			<file level="sfc" name="st_data" fcst="0" grid="S"></file>
+		</timestep>
+	</variable>
+	<variable name="tmp_mean" fullname="Daily averaged temperature" type='temperature'>
+		<timestep name="1d" subpath="" description="1-day step">
+			<file level="sfc" name="st_data" fcst="0" grid="S"></file>
+		</timestep>
+	</variable>
+	<variable name="tmp_min" fullname="Daily minimum temperature" type='temperature'>
+		<timestep name="1d" subpath="" description="1-day step">
+			<file level="sfc" name="st_data" fcst="0" grid="S"></file>
+		</timestep>
+	</variable>
+	<variable name="tmp_max" fullname="Daily maximum temperature" type='temperature'>
+		<timestep name="1d" subpath="" description="1-day step">
+			<file level="sfc" name="st_data" fcst="0" grid="S"></file>
+		</timestep>
+	</variable>
+</dataset>	

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="WRF" rootpath="/Users/garry/Work/data/WRF/" datapath="" fullname="WRF output" datatype="NCDF">
+	<meta>
+		<levels name="levels1" values="#1;#2;#3;#4;#5;#6;#7;#8;#9;#10;#11;#12;#13;#14;#15;#16;#17;#18;#19;#20;#21;#22;#23;#24;#25;#26;#27;#28;#29;#30;#31;#32;#33;#34"/>
+		<levels name="levels2" values="#1;#2;#3;#4;#5;#6;#7;#8;#9;#10;#11;#12;#13;#14;#15;#16;#17;#18;#19;#20;#21;#22;#23;#24;#25;#26;#27;#28;#29;#30;#31;#32;#33;#34;#35"/>
+	</meta>
+	<variable name="T2" fullname="Temperature at 2 m" type='temperature'>
+		<meta>
+			<vars longitude='XLONG' latitude='XLAT' level='' time='Times'/> 
+			<dims longitude='west_east' latitude='south_north' level='' time='Time'/>
+			<filespan value="1y"/>
+		</meta> 
+		<timestep name="3h" subpath="" description="3h step sampling">
+			<file level="2m" name="wrfout_d01_%year%-%mm%-02_00:00:00.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="U" fullname="x-wind component" type='other'>
+		<meta>
+			<vars longitude='XLONG_U' latitude='XLAT_U' level='ZNU' time='Times'/> 
+			<dims longitude='west_east_stag' latitude='south_north' level='bottom_top' time='Time'/>
+			<filespan value="1y"/>
+		</meta> 
+		<timestep name="3h" subpath="" description="3h step sampling">
+			<file level="%levels1%" name="wrfout_d02_%year%-%mm%-20GVB.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="V" fullname="y-wind component" type='other'>
+		<meta>
+			<vars longitude='XLONG_V' latitude='XLAT_V' level='ZNU' time='Times'/> 
+			<dims longitude='west_east' latitude='south_north_stag' level='bottom_top' time='Time'/>
+			<filespan value="1y"/>
+		</meta> 
+		<timestep name="3h" subpath="" description="3h step sampling">
+			<file level="%levels1%" name="wrfout_d02_%year%-%mm%-20GVB.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="W" fullname="z-wind component" type='other'>
+		<meta>
+			<vars longitude='XLONG' latitude='XLAT' level='ZNW' time='Times'/> 
+			<dims longitude='west_east' latitude='south_north' level='bottom_top_stag' time='Time'/>
+			<filespan value="1y"/>
+		</meta> 
+		<timestep name="3h" subpath="" description="3h step sampling">
+			<file level="%levels2%" name="wrfout_d02_%year%-%mm%-20GVB.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>	

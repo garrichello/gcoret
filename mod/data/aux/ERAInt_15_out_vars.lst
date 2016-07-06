@@ -1,0 +1,17 @@
+times (start, end):
+t> 19790101 : 20101231
+
+vars (name, units, long name, levels list):
+v> u10 : m s**-1 : 10 metre U wind component : output_%year%.nc
+l> ""
+v> v10 : m s**-1 : 10 metre V wind component : output_%year%.nc
+l> ""
+v> t2m : K : 2 metre temperature : output_%year%.nc
+l> ""
+v> msl : Pa : Mean sea level pressure : output_%year%.nc
+l> ""
+v> sd : m of water equivalent : Snow depth : output_%year%.nc
+l> ""
+v> sstk : K : Sea surface temperature : output_%year%.nc
+l> ""
+

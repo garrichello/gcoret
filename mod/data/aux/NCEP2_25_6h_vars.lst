@@ -1,0 +1,20 @@
+times (start, end):
+t> 19790101 : 20030513
+
+vars (name, units, long name, levels list):
+v> air : degK : 4xDaily Air temperature : air.%year%.nc
+l> 1000. : 925.0 : 850.0 : 700.0 : 600.0 : 500.0 : 400.0 : 300.0 : 250.0 : 200.0 : 150.0 : 100.0 : 70.00 : 50.00 : 30.00 : 20.00 : 10.00
+v> hgt : m : 4xDaily Geopotential height : hgt.%year%.nc
+l> 1000. : 925.0 : 850.0 : 700.0 : 600.0 : 500.0 : 400.0 : 300.0 : 250.0 : 200.0 : 150.0 : 100.0 : 70.00 : 50.00 : 30.00 : 20.00 : 10.00
+v> pr_wtr : kg/m^2 : 6-Hourly Precipitable Water for Entire Atmosphere : pr_wtr.eatm.%year%.nc
+l> ""
+v> pres : Pa : 4xDaily Pressure at surface : pres.sfc.%year%.nc
+l> ""
+v> shum : kg/kg : 4xDaily specific humidity : shum.%year%.nc
+l> 1000. : 925.0 : 850.0 : 700.0 : 600.0 : 500.0 : 400.0 : 300.0
+v> slp : Pa : 4xDaily Sea Level Pressure : slp.%year%.nc
+l> ""
+v> uwnd : m/s : 4xDaily U-wind : uwnd.%year%.nc
+l> 1000. : 925.0 : 850.0 : 700.0 : 600.0 : 500.0 : 400.0 : 300.0 : 250.0 : 200.0 : 150.0 : 100.0 : 70.00 : 50.00 : 30.00 : 20.00 : 10.00
+v> vwnd : m/s : 4xDaily V wind : vwnd.%year%.nc
+l> 1000. : 925.0 : 850.0 : 700.0 : 600.0 : 500.0 : 400.0 : 300.0 : 250.0 : 200.0 : 150.0 : 100.0 : 70.00 : 50.00 : 30.00 : 20.00 : 10.00

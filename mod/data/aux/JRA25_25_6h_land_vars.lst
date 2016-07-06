@@ -1,0 +1,14 @@
+times (start, end):
+t> 19790101 : 20091021
+
+vars (name, units, long name, levels list):
+v> TSG : K : Ground temperature : anl_land25/%year%%mm%/anl_land25.%year%%mm%%dd%%hh%.nc
+l> ""
+v> TSC : K : Canopy temperature : anl_land25/%year%%mm%/anl_land25.%year%%mm%%dd%%hh%.nc
+l> ""
+v> SOILW : fraction or mm : Soil wetness or water content : anl_land25/%year%%mm%/anl_land25.%year%%mm%%dd%%hh%.nc
+l> ""
+v> SOILT : K : Soil temperature : anl_land25/%year%%mm%/anl_land25.%year%%mm%%dd%%hh%.nc
+l> ""
+v> SNWE : m : Water equivalent snow depth : anl_land25/%year%%mm%/anl_land25.%year%%mm%%dd%%hh%.nc
+l> ""

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="NCEP1" rootpath="/mnt/megaraid/data/reanalysis-1/" datapath="%year%/DATA/" fullname="NCEP/NCAR Reanalysis" datatype="GRIB1">
+	<variable name="TMP" fullname="Air temperature" type='temperature'>
+    		<meta>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="12h" subpath="AT00Z12Z/" description="12h step sampling at 00Z and 12Z">
+			<file level="2m" name="TMP.2M" fcst="6" grid="G"></file>
+			<file level="850mb" name="TMP850.PRS" fcst="0" grid="L"></file>
+			<file level="500mb" name="TMP500.PRS" fcst="0" grid="L"></file>
+			<file level="200mb" name="TMP200.PRS" fcst="0" grid="L"></file>
+		</timestep>
+		<timestep name="24h" subpath="AT12Z/" description="24h step sampling at 12Z">
+			<file levele="100mb" name="TMP100.PRS" fcst="0" grid="L"></file>
+			<file level="50mb" name="TMP50.PRS" fcst="0" grid="L"></file>
+			<file level="20mb" name="TMP20.PRS" fcst="0" grid="L"></file>
+		</timestep>
+		<timestep name="day" subpath="DAILY/" description="daily average">
+			<file level="sfc" name="TMP.SFC" fcst="Da" grid="G"></file>
+			<file level="msl" name="TMP.MSL" fcst="ob" grid="G"></file>
+		</timestep>
+		<timestep name="month" subpath="MONTHLY/" description="monthly average">
+			<file level="msl" name="SFC/TMP.MSL" fcst="Ma" grid="G"></file>
+			<file level="sfc" name="SFC/TMP.SFC" fcst="M6" grid="G"></file>
+			<file level="2m" name="OTHER/TMP.2M" fcst="M6" grid="G"></file>
+			<file level="1000mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="925mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="850mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="700mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="600mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="500mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="400mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="300mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="250mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="200mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="150mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="100mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="70mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="50mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="30mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="20mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="10mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="UGRD" fullname="U wind component [m/s]" type='U-component'>
+    		<meta>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="12h" subpath="AT00Z12Z/" description="12h step sampling at 00Z and 12Z">
+			<file level="10m" name="UGRD.10M" fcst="6" grid="G"></file>
+			<file level="850mb" name="UGRD850.PRS" fcst="0" grid="L"></file>
+			<file level="500mb" name="UGRD500.PRS" fcst="0" grid="L"></file>
+			<file level="200mb" name="UGRD200.PRS" fcst="0" grid="L"></file>
+		</timestep>
+		<timestep name="24h" subpath="AT12Z/" description="24h step sampling at 12Z">
+			<file levele="100mb" name="UGRD100.PRS" fcst="0" grid="L"></file>
+			<file level="50mb" name="UGRD50.PRS" fcst="0" grid="L"></file>
+			<file level="20mb" name="UGRD20.PRS" fcst="0" grid="L"></file>
+		</timestep>
+		<timestep name="month" subpath="MONTHLY/" description="monthly average">
+			<file level="10m" name="OTHER/UGRD.10M" fcst="M6" grid="G"></file>
+			<file level="1000mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="925mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="850mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="700mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="600mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="500mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="400mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="300mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="250mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="200mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="150mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="100mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="70mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="50mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="30mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="20mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="10mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="VGRD" fullname="V wind component [m/s]" type='V-component'>
+    		<meta>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="12h" subpath="AT00Z12Z/" description="12h step sampling at 00Z and 12Z">
+			<file level="10m" name="VGRD.10M" fcst="6" grid="G"></file>
+			<file level="850mb" name="VGRD850.PRS" fcst="0" grid="L"></file>
+			<file level="500mb" name="VGRD500.PRS" fcst="0" grid="L"></file>
+			<file level="200mb" name="VGRD200.PRS" fcst="0" grid="L"></file>
+		</timestep>
+		<timestep name="24h" subpath="AT12Z/" description="24h step sampling at 12Z">
+			<file levele="100mb" name="VGRD100.PRS" fcst="0" grid="L"></file>
+			<file level="50mb" name="VGRD50.PRS" fcst="0" grid="L"></file>
+			<file level="20mb" name="VGRD20.PRS" fcst="0" grid="L"></file>
+		</timestep>
+		<timestep name="month" subpath="MONTHLY/" description="monthly average">
+			<file level="10m" name="OTHER/UGRD.10M" fcst="M6" grid="G"></file>
+			<file level="1000mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="925mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="850mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="700mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="600mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="500mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="400mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="300mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="250mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="200mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="150mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="100mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="70mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="50mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="30mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="20mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+			<file level="10mb" name="PRS/ALL.PRS" fcst="M0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>
+

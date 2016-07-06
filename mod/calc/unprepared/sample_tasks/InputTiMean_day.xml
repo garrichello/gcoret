@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<task uid='Task1' owner='Owner1' description='' root_path='/home/stm/IDLWorkspace/core/' data_module_path=''>
+<!-- Data segment. Order is not important. -->
+ <data uid='STATIONS600' type='dataset'> <!-- type: dataset, array -->
+    	<description title='NCDC dataset for Siberia 1901-2010' name='Temperature' units='C'/>
+		<dataset name='STATIONS600'/>  <!-- ERAINT -->
+    	<variable name='tmp'/> <!-- TMP, air, 2T, TAV, precip-->
+		<region units='degrees'>
+			<point lon='60' lat='75'/>  
+			<point lon='130' lat='75'/>
+			<point lon='130' lat='50'/>
+			<point lon='60' lat='50'/>
+		</region>
+		<levels values='sfc'/>
+		<time template='YYYYMMDDHH' step='1d'>
+		    <segment name='Seg1' beginning='1961010100' ending='1961123118'/>
+		    <segment name='Seg1' beginning='1962010100' ending='1962123118'/>
+		    <segment name='Seg1' beginning='1963010100' ending='1963123118'/>
+		    <segment name='Seg1' beginning='1964010100' ending='1964123118'/>
+		    <segment name='Seg1' beginning='1965010100' ending='1965123118'/>
+		    <segment name='Seg1' beginning='1966010100' ending='1966123118'/>
+		    <segment name='Seg1' beginning='1967010100' ending='1967123118'/>
+		    <segment name='Seg1' beginning='1968010100' ending='1968123118'/>
+		    <segment name='Seg1' beginning='1969010100' ending='1969123118'/>
+		    <segment name='Seg1' beginning='1970010100' ending='1970123118'/>
+		    <segment name='Seg1' beginning='1971010100' ending='1971123118'/>
+		    <segment name='Seg1' beginning='1972010100' ending='1972123118'/>
+		    <segment name='Seg1' beginning='1973010100' ending='1973123118'/>
+		    <segment name='Seg1' beginning='1974010100' ending='1974123118'/>
+		    <segment name='Seg1' beginning='1975010100' ending='1975123118'/>
+		    <segment name='Seg1' beginning='1976010100' ending='1976123118'/>
+		    <segment name='Seg1' beginning='1977010100' ending='1977123118'/>
+		    <segment name='Seg1' beginning='1978010100' ending='1978123118'/>
+		    <segment name='Seg1' beginning='1979010100' ending='1979123118'/>
+		    <segment name='Seg1' beginning='1980010100' ending='1980123118'/>
+		    <segment name='Seg1' beginning='1981010100' ending='1981123118'/>
+		    <segment name='Seg1' beginning='1982010100' ending='1982123118'/>
+		    <segment name='Seg1' beginning='1983010100' ending='1983123118'/>
+		    <segment name='Seg1' beginning='1984010100' ending='1984123118'/>
+		    <segment name='Seg1' beginning='1985010100' ending='1985123118'/>
+		    <segment name='Seg1' beginning='1986010100' ending='1986123118'/>
+		    <segment name='Seg1' beginning='1987010100' ending='1987123118'/>
+		    <segment name='Seg1' beginning='1988010100' ending='1988123118'/>
+		    <segment name='Seg1' beginning='1989010100' ending='1989123118'/>
+		    <segment name='Seg1' beginning='1990010100' ending='1990123118'/>
+		    <segment name='Seg1' beginning='1991010100' ending='1991123118'/>
+		    <segment name='Seg1' beginning='1992010100' ending='1992123118'/>
+		    <segment name='Seg1' beginning='1993010100' ending='1993123118'/>
+		    <segment name='Seg1' beginning='1994010100' ending='1994123118'/>
+		    <segment name='Seg1' beginning='1995010100' ending='1995123118'/>
+		    <segment name='Seg1' beginning='1996010100' ending='1996123118'/>
+		    <segment name='Seg1' beginning='1997010100' ending='1997123118'/>
+		    <segment name='Seg1' beginning='1998010100' ending='1998123118'/>
+		    <segment name='Seg1' beginning='1999010100' ending='1999123118'/>
+		    <segment name='Seg1' beginning='2000010100' ending='2000123118'/>
+		    <segment name='Seg1' beginning='2001010100' ending='2001123118'/>
+		    <segment name='Seg1' beginning='2002010100' ending='2002123118'/>
+		    <segment name='Seg1' beginning='2003010100' ending='2003123118'/>
+		    <segment name='Seg1' beginning='2004010100' ending='2004123118'/>
+		    <segment name='Seg1' beginning='2005010100' ending='2005123118'/>
+		    <segment name='Seg1' beginning='2006010100' ending='2006123118'/>
+		    <segment name='Seg1' beginning='2007010100' ending='2007123118'/>
+		    <segment name='Seg1' beginning='2008010100' ending='2008123118'/>
+		    <segment name='Seg1' beginning='2009010100' ending='2009123118'/>
+		    <segment name='Seg1' beginning='2010010100' ending='2010123118'/>
+		</time>
+    </data>
+        
+    <data uid='Result1' type='array' kind='stations'> <!-- kind: 'map', 'stations', 'lines' -->
+    	<description title='Time averaged data' name='Temperature' units='C'/>
+		<time template='YYYYMMDDHH' step='1y'>
+		    <segment name='Seg1' beginning='1961010100' ending='1961123118'/>
+		    <segment name='Seg1' beginning='1962010100' ending='1962123118'/>
+		    <segment name='Seg1' beginning='1963010100' ending='1963123118'/>
+		    <segment name='Seg1' beginning='1964010100' ending='1964123118'/>
+		    <segment name='Seg1' beginning='1965010100' ending='1965123118'/>
+		    <segment name='Seg1' beginning='1966010100' ending='1966123118'/>
+		    <segment name='Seg1' beginning='1967010100' ending='1967123118'/>
+		    <segment name='Seg1' beginning='1968010100' ending='1968123118'/>
+		    <segment name='Seg1' beginning='1969010100' ending='1969123118'/>
+		    <segment name='Seg1' beginning='1970010100' ending='1970123118'/>
+		    <segment name='Seg1' beginning='1971010100' ending='1971123118'/>
+		    <segment name='Seg1' beginning='1972010100' ending='1972123118'/>
+		    <segment name='Seg1' beginning='1973010100' ending='1973123118'/>
+		    <segment name='Seg1' beginning='1974010100' ending='1974123118'/>
+		    <segment name='Seg1' beginning='1975010100' ending='1975123118'/>
+		    <segment name='Seg1' beginning='1976010100' ending='1976123118'/>
+		    <segment name='Seg1' beginning='1977010100' ending='1977123118'/>
+		    <segment name='Seg1' beginning='1978010100' ending='1978123118'/>
+		    <segment name='Seg1' beginning='1979010100' ending='1979123118'/>
+		    <segment name='Seg1' beginning='1980010100' ending='1980123118'/>
+		    <segment name='Seg1' beginning='1981010100' ending='1981123118'/>
+		    <segment name='Seg1' beginning='1982010100' ending='1982123118'/>
+		    <segment name='Seg1' beginning='1983010100' ending='1983123118'/>
+		    <segment name='Seg1' beginning='1984010100' ending='1984123118'/>
+		    <segment name='Seg1' beginning='1985010100' ending='1985123118'/>
+		    <segment name='Seg1' beginning='1986010100' ending='1986123118'/>
+		    <segment name='Seg1' beginning='1987010100' ending='1987123118'/>
+		    <segment name='Seg1' beginning='1988010100' ending='1988123118'/>
+		    <segment name='Seg1' beginning='1989010100' ending='1989123118'/>
+		    <segment name='Seg1' beginning='1990010100' ending='1990123118'/>
+		    <segment name='Seg1' beginning='1991010100' ending='1991123118'/>
+		    <segment name='Seg1' beginning='1992010100' ending='1992123118'/>
+		    <segment name='Seg1' beginning='1993010100' ending='1993123118'/>
+		    <segment name='Seg1' beginning='1994010100' ending='1994123118'/>
+		    <segment name='Seg1' beginning='1995010100' ending='1995123118'/>
+		    <segment name='Seg1' beginning='1996010100' ending='1996123118'/>
+		    <segment name='Seg1' beginning='1997010100' ending='1997123118'/>
+		    <segment name='Seg1' beginning='1998010100' ending='1998123118'/>
+		    <segment name='Seg1' beginning='1999010100' ending='1999123118'/>
+		    <segment name='Seg1' beginning='2000010100' ending='2000123118'/>
+		    <segment name='Seg1' beginning='2001010100' ending='2001123118'/>
+		    <segment name='Seg1' beginning='2002010100' ending='2002123118'/>
+		    <segment name='Seg1' beginning='2003010100' ending='2003123118'/>
+		    <segment name='Seg1' beginning='2004010100' ending='2004123118'/>
+		    <segment name='Seg1' beginning='2005010100' ending='2005123118'/>
+		    <segment name='Seg1' beginning='2006010100' ending='2006123118'/>
+		    <segment name='Seg1' beginning='2007010100' ending='2007123118'/>
+		    <segment name='Seg1' beginning='2008010100' ending='2008123118'/>
+		    <segment name='Seg1' beginning='2009010100' ending='2009123118'/>
+		    <segment name='Seg1' beginning='2010010100' ending='2010123118'/>
+		</time>
+	</data>
+	
+	<data uid='Result2' type='array' kind='map'> <!-- kind: 'map', 'stations', 'lines' -->
+    	<description title='Time averaged data' name='Temperature' units='C'/>
+		<time template='YYYYMMDDHH' step='6h'>
+		    <segment name='Seg1' beginning='2014020140' ending='2014022818'/>
+		</time>
+	</data>
+	
+	<data uid='Result3' type='array' kind='map'> <!-- kind: 'map', 'stations', 'lines' -->
+    	<description title='Time averaged data' name='Temperature' units='C'/>
+		<time template='YYYYMMDDHH' step='6h'>
+		    <segment name='Seg1' beginning='2014030100' ending='2014033118'/>
+		</time>
+	</data>
+	
+	<data uid='ModuleParameters' type='parameter'>
+    	<param uid = 'Mode' type = 'string'>multi</param> <!-- multi, single -->
+    	<param uid = 'timeMin' type = 'string'>dayMin</param> <!-- dataMin, dayMin, segMin, tiMean -->
+    	<param uid = 'timeMax' type = 'string'>segMax</param> <!-- dataMax, dayMax, segMax, tiMean -->
+    	<param uid = 'timeMean' type = 'string'>dayMean</param> <!-- dataMean, dayMean, segMean -->
+    	<param uid = 'timeAmount' type = 'string'>dayAmount</param> <!-- dayAmount, segAmount, tiMean -->
+        <param uid='percentileThreshold' type='integer'>90</param> <!-- for instance, 5, 10, 25, 95 -->
+    	<param uid = 'exceedanceType' type = 'string'>frequency</param> <!-- frequency, intensity, duration -->
+    	<param uid = 'timeSegs' type = 'string'>multi</param> <!-- multi -->
+    	<param uid = 'interpol' type = 'string'>shepard</param> <!-- multi -->
+    	<param uid = 'ariProc' type = 'string'>dif</param> <!-- normd1, normd2, averadd -->
+	</data>
+	
+    <destination uid='Image1' type='image'> <!-- type: 'image', 'raw' -->
+		<file name='' type='eps'/> <!-- type for graphics kind='shape': 'eps', 'geotiff'; kind='contour'/'station': 'eps', 'shape'; for kind=='multiline': 'eps'; for kind=='tile' : 'geotiff24' -->
+		<projection name='cylindrical'> <!-- 'azimuthal equidistant, 'cylindrical',... -->
+			<p0lon units='degrees'>0</p0lon>
+			<p0lat units='degrees'>0</p0lat>
+			<rot units='degrees'>0</rot>
+			<limits units='degrees'>
+				<limit role='left'>60</limit>
+				<limit role='right'>170</limit>
+				<limit role='top'>50</limit>
+				<limit role='bottom'>80</limit>
+			</limits>
+		</projection>
+		<coastline visible='yes' hires='no'/> <!-- effective only for 'shaded', 'contour' and 'station' kinds -->
+		<rivers visible='no' hires='yes'/> <!-- effective only for 'shaded', 'contour' and 'station' kinds -->
+		<countries visible='no' hires='no'/> <!-- effective only for 'shaded', 'contour' and 'station' kinds -->
+		<graphics title='Monthly temperature mean' kind='shaded'> <!-- kind: 'shaded', 'contour', 'station', 'tile'; 'multiline', 'vector', 'regress2d' -->
+			<width units='pixels'>1024</width>
+			<height units='pixels'>768</height>
+			<axis> 
+				<x name='Time' units='' scale='linear' visible='yes'/> <!-- Name: 'Time' is RESERVED and means Time! scale: 'linear', 'log10' -->
+				<y name='Temperature' units='dy/10yr' scale='linear' visible='yes'/>
+				<z name='Height' units='m' scale='linear' visible='no'/>
+			</axis>
+			<lines> <!-- for graphics kind=='multiline' -->
+				<line name='Line1' style='solid' symbol='asterisk' color='auto' thick='1.5' visible='yes'/> <!-- style: 'solid', 'dotted', 'dashed'; color: 'auto', 'red', ... ; symbol: 'plus', 'asterisk', 'period', 'diamond', 'triangle', 'square', 'X' -->
+			</lines>
+			<legend title='TM' kind='embedded' type='continuous' position='right'> <!-- kind: 'embedded', 'file', 'none'; position: 'right', 'left', 'top', 'bottom' (only for kind=='embedded') -->
+				<units>C</units> <!-- added after legend's title -->
+				<ncolors>10</ncolors> <!-- number of discrete colors in legend -->
+				<limited>no</limited> <!-- fixed legend limits: yes/no -->
+				<minimum>-15.0</minimum> <!-- ignored if limited == no -->
+				<maximum>15.0</maximum> <!-- ignored if limited == no -->
+				<file name='output-legend.png' type='png'/> <!-- file for legend (if legend kind=='file'), type: 'tiff', 'png', 'jpeg', 'gif', 'bmp', 'ppm, 'srf'  -->
+			</legend>
+			<colortable>RAINBOW</colortable>  <!-- only for graphics kind=='shaded' -->
+			<colorscale>linear</colorscale> <!-- only for graphics kind=='shaded' -->
+			<blackbg>no</blackbg> <!-- black background -->
+			<smoothing>yes</smoothing> <!-- only for graphics kind=='shaded' -->
+			<steps>30</steps> <!-- only for graphics kind == 'contour' or for file type == 'shape' -->
+		</graphics>
+    </destination>    
+<!-- End of data segment -->
+
+<!-- Code segment. Order is IMPORTANT! -->
+    <processing uid='Process1' class='cvcCalcTiMean' module_path=''>
+    	<input uid='Input2' data='STATIONS600'/>
+    	<input uid='Parameter2' data ='ModuleParameters'/>
+    	<output uid='Output2' data='Result1'/>
+    </processing>
+    
+    <processing uid='write' class='cvcOutput'>
+	   	<input uid='Data1' data='Result1'/>
+	   	<input uid='Destination' data='File1'/>
+    </processing>
+         
+    <processing uid='Visualization1' class='cvcOutput'>
+	   	<input uid='Data1' data='Result1'/>
+	   	<input uid='Destination' data='Image1'/>
+    </processing>
+-->
+<!-- End of code segment -->
+
+</task>

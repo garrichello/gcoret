@@ -1,0 +1,949 @@
+;
+;  NAME: 
+;    cvcData
+;
+;  PURPOSE:
+;    Base low-level class. Provides access to meteo- and climatic data. 
+;
+;  INHERITS:
+;    cvcError
+;
+;  CALLING SEQUENCE:
+;    None 
+;
+;--------------------------------------------------------------------
+FUNCTION cvcData::Init, in_sDatasetDesc, in_modulePath, in_oGlobal
+
+    self.oGlobal = in_oGlobal
+    hLogFile = self.oGlobal->Get('hLogFile')
+    if ( self->cvcError::Init(hLogFile) eq 0 ) then return, 0
+    
+    self.oConst = obj_new('cvcConstants', self.oGlobal) ; constants class
+    self.oDSInfo = obj_new( 'IDLffXMLDOMDocument' )
+    self.modulePath = in_modulePath
+    self.hLogFile = hLogFile
+    
+    self.dataset.name = in_sDatasetDesc.name
+    self.dataset.scenario = in_sDatasetDesc.scenario
+    self.dataset.res = in_sDatasetDesc.res
+    self.dataset.tstep = in_sDatasetDesc.tstep
+    self.dataset.path = in_sDatasetDesc.path
+        
+    self.prepared = 0
+    self.debugMode = 1
+    self->printLog, "(cvcData::Init) Data has been initialized"
+    return, 1
+END
+;--------------------------------------------------------------------
+PRO cvcData::Cleanup
+ 
+    if (obj_valid(self.oConst)) then obj_destroy, self.oConst
+    if (obj_valid(self.oDSInfo)) then obj_destroy, self.oDSInfo 
+    if (ptr_valid(self.pDataFile)) then begin
+      ptr_free, self.pDataFile
+    endif
+END
+;--------------------------------------------------------------------
+FUNCTION cvcData::__ByteStrToDate, in_aByteStr, o_aYear, o_aMonth, o_aDay, o_aHour
+
+  o_aMonth = fix(string(in_aByteStr[5:6, *]))
+  o_aDay = fix(string(in_aByteStr[8:9, *]))
+  o_aYear = fix(string(in_aByteStr[0:3, *]))
+  o_aHour = fix(string(in_aByteStr[11:12, *]))  
+
+  return, self.ERROR_OK
+END
+;--------------------------------------------------------------------
+FUNCTION cvcData::__ConvertTU2JD, in_timeTU, in_TUV, out_timeJD
+    timeUnits = strmid(in_TUV, 0, strpos(in_TUV, 'since')-1) ; we assume timeUnitsValue has form '<timeUnits>
+    if (timeUnits ne '') then begin
+      timeStart = strmid(in_TUV, strpos(in_TUV, 'since')+6) ; we assume timeStart has form 'year-mo-dy hr:mm:s
+      sinceDate = strsplit(timeStart, '- :', /extract)
+      nFieldsActual = n_elements(sinceDate)
+      if (nFieldsActual lt 4) then begin
+        nFieldsToAdd = 4 - nFieldsActual
+        addFields = strarr(nFieldsToAdd)
+        sinceDate = [sinceDate, addFields]
+      endif
+      case timeUnits of
+        'days':  out_timeJD = julday(sinceDate[1], sinceDate[2], sinceDate[0], sinceDate[3]) + in_timeTU
+        'hours': out_timeJD = julday(sinceDate[1], sinceDate[2], sinceDate[0], sinceDate[3] + in_timeTU)
+        else: begin
+                print, 'cvcData::__ConvertTU2JD: Unknown time units! Execution stopped!'
+                stop
+              end
+      endcase
+    endif else begin
+      timeUnits = strmid(in_TUV, 0, strpos(in_TUV, 'as')-1) ; we assume timeUnitsValue has form '<timeUnits> a
+      if (timeUnits ne '') then begin
+        yr = fix(in_TimeTU / 10000)
+        mo = fix((in_TimeTU - yr*10000.) / 100)
+        dy = fix(in_TimeTU - yr*10000. - mo*100.)
+        out_timeJD = julday(mo, dy, yr)
+      endif else begin
+        print, 'cvcData::__ConvertTU2JD: Unknown time units separator! Execution stopped!'
+        stop
+      end
+    endelse
+
+    return, self.ERROR_OK
+END
+;--------------------------------------------------------------------
+FUNCTION cvcData::CutROI, in_lon0, in_aArea, in_aLons, in_aLats, in_missingVal, inout_aData
+; cut out selected ROI
+    
+    if (n_elements(inout_aData) eq 0) then return, -1
+    
+    dataDims = size(inout_aData, /dimensions)    
+    nLons = dataDims[0]
+    nLats = dataDims[1]
+
+    if (in_lon0 eq '180') then begin
+      in_aArea[0, *] = (in_aArea[0, *] + 360.) mod 360. ; reverse longitudes
+      aLonsNew = (in_aLons[*, *, 0] + 360.) mod 360
+    endif else begin
+      if ((in_aLons[0, 0, 0] lt 0) and (in_aLons[nLons-1, 0, 0] gt 0)) then $
+        aLonsNew = in_aLons[*, *, 0] else aLonsNew = (in_aLons[*, *, 0] + 180) mod 360 - 180
+    endelse
+     
+    ; create ROI
+    oROI = obj_new('IDLanROI', in_aArea)
+
+    ; create masks    
+    if (size(aLonsNew, /n_dim) eq 1) then begin ; for regular grid
+      Ilons = replicate(1.0, nLons)
+      Ilats = replicate(1.0, nLats)    
+      aLonsM = aLonsNew # transpose(Ilats)
+      aLatsM = Ilons # transpose(in_aLats)
+    endif else begin ; for irregular grid
+      aLonsM = aLonsNew
+      aLatsM = in_aLats[*, *, 0]
+    endelse
+self->printLog, 'Creating ROI mask...'
+;stop
+    mask = reform(oROI->ContainsPoints(aLonsM, aLatsM), nLons, nLats)
+    mask = mask ne 0
+    maskMiss = (~mask)*in_missingVal
+self->printLog, 'OK'
+self->printLog, 'Masking outlying data...'
+    if (n_elements(dataDims) eq 3) then begin ; for 3-D dataset
+      for t = 0, dataDims[2]-1 do begin
+        inout_aData[*, *, t] = inout_aData[*, *, t] * mask + maskMiss
+      endfor
+    endif else begin
+      inout_aData = inout_aData * mask + maskMiss
+    endelse
+self->printLog, 'OK'
+    return, self.ERROR_OK
+END
+;--------------------------------------------------------------------
+FUNCTION cvcData::__QueryNCDF, in_fileName
+
+    MAX_DIMS = 50
+    MAX_ATTS = 50
+    
+    sNCDim = { sNCDim, name : '', size : 0L }
+    sNCAtt = { sNCAtt, name : '', datatype : '', length : 0L, value : '' }
+    sNCVar = { sNCVar, name : '', datatype : '', ndims : 0L, natts : 0L, $
+      dim : lonarr(MAX_DIMS), atts : replicate({sNCAtt}, MAX_ATTS)}
+      
+    NCFileId = ncdf_open(in_fileName)
+    sNCFileInfo = ncdf_inquire(NCFileId)
+    timeUnitsValue = ''
+; get dimensions    
+    asNCDim = replicate({sNCDim}, sNCFileInfo.NDIMS)
+    for dimId = 0, sNCFileInfo.NDIMS-1 do begin
+      ncdf_diminq, NCFileId, dimID, name, size
+      asNCDim[dimId].name = name
+      asNCDim[dimId].size = size
+    endfor
+
+; get global attributes
+    if (sNCFileInfo.NGATTS gt 0) then begin
+      asNCGAtt = replicate(sNCAtt, sNCFileInfo.NGATTS)
+      for gattId = 0, sNCFileInfo.NGATTS-1 do begin
+        asNCGAtt[gattId].name = ncdf_attname(NCFileId, gattId, /global)
+        sRes = ncdf_attinq(NCFileId, asNCGAtt[gattId].name, /global)
+        asNCGAtt[gattId].datatype = sRes.datatype
+        asNCGAtt[gattId].length = sRes.length
+        ncdf_attget, NCFileId, asNCGAtt[gattId].name, value, /global
+        asNCGAtt[gattId].value = strjoin(string(value))
+      endfor
+    endif else asNCGAtt = {sNCAtt}
+
+; get variables
+    asNCVar = replicate({sNCVar}, sNCFileInfo.NVARS)
+    for varId = 0, sNCFileInfo.NVARS-1 do begin 
+      sNCVar = ncdf_varinq(NCFileId, varID)
+      asNCVar[varId].name = sNCVar.name
+      asNCVar[varId].datatype = sNCVar.datatype
+      asNCVar[varId].ndims = sNCVar.ndims
+      asNCVar[varId].natts = sNCVar.natts
+      asNCVar[varId].dim = sNCVar.dim
+
+; get variable attributes      
+      for attId = 0, asNCVar[varId].natts-1 do begin
+        asNCVar[varId].atts[attId].name = ncdf_attname(NCFileId, varId, attId)
+        sRes = ncdf_attinq(NCFileId, varId, asNCVar[varId].atts[attId].name)
+        asNCVar[varId].atts[attId].datatype = sRes.datatype
+        asNCVar[varId].atts[attId].length= sRes.length
+        ncdf_attget, NCFileId, varId, asNCVar[varId].atts[attId].name, value
+        asNCVar[varId].atts[attId].value = strjoin(strtrim(string(value), 2), ",")       
+      endfor
+    endfor
+
+    varId = (where(asNCVar.name eq self.sRequest.varName))[0] ; variable id
+      
+    ; get positions of attribute 'units' for all variables
+    unitsPos = where(asNCVar.atts.name eq 'units')
+    noUnits = where(unitsPos eq -1)
+    if (noUnits[0] ne -1) then unitsPos[noUnits] = 0 ; set to 0 to get no error if some variable does not have attribute 'units'
+
+    varDimIdxs = asNCVar[varId].dim[0:asNCVar[varId].ndims-1]
+    varDimNames = asNCDim[varDimIdxs].name
+
+self->printLog, ' lonVar...'        
+    lonVarId = (where((asNCVar.atts.value)[unitsPos] eq 'degrees_east'))[0]
+        
+    if (lonVarId ne -1) then begin
+      ncdf_varget, NCFileId, lonVarId, aLons
+      minLon = min(aLons, max=maxLon)
+    endif else begin
+      self->printLog, 'Warning! No longitude variable in the file!'
+    endelse
+
+self->printLog, ' latVar...'        
+    latVarId = (where((asNCVar.atts.value)[unitsPos] eq 'degrees_north'))[0]
+
+    if (latVarId ne -1) then begin
+      ncdf_varget, NCFileId, latVarId, aLats
+      minLat = min(aLats, max=maxLat)
+    endif else begin
+      self->printLog, 'Warning! No latitude variable in the file!'
+    endelse
+
+self->printLog, ' timeVar...'
+; IMPORTANT! We detect time variable by a text attribute containing word 'since'. It MUST be present in CF/COARDS netCDF files.
+    timeVarId = (where(strpos((asNCVar.atts.value)[unitsPos], 'since') ne -1))[0]
+    timeUnitsId = (where(asNCVar[timeVarId].atts.name eq 'units'))[0]
+
+self->printLog, ' levVar...'
+
+    ; try to find a level name in the names of variable dimensions
+    levVarName = self.sDataMeta.vars.level  
+    levVarId = (where(asNCVar.name eq levVarName))[0] 
+    
+    if (levVarId ne -1) then begin
+      ncdf_varget, NCFileId, levVarId, aLevs
+      if (size(aLevel, /n_dim) eq 2) then begin ; suppose we have [lev, time] 2-D grid
+        aLevs = aLevs[*, 0] ; then reduce it to 1-D
+      endif
+    endif else aLevs = ''
+    
+self->printLog, ' lonDim...'        
+    if (lonVarId ne -1) then begin
+      lonDimId = asNCVar[lonVarId].dim[0 mod asNCVar[lonVarId].ndims]
+      lonPos = (where(asNCVar[varId].dim eq lonDimId))[0] ; should be 0
+    endif else lonPos = -1
+
+self->printLog, ' latDim...'
+    if (latVarId ne -1) then begin
+      latDimId = asNCVar[latVarId].dim[1 mod asNCVar[latVarId].ndims]
+      latPos = (where(asNCVar[varId].dim eq latDimId))[0] ; should be 1
+    endif else latPos = -1
+
+self->printLog, ' timeDim...'
+    if (timeVarId ne -1) then begin
+      timeDimId = asNCVar[timeVarId].dim[0]
+      timePos = (where(asNCVar[varId].dim eq timeDimId))[0] ; should be 3 (or 2 in case of level grid absence)
+    endif else timePos = -1
+
+self->printLog, ' levDim...'
+    if (levVarId ne -1) then begin
+      levDimId = asNCVar[levVarId].dim[0]
+      levPos = (where(asNCVar[varId].dim eq levDimId))[0] ; should be 2
+    endif else levPos = -1
+
+    lonSize = asNCDim[lonDimId].size
+    latSize = asNCDim[latDimId].size
+
+    ncdf_close, NCFileId
+    
+
+    aCount = replicate(1L, asNCVar[varId].ndims)
+    aOffset = replicate(0L, asNCVar[varId].ndims)
+    latOffs = max([0, (where((aLats gt self.sROIBounds.lat0) and (aLats lt self.sROIBounds.lat1), latCnt))[0] - 1])
+    latCnt = min([latSize-latOffs, latCnt + 1]) ; add one at the top
+    latCnt = min([latSize-latOffs, latCnt + 1]) ; add one at the bottom
+    latIdxs = indgen(latCnt)+latOffs
+
+    if (latPos ne -1) then begin
+      aCount[latPos] = latCnt
+      aOffset[latPos] = latOffs
+    endif
+
+; ok, that's a long part for longitudes
+	lonOffs2 = 0
+	lonCnt2 = 0
+	lonIdxs2 = 0
+	isCutROI = 0 ; flag, should we cut ROI from data we have read
+	if ((size(aLons))[0] eq 1) then begin ; if aLons is 1-D then we suppose all grids are 1-D
+	    if (max(aLons) gt 180) then begin ; if aLons values are greater 180 then we have 0-360 longitude grid
+	      if ((self.sROIBounds.lon0 lt 0) and (self.sROIBounds.lon1 gt 0)) then begin ; required area overlaps 0-meridian and thus we have 2 separated parts in 0-360 longitude grid
+	        ; let's select RIGHT part of the area (0 - lon1)
+	        lonOffs = max([0, (where((aLons gt 0) and (aLons lt (self.sROIBounds.lon1 + 360) mod 360), lonCnt))[0] - 1])
+	        lonCnt = lonCnt gt 0 ? min([lonSize-lonOffs, lonCnt + 1]) : 0 ; add one at the right
+	        lonIdxs = lonCnt gt 0 ? indgen(lonCnt)+lonOffs : 0
+	        ; let's select LEFT part of the area (lon0 - 360)
+	        lonOffs2 = max([0, (where((aLons gt (self.sROIBounds.lon0 + 360) mod 360) and (aLons lt 360), lonCnt2))[0] - 1])
+	        lonCnt2 = lonCnt2 gt 0 ? min([lonSize-lonOffs, lonCnt2 + 1]) : 0 ; add one at the left
+	        lonIdxs2 = lonCnt2 gt 0 ? indgen(lonCnt2)+lonOffs2 : 0
+	        ; if right part is empty let's replace it with the left one thus we will read only one part
+	        if (lonCnt eq 0) then begin
+	          lonOffs = lonOffs2
+	          lonCnt = lonCnt2
+	          lonIdxs = lonIdxs2
+	        endif
+	        if ((lonCnt ne 0) and (lonCnt2 ne 0)) then begin ; if we have both parts
+	          ; let's check if longitude grid is continous when crossing 0 meridian
+	          cross360step = aLons[0]-aLons[-1]+360 ; grid step across 0 meridian
+	          lonStep = aLons[1]-aLons[0] ; assume it a longitude grid
+	          epsStep = lonStep / 20. ; epsilon vicinity of a 360 deg. point (1/20. of a step)
+	          if (cross360step eq lonStep or ((cross360step lt 360+epsStep) and (cross360step gt 360-epsStep))) then begin ; we can merge both parts
+	            self->printLog, ' No gap between parts'
+	          endif else begin ; we can't merge two parts if there is a gap greater than a lonStep between them
+		    self->printLog, ' There is a gap between parts. Reading whole longitude range'
+		    lonOffs = 0
+		    lonCnt = lonSize
+		    lonIdxs = lonSize gt 0 ? indgen(lonSize) : 0
+		    lonOffs2 = 0
+		    lonCnt2 = 0
+		    isCutROI = 1
+	          endelse
+	        endif
+	      endif else begin ; required area fall into the LEFT or RIGHT half of the 0-360 field, so it easy here...
+	        lonOffs = max([0, (where((aLons gt (self.sROIBounds.lon0 + 360) mod 360) and (aLons lt (self.sROIBounds.lon1 + 360) mod 360), lonCnt))[0] - 1])
+	        lonCnt = lonCnt gt 0 ? min([lonSize-lonOffs, lonCnt + 1]) : 0 ; add one at the left
+	        lonCnt = lonCnt gt 0 ? min([lonSize-lonOffs, lonCnt + 1]) : 0 ; and another at the right
+	        lonIdxs = lonCnt gt 0 ? indgen(lonCnt)+lonOffs : 0
+	      endelse
+	    endif else begin ; otherwise we have usual -180-+180 latitude grid
+	      lonOffs = max([0, (where((aLons gt self.sROIBounds.lon0) and (aLons lt self.sROIBounds.lon1), lonCnt))[0] - 1])
+	      lonCnt = lonCnt gt 0 ? min([lonSize-lonOffs, lonCnt + 1]) : 0 ; add one at the left
+	      lonCnt = lonCnt gt 0 ? min([lonSize-lonOffs, lonCnt + 1]) : 0 ; and another at the right
+	      lonIdxs = lonCnt gt 0 ? indgen(lonCnt)+lonOffs : 0
+	    endelse
+	endif else begin
+	  ; we suppose 2D-grids are used for irregular grids thus prepare count and offset arrays for reading of the whole area represented in a file
+	  lonOffs = 0
+	  lonCnt = lonSize
+	  isCutROI = 1
+	endelse
+
+    struct = { fileName : in_fileName, $
+               asDim : asNCDim, $
+               asVar : asNCVar, $
+               asGAtt : asNCGAtt, $
+               varId : varId, $
+               lonVarId : lonVarId, $
+               latVarId : latVarId, $
+               levVarId : levVarId, $
+               timeVarId : timeVarId, $
+               timeUnitsId : timeUnitsId, $
+               aLons : aLons, $
+               aLats : aLats, $
+               aLevs : aLevs, $
+               lonPos : lonPos, $
+               latPos : latPos, $
+               levPos : levPos, $
+               timePos : timePos, $
+               lonSize : lonSize, $
+               latSize : latSize, $
+               aCount : aCount, $
+               aOffset : aOffset, $
+               latIdxs : latIdxs, $
+               lonCnt : lonCnt, $
+               lonOffs : lonOffs, $
+               lonIdxs : lonIdxs, $
+               lonCnt2 : lonCnt2, $
+               lonOffs2 : lonOffs2, $
+               lonIdxs2 : lonIdxs2, $
+               isCutROI : isCutROI $
+             }
+    
+    return, struct
+END
+;--------------------------------------------------------------------
+;+
+; :Description:
+;   Prepares NetCDF-files for reading.
+;  
+; :Author: 
+;   garry
+;-
+FUNCTION cvcData::__PrepareNCDF, in_varName, in_asTimeSeg, in_aLevel, in_sRegion
+
+self->printLog, 'Preparing NCDF data'
+
+    self.sRequest.varName = in_varName
+    self.sRequest.asTimeSeg = in_asTimeSeg
+    self.sRequest.numTimeSeg = n_elements(in_asTimeSeg)
+    self.sRequest.aLevel = in_aLevel
+    self.sRequest.nLev = n_elements(in_aLevel)
+    self.sRequest.sRegion = in_sRegion
+
+    ; set data file name template
+    res = self->__SetDataFileTemplate(in_varName, in_aLevel, aDataFileTemplate)
+    if (res ne self.ERROR_OK) then return, res
+
+    self.pDataFile = ptr_new({datafile, nameTmpl:aDataFileTemplate})
+
+self->printLog, 'NCDF data is prepared!'
+    return, self.ERROR_OK
+END
+;--------------------------------------------------------------------
+;+
+; :Description:
+;   Reads data array from NetCDF-file.
+;  
+; :Author: 
+;   garry
+;-
+FUNCTION cvcData::__ReadNCDF, in_aArea, in_aTimeRng, in_level, out_sData
+
+    self->printLog, 'Reading netCDF file...'
+    levIdx = where(self.sRequest.aLevel eq in_level)
+    if (levIdx[0] eq -1) then return, self->SayError(self.ERROR_WRONGLEV)
+    
+    reqTimeJD = dblarr(2)
+    self->DayMonthYear, in_aTimeRng[0], reqYearBeg, reqMonthBeg, reqDayBeg, reqHourBeg
+    reqTimeJD[0] = julday(reqMonthBeg, reqDayBeg, reqYearBeg, reqHourBeg)
+    self->DayMonthYear, in_aTimeRng[1], reqYearEnd, reqMonthEnd, reqDayEnd, reqHourEnd
+    reqTimeJD[1] = julday(reqMonthEnd, reqDayEnd, reqYearEnd, reqHourEnd)
+
+; ROI bounds:
+    lon0 = min(in_aArea[0, *], max=lon1)
+    lat0 = min(in_aArea[1, *], max=lat1)
+    self.sROIBounds = {lon0:lon0, lat0:lat0, lon1:lon1, lat1:lat1}
+
+; beginning and ending of the time segment to prepare
+
+    fileTimeSpan = fix(strmid(self.sDataMeta.fileSpan, 0, strlen(self.sDataMeta.fileSpan)-1))
+    fileTimeUnits = strmid(self.sDataMeta.fileSpan, strlen(self.sDataMeta.fileSpan)-1, 1)
+    
+    case fileTimeUnits of
+        'y': numberOfDataFiles = (reqYearEnd - reqYearBeg) / fileTimeSpan + 1
+        'm': numberOfDataFiles = (reqYearEnd*12 + reqMonthEnd - reqYearBeg*12 - reqMonthBeg) / fileTimeSpan + 1
+        'd': numberOfDataFiles = (julday(reqMonthEnd, reqDayEnd, reqYearEnd) - julday(reqMonthBeg, reqDayBeg, reqYearBeg)) / fileTimeSpan + 1
+        'h': numberOfDataFiles = (reqTimeJD[1] - reqTimeJD[0]) * 24 / fileTimeSpan + 1
+        else: begin 
+          self->printLog, "Error! Unknown time span unit!"
+          return, -1
+        end
+    endcase
+    
+    numberOfDatFiles = fix(numberOfDatafiles)
+    
+self->printLog, numberOfDataFiles, ' files in list'
+
+    curTimeJD = reqTimeJD[0]
+    isFileKnown = "no"
+
+;    
+; Loop by data files
+;
+    for fileIdx = 0, numberOfDataFiles-1 do begin
+
+      self->printLog, 'Preparing file ', fileIdx+1, 'of ', numberOfDataFiles
+      fileName = self->__ParseFileTemplate((*self.pDataFile).nameTmpl[levIdx], curTimeJD, fileTimeSpan, fileTimeUnits)
+      if ( file_test(fileName) ) then begin
+          if (isFileKnown eq "no") then begin ; if this is a new file we read info otherwise we use the old one
+            self->printLog, 'Reading datafile metadata...'
+            asCurFileInfo = self->__QueryNCDF(filename)
+    	    varId = asCurFileInfo.varId
+	    if (varId eq -1) then begin
+    	      self->printLog, 'Error! Variable '+self.sRequest.varName+' not found!'
+    	      return, -1
+	    endif
+            isFileKnown = "no"
+            self->printLog, 'OK'
+          endif
+      endif else begin
+          self->printLog, 'Warning! File is missing:', filename, ' Skipping it.'
+          continue
+      endelse
+
+;self->printLog, 'File:', fileIdx, ' is ', self.dataFileType
+;======================================================================================================
+
+      if (self.debugMode) then begin
+        self->printLog, "(cvcData::ReadNCDF) Reading file: ", fileName  
+        self->printLog, "(cvcData::ReadNCDF) Requesting variable: ", self.sRequest.varName, ", level: ", in_level, ", time: ", in_aTimeRng, $
+         format='(a, a, a, a, a, 2i)'
+      endif
+
+self->printLog, 'Open netCDF...', format='(a, $)'        
+      fileId = ncdf_open(fileName)
+self->printLog, 'OK', /NoTimeStamp
+
+self->printlog, 'Set variables...'
+      aLons = asCurFileInfo.aLons
+      aLats = asCurFileInfo.aLats
+      aLevs = asCurFileInfo.aLevs
+      levVarId = asCurFileInfo.levVarId
+      timeVarId = asCurFileInfo.timeVarId
+      timeUnitsId = asCurFileInfo.timeUnitsId
+      lonPos = asCurFileInfo.lonPos
+      levPos = asCurFileInfo.levPos
+      timePos = asCurFileInfo.timePos
+      aCount = asCurFileInfo.aCount
+      aOffset = asCurFileInfo.aOffset
+      latIdxs = asCurFileInfo.latIdxs
+      lonCnt = asCurFileInfo.lonCnt
+      lonOffs = asCurFileInfo.lonOffs
+      lonIdxs = asCurFileInfo.lonIdxs
+      lonCnt2 = asCurFileInfo.lonCnt2
+      lonOffs2 = asCurFileInfo.lonOffs2
+      lonIdxs2 = asCurFileInfo.lonIdxs2
+      isCutROI = asCurFileInfo.isCutROI
+
+self->printlog, 'Set levels variable...'
+      if (levVarId ne -1) then begin
+        nReqLevs = n_elements(in_level)
+        levIdxs = intarr(nReqLevs)
+        for iReqLev = 0, nReqLevs-1 do begin
+          reqLev = in_level[iReqLev]
+          if (strmid(reqLev, 0, 1) eq '#') then begin
+            levIdxs[iReqLev] = fix(strmid(reqLev, 1))-1
+          endif else begin
+            levIdxs[iReqLev] = (where(aLevs eq reqLev))[0] ; only one level is taken!
+          endelse
+          aLevel = aLevs[levIdxs]
+        endfor
+      endif else aLevel = in_level
+
+self->printlog, 'Set time variable...'
+      if (timeVarId ne -1) then begin
+self->printlog, 'Reading time variable...'
+        ncdf_varget, fileId, timeVarId, aTime
+        if (timeUnitsId ne -1) then begin
+self->printlog, 'Converting time to JD...'
+          res = self->__ConvertTU2JD(aTime, asCurFileInfo.asVar[timeVarId].atts[timeUnitsId].value, aTimeJD)
+        endif else begin ; it seems we have WRF data... but may be not!
+          res = self->__ByteStrToDate(aTime, aYr, aMo, aDy, aHr)
+          aTimeJD = julday(aMo, aDy, aYr, aHr)
+        endelse
+        timeIdxs = where((aTimeJD ge reqTimeJD[0]) and (aTimeJD le reqTimeJD[1]))
+        if (n_elements(aTimes) ne 0) then begin
+          aTimes = [aTimes, aTimeJD[timeIdxs]]
+        endif else aTimes = aTimeJD[timeIdxs]          
+        if (size(aLons, /n_dim) eq 3) then begin ; we have irregular lon-lat grid
+          aLons = aLons[*, *, 0]
+          aLats = aLats[*, *, 0]
+        endif
+      endif else begin
+        timeAttId = (where(asCurFileInfo.asVar[varId].atts.name eq 'initial_time'))[0]
+        if (timeAttId ne -1) then begin ; we assume there is an attribute with one time point for each file
+          spl_dt = strsplit(asCurFileInfo.asVar[varId].atts[timeAttId].value, ' ', /extract)
+          spl_date = strsplit(spl_dt[0], '/', /extract)
+          spl_time = strsplit(strmid(spl_dt[1], 1, strlen(spl_dt[1])-2), ':', /extract)
+          if (n_elements(aTimes) eq 0) then aTimes = fltarr(numberOfDataFiles)
+          aTimes[fileIdx] = julday(spl_date[0], spl_date[1], spl_date[2], spl_time[0], spl_time[1])
+          timeIdxs = [0]
+        endif else begin
+    	  aTimes = [0]
+    	  timeIdxs = [0]
+    	endelse
+      endelse
+        
+; read data
+self->printlog, 'Setting count and offset...'
+; we set here times and levels but deal with longitudes later
+      if (timePos ne -1) then begin
+        aCount[timePos] = n_elements(timeIdxs)
+	aOffset[timePos] = timeIdxs[0]
+      endif
+      if (levPos ne -1) then begin
+        aCount[levPos] = n_elements(levIdxs)
+        aOffset[levPos] = levIdxs
+      endif
+	
+; let's set longitudes for the FIRST area
+        if (lonPos ne -1) then begin
+          aCount[lonPos] = lonCnt
+          aOffset[lonPos] = lonOffs
+        endif
+
+	if ((where(aCount eq 0))[0] eq -1) then begin ; if the area to read is not empty let's read it
+self->printLog, 'Reading from netCDF actually...', format='(a, $)'
+	  ncdf_varget, fileId, varId, aData, count=aCount, offset=aOffset
+self->printLog, 'OK', /NoTimeStamp
+	endif else begin
+	  self->printLog, 'Warning! Area is empty! No data to read! Skipping file!'
+	  continue
+	endelse
+	
+; let's set longitudes for the SECOND area (if it is present!)
+	if (n_elements(lonCnt2) ne 0) then begin
+          if (lonPos ne -1) then begin
+            aCount[lonPos] = lonCnt2
+            aOffset[lonPos] = lonOffs2
+          endif
+	
+	  if ((where(aCount eq 0))[0] eq -1) then begin ; if the area to read is not empty let's read it
+self->printLog, 'Reading SECOND area from netCDF actually...', format='(a, $)'
+	    ncdf_varget, fileId, varId, aData2, count=aCount, offset=aOffset
+self->printLog, 'OK', /notimestamp
+	  endif else self->printLog, 'SECOND area is empty! No data to read! Skipping part!'
+	endif
+
+; let's get dimensions of aData and aData2
+        dataDims = size(aData, /dimensions)
+        dataDims2 = size(aData2, /dimensions)
+
+; ok, here we suppose two things: 
+; 1) if aData is NULL then aData2 is NULL also and we have no data; 
+; 2) if aData2 is NOT NULL then aData is NOT NULL also, and, consequently, we can merge it with aData along longitude grid (grids also should be merged)
+
+	if (dataDims2[0] ne 0) then begin
+	  dataDimsNew = dataDims
+	  dataDimsNew[0] += dataDims2[0]
+	  dataDims = dataDimsNew
+	  aDataNew = fltarr(dataDimsNew, /nozero)
+	  ; data parts are merged in such way: [aData2:aData]
+	  aDataNew[0:lonCnt2-1, *, *, *] = temporary(aData2)
+	  aDataNew[lonCnt2:lonCnt2+lonCnt-1, *, *, *] = aData
+	  aData = temporary(aDataNew)
+	  aLons = [(aLons[lonIdxs2] + 180) mod 360 - 180, (aLons[lonIdxs] + 180) mod 360 - 180]
+	  aLats = aLats[latIdxs]
+	endif else begin
+	  aLons = aLons[lonIdxs]
+	  aLats = aLats[latIdxs]
+	endelse
+
+; self->printLog, min(aData), max(aData)
+
+; apply scale/offset        
+self->printLog, 'Apply scale/offset...', format='(a, $)'
+        addOffsPos = (where(asCurFileInfo.asVar[varId].atts.name eq 'add_offset'))[0] ; let's take only the first element
+        if (addOffsPos ne -1) then addOffset = float(asCurFileInfo.asVar[varId].atts[addOffsPos].value) else addOffset = 0
+        scaleFactPos = (where(asCurFileInfo.asVar[varId].atts.name eq 'scale_factor'))[0]
+        if (scaleFactPos ne -1) then scaleFactor = float(asCurFileInfo.asVar[varId].atts[scaleFactPos].value) else scaleFactor = 1
+self->printLog, 'OK', /notimestamp
+
+; missing value = fix('missing_value')
+self->printLog, 'Fixing missing value...', format='(a, $)'
+        misValPos = (where(asCurFileInfo.asVar[varId].atts.name eq 'missing_value'))[0]
+        if (misValPos eq -1) then misValPos = (where(asCurFileInfo.asVar[varId].atts.name eq '_FillValue'))[0]
+        if (misValPos ne -1) then missingVal = asCurFileInfo.asVar[varId].atts[misValPos].value else missingVal = -999.0
+
+        newMissingVal = -999.0
+        missingIdxs = where(aData eq missingVal, missingCnt)
+        aData = float(aData) * scaleFactor + addOffset
+        if (missingCnt gt 0) then aData[missingIdxs] = newMissingVal
+        missingVal = newMissingVal
+self->printLog, 'OK', /notimestamp
+
+self->printLog, 'Eliminating single-size dimensions...'
+        newDims = dataDims[where(dataDims ne 1)]
+self->printLog, 'Info: One data array contains '+strtrim(string(n_elements(timeIdxs)), 2)+' time points'
+        if (n_elements(newDims) ne n_elements(dataDims)) then begin
+self->printLog, 'Reforming aData...', format='(a, $)'
+          aData = reform(aData, newDims, /overwrite)
+self->printLog, 'OK', /notimestamp
+        endif
+
+	if (n_elements(aAllData) eq 0) then begin
+self->printLog, 'Allocating global data array...'
+	  allDims = newDims
+	  if (self.sRequest.sTimeSeg.step eq '1m') then begin
+	    timeStep = 1
+	    nTimes = (reqYearEnd - reqYearBeg)*12 + reqMonthEnd - reqMonthBeg + 1
+	  endif else begin
+	    if (self.sRequest.sTimeSeg.step eq '1y') then begin
+	      timeStep = 1
+	      nTimes = (reqYearEnd - reqYearBeg) + 1
+	    endif else begin
+	      if (n_elements(aTimeJD) gt 0) then begin
+	        timeStep = (aTimeJD[1]-aTimeJD[0])
+	        nTimes = ceil((float(reqTimeJD[1])-float(reqTimeJD[0])) / timeStep + 1)
+	      endif else begin
+	        nTimes = fix(numberOfDatafiles)
+	        allDims = [allDims, 1]
+	      endelse
+            endelse
+	  endelse
+	  if (nTimes gt 1) then allDims[n_elements(allDims)-1] = nTimes
+self->printLog, 'Global array dimensions:', allDims
+	  aAllData = fltarr(allDims, /nozero)
+self->printLog, 'OK'
+; here we create start position where to place per-file data... it's a temporary stub and should be fixed in t
+	  startArr = 0
+	endif
+
+self->printLog, 'Inserting current data array into global data array...', format='(a, $)'
+  if (nTimes eq 1) then aAllData = aData else begin
+    if (size(allDims, /dim) eq 3) then aAllData[*, *, startArr:startArr+n_elements(timeIdxs)-1] = aData
+    if (size(allDims, /dim) eq 2) then aAllData[*, startArr:startArr+n_elements(timeIdxs)-1] = aData
+    if (size(allDims, /dim) eq 1) then aAllData[startArr:startArr+n_elements(timeIdxs)-1] = aData
+  endelse
+; shift start position to a new place.
+  startArr += n_elements(timeIdxs)
+self->printLog, 'OK', /notimestamp
+
+; close opened nc-file         
+self->printLog, 'Close netCDF file...', format='(a, $)'
+        ncdf_close, fileId
+self->printLog, 'OK', /notimestamp
+; OK, here we comment out closing endif for 'date-in-file-range' check
+;      endif ;else self->printLog, 'Date requested is outside of dataset date range! Skipping. No data will be read!'
+
+
+      case fileTimeUnits of
+        'y': self->IncYear, curTimeJD, fileTimeSpan
+        'm': self->IncMonth, curTimeJD, fileTimeSpan
+        'd': self->IncDay, curTimeJD, fileTimeSpan
+        'h': self->IncHour, curTimeJD, fileTimeSpan
+      endcase      
+
+self->printLog, '<End of turn>'
+    endfor
+
+    if (n_elements(aAllData) eq 0) then begin
+       self->printLog, 'No data has been read. Returning dummy values.'
+       out_sData = { aData : 0, aLons : 0, aLats : 0, aTimes : 0, sTimeRng : {dummy:0}, lev : 0, $
+                     minVal : 0, maxVal : 0, missingVal : 0, gridType : 'empty', aLev : 0, nLev : 0, $
+                     resultCode : self.ERROR_NODATAREAD }
+       return, self.ERROR_NODATAREAD
+    endif
+
+; Cutting ROI is necessary only if area we have just read is greater than required (and specified by in_aArea)
+; Also we need to cut if in_aArea represents non-rectangular area
+    isRect1 = ((in_aArea[1, 0] eq in_aArea[1, 1]) and (in_aArea[1, 2] eq in_aArea[1, 3]) and (in_aArea[0, 1] eq in_aArea[0, 2]) and (in_aArea[0, 0] eq in_aArea[0, 3]))
+    isRect2 = ((in_aArea[1, 0] eq in_aArea[1, 3]) and (in_aArea[1, 2] eq in_aArea[1, 1]) and (in_aArea[0, 1] eq in_aArea[0, 0]) and (in_aArea[0, 2] eq in_aArea[0, 3]))
+    if (~(isRect1 or isRect2) or isCutROI) then begin
+
+self->printLog, 'Cutting ROI...'
+      res = self->CutROI(self.sRequest.sRegion.lon0, in_aArea, aLons, aLats, missingVal, aAllData)
+      if (res ne self.ERROR_OK) then return, -1
+self->printLog, 'OK'
+    endif else self->printLog, 'Rectangular area. Skip ROI cutting.'
+
+; self->printLog, 'Good values...'
+self->printLog, 'NOT Searching for min and max values...', format='(a, $)'
+    minVal = 1e9
+    maxVal = -1e9
+
+self->printLog, 'OK', /notimestamp
+
+    out_sData = { aData : temporary(aAllData), $
+                  aLons : temporary(aLons), $
+                  aLats : temporary(aLats), $
+                  aTimes : temporary(aTimes), $
+                  sTimeRng : {structTimeRng, beginning:in_aTimeRng[0], ending:in_aTimeRng[1], step:self.sRequest.sTimeSeg.step}, $
+                  lev : aLevel, $
+                  minVal : MinVal, $
+                  maxVal : MaxVal, $
+                  missingVal : missingVal, $
+                  gridType : 'regular', $
+                  aLev : [aLevel], $
+                  nLev : 1, $
+                  resultCode : self.ERROR_OK $
+                }
+    
+    return, self.ERROR_OK
+END
+;--------------------------------------------------------------------
+FUNCTION cvcData::__QuerySHP, in_filename
+  oShape = obj_new('IDLffShape')
+  res = oShape->Open(in_filename)
+  ents = oShape->GetEntity(/all)
+  obj_destroy, oShape
+  return, ents
+END
+;--------------------------------------------------------------------
+FUNCTION cvcData::__QueryDBF, in_filename
+  oShape = obj_new('IDLffShape')
+  res = oShape->Open(in_filename, /dbf_only)
+  attrs = oShape->GetAttributes(/all)
+  oShape->Close
+  obj_destroy, oShape
+  return, attrs
+END
+;--------------------------------------------------------------------
+; Creates data file name template using dataset description file
+FUNCTION cvcData::__SetDataFileTemplate, in_varName, in_aLevel, out_response
+
+    sMetaDBDesc = self.oGlobal->Get('metadb') ; get metadatabase description
+
+    ; open db
+    res = python('mymydb', 'connect_db', sMetaDBDesc.host, sMetaDBDesc.name, sMetaDBDesc.user, sMetaDBDesc.password)
+
+    filePathTemplate = '"' ; file path template
+
+    ; get rootpath
+    res = python('mymydb', 'query_db', 'select id, rootpath from ds where name="'+self.dataset.name+'";')
+    if (res eq 0) then begin
+      self->printLog, 'ERROR! No such dataset: '+self.dataset.name+'. Aborting!'
+      return, -1
+    endif
+    ds_id = fix(python('mymydb', 'get_data', 0, 'numeric'))
+    rootpath = python('mymydb', 'get_data', 1, 'string')
+    filePathTemplate += string(rootpath)
+
+    ; get scenario name
+    res = python('mymydb', 'query_db', 'select id, subpath0 from scenario where name="'+self.dataset.scenario+'";')
+    if (res eq 0) then begin
+      self->printLog, 'ERROR! No such scenario: '+self.dataset.scenario+' for dataset '+self.dataset.name+'. Aborting!'
+      return, -1
+    endif
+    scenario_id = fix(python('mymydb', 'get_data', 0, 'numeric'))
+    subpath0 = python('mymydb', 'get_data', 1, 'string')
+    filePathTemplate += string(subpath0)
+
+    ; get horizontal resolution
+    res = python('mymydb', 'query_db', 'select id, subpath1 from res where name="'+self.dataset.res+'";')
+    if (res eq 0) then begin
+      self->printLog, 'ERROR! No such resolution: '+self.dataset.res+' for dataset '+self.dataset.name+'. Aborting!'
+      return, -1
+    endif
+    res_id = fix(python('mymydb', 'get_data', 0, 'numeric'))
+    subpath1 = python('mymydb', 'get_data', 1, 'string')
+    filePathTemplate += string(subpath1)
+
+    ; get time step
+    res = python('mymydb', 'query_db', 'select id, subpath2 from tstep where name="'+self.dataset.tstep+'";')
+    if (res eq 0) then begin
+      self->printLog, 'ERROR! No such time step: '+self.dataset.tstep+' for dataset '+self.dataset.name+'. Aborting!'
+      return, -1
+    endif
+    tstep_id = fix(python('mymydb', 'get_data', 0, 'numeric'))
+    subpath2 = python('mymydb', 'get_data', 1, 'string')
+    filePathTemplate += string(subpath2)
+
+    nLev = n_elements(in_aLevel) ; number of levels
+    aFileNameTemplate = strarr(nLev) ; array of file name templates (one template for each level)
+    for levIdx = 0, nLev-1 do begin
+    ; get file name
+      qry = 'select file_id, subds_id from data where subds_id in '+$
+    	    '(select id from subds where ds_id='+string(ds_id)+' and scenario_id='+string(scenario_id)+' and res_id='+string(res_id)+' and tstep_id='+string(tstep_id)+')'+$
+            ' and var_id in (select id from var where name="'+in_varName+'") and '+$
+            'lvs_id in (select id from lvs where name like "%'+in_aLevel[levIdx]+'%");'
+      res = python('mymydb', 'query_db', qry)
+      file_id = fix(python('mymydb', 'get_data', 0, 'numeric'))
+      subds_id = fix(python('mymydb', 'get_data', 1, 'numeric'))
+
+      ; get file name template
+      res = python('mymydb', 'query_db', 'select name from file where id='+string(file_id)+';')
+      filepath = python('mymydb', 'get_data', 0, 'string')
+      aFileNameTemplate[levIdx] = filePathTemplate + string(filepath) + '"'
+      self->printLog, 'Selected filename: ' + aFileNameTemplate[levIdx]
+
+      ; get file time span
+; NB! Here we extract file time span for each level BUT only the last one will be used. This could lead to errors in some cases. Should be expanded in the future!
+      res = python('mymydb', 'query_db', 'select name from timespan where id in'+$
+                   '(select timespan_id from subds where id='+string(subds_id)+');')
+      filespan = python('mymydb', 'get_data', 0, 'string')
+      self.sDataMeta.fileSpan = string(filespan)
+    endfor
+
+; OK, here is a trick: we suppose the task contains request for a data on (at least) one level (that's reasonable).
+; BUT, also we suppose the data variable requested is selected on vertical levels stored in only one level variable.
+; In other words, for now, we don't know what to do if the task contains a request for a data on a 1000mb level... 
+; ... from a netCDF-file with vertical grid stored in a variable 'level'...
+; ... and at 2m height from another netCDF-file without a vertical grid at all. We can work only with one vertical grid.
+; That should be fixed in the future.
+    
+    if (nLev gt 0) then begin ; let's hope nLev is ALWAYS greater than 0 :)
+    ; get level variable name for a first level. We suppose all levels requested are stored in one level variable.    
+      qry = 'select name from lvs_var where id in (select lvs_var_id from data where subds_id='+string(subds_id)+$
+            ' and var_id in (select id from var where name="'+in_varName+'") and '+$
+            'lvs_id in (select id from lvs where name like "%'+in_aLevel[0]+'%"));'
+      res = python('mymydb', 'query_db', qry)
+      self.sDataMeta.vars.level = string(python('mymydb', 'get_data', 0, 'string'))
+      if (self.sDataMeta.vars.level eq '') then begin
+        self->printLog, "(cvcData::__SetDataFileTemplate): No such level for this dataset: ", in_aLevel[0]
+        return, -1
+      endif
+    endif else begin
+      self->printLog, 'Kernel panic! cvcData::__SetDataFileTemplate variable nLev is less or equal to 0!'
+      return, -1
+    endelse
+
+    ; close db
+    res = python('mymydb', 'close_db')
+
+    out_response = aFileNameTemplate
+
+    return, self.ERROR_OK
+END
+;--------------------------------------------------------------------
+FUNCTION cvcData::__ParseFileTemplate, in_fileNameTemplate, in_jd, in_span, in_unit
+
+  aPatternName = ['day2dig', 'month2dig', 'month3small', 'month3cap', 'month3big', 'year2dig', 'year4dig', 'year4dig1', 'year4dig2', 'hour2dig']
+  aDateFormat = ['(C(CDI2.2))', '(C(CMOI2.2))', '(C(CmoA))', '(C(CMoA))', '(C(CMOA))', '(C(CYI2.2))', '(C(CYI4.4))', '(C(CYI4.4))', '(C(CYI4.4))', '(C(CHI2.2))']
+  aDateElementPos = [2, 1, 1, 1, 1, 0, 0, 0, 0, 3]
+  aDateElementAlt = [0, 0, -1, 1, 2, 0, 0, 3, 4, 0]
+  aDateElementFmt = ['(I2.2)', '(I2.2)', '(A)', '(A)', '(A)', '(I2.2)', '(I4.4)', '(I4.4)', '(I4.4)', '(I2.2)']
+  aMonths = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+  nPattern = n_elements(aPatternName)
+
+  fileName = in_fileNameTemplate
+
+  for patternIdx=0, nPattern-1 do begin
+    pattern = self.oConst->Get(aPatternName[patternIdx])
+    pos = strpos(fileName, pattern)
+    while (pos ne -1) do begin
+      caldat, in_jd, mm, dd, yy, hh
+      tt = [yy, mm, dd, hh]
+      dateElem = tt[aDateElementPos[patternIdx]]
+      case aDateElementAlt[patternIdx] of
+       -1: dateElem = aMonths[dateElem] 
+        1: dateElem = strupcase(strmid(aMonths[dateElem], 0, 1))+strmid(aMonths[dateElem], 1)
+        2: dateElem = strupcase(aMonths[dateElem])
+        3: if (in_unit eq 'y') then dateElem = (dateElem / in_span) * in_span 
+        4: if (in_unit eq 'y') then dateElem =  (dateElem / in_span + 1) * in_span - 1
+        else:
+      endcase
+      dateElem = strtrim(string(dateElem, format=aDateElementFmt[patternIdx]), 2)
+;      fileName = strmid(fileName, 0, pos) + string(in_jd, format=aDateFormat[patternIdx]) + strmid(fileName, pos+strlen(pattern))
+      fileName = strmid(fileName, 0, pos) + dateElem + strmid(fileName, pos+strlen(pattern))
+      pos = strpos(fileName, pattern)
+    endwhile
+  endfor
+  return, fileName
+END
+;--------------------------------------------------------------------
+FUNCTION cvcData::Prepare, in_varName, in_sTimeSeg, in_aLevel, in_userModuleName
+  self->printLog, 'ERROR! The function cvcData::Prepare() should be overrided from a child class! Aborting!'
+  stop
+END
+;--------------------------------------------------------------------
+FUNCTION cvcData::Read, in_aArea, in_aTime, in_aLevel, out_sResult
+  self->printLog, 'ERROR! The function cvcData::Read() should be overrided from a child class! Aborting!'
+  stop
+END
+;--------------------------------------------------------------------
+PRO cvcData::GetProperty, sRequest = sRequest
+  sRequest = self.sRequest
+END
+;--------------------------------------------------------------------
+PRO cvcData__define
+
+    struct = { cvcData, $
+		  oGlobal : obj_new(), $ ; global data
+                  prepared : 0, $
+                  debugMode : 0, $
+                  modulePath : '', $
+                  dataset : {dataset, name : '', scenario : '', res : '', tstep : '', path : ''}, $
+                  pDataFile : ptr_new(), $
+                  dataFileType : '', $
+                  oConst : obj_new(), $
+                  oDSInfo : obj_new(), $
+                  sDataMeta : {structDataMeta}, $
+                  sRequest : {structDataReq}, $
+                  sROIBounds : {ROIBounds, lon0 : 0., lat0 : 0., lon1 : 0., lat1 : 0.}, $
+                  INHERITS cvcDate, $
+                  INHERITS cvcError $
+             }
+END

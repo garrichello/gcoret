@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="SCIA" rootpath="/Users/garry/Work/data/SCIAMACHY/XCH4_Level3/" datapath="" fullname="SCIAMACHY satellite XCH4 data" datatype="NCDF">
+	<meta>
+	  <vars longitude='lon' latitude='lat' level='level' time='initial_time'/>
+	  <dims longitude='lon' latitude='lat' level='level' time=''/>
+	  <filespan value='1m'/> 
+	</meta>
+	<variable name="XCH4" fullname="XCH4 monthly column data [ppb]" type='other'>
+		<timestep name="1m" subpath="" description="1-month step">
+			<file level="sfc" name="SCIA_XCH4ccs_WFMDv202_%year%%mm%.nc" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>	

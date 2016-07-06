@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset name="ERAINT" rootpath="/mnt/megaraid/data/ERA40Int/" datapath="" fullname="ERA40 Interim" datatype="SHP">
+	<variable name="TAV" fullname="Average temperature, (deg C)" type='temperature'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="TMAX" fullname="Maximum temperature, (deg C)" type='temperature'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="TMIN" fullname="Minimum temperature, (deg C)" type='temperature'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="RRR" fullname="Precipitation sum, (mm = liters/m2)" type='precipitation'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="E0" fullname="Evapo-transpiration sum (over water), (mm = liters/m2)" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="ES0" fullname="Evapo-transpiration sum (bare soil), (mm = liters/m2)" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="ET0" fullname="Evapo-transpiration sum (Penman-Monteith), (mm = liters/m2)" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="RAD" fullname="Global radiation sum, (kJ/m2 per dekad)" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="SDAV" fullname="Average snow depth, (cm)" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="SDMAX" fullname="Maximum snow depth, (cm)" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="SDMIN" fullname="Minimum snow depth, (cm)" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="CWB" fullname="Climatic water balance, (mm = liters/m2)" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="FFAV" fullname="Average wind speed, (m/s)" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+	<variable name="VAPAV" fullname="Avearge water vapour pressure, (hPa)" type='other'>
+		<meta>
+			<vars longitude='lon' latitude='lat' level='level' time='time'/>
+			<dims longitude='lon' latitude='lat' level='level' time='time'/>
+			<filespan value='1y'/> 
+		</meta>
+		<timestep name="10d" subpath="" description="10-days step sampling">
+			<file level="sfc" name="%year%/%year%.shp" fcst="0" grid="L"></file>
+		</timestep>
+	</variable>
+</dataset>	

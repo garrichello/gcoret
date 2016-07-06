@@ -1,0 +1,219 @@
+;
+;  NAME: 
+;    cvcDataERAInt
+;
+;  PURPOSE:
+;    Low-level class. Provides access to meteo- and climatic data. 
+;
+;  INHERITS:
+;    cvcError
+;
+;  CALLING SEQUENCE:
+;    None 
+;
+;--------------------------------------------------------------------
+FUNCTION cvcDataERAInt::Init, in_sDatasetDesc, in_modulePath, in_oGlobal
+    
+    if ( self->cvcData::Init(in_sDatasetDesc, in_modulePath, in_oGlobal) eq 0 ) then return, 0
+    
+    return, 1
+END
+;--------------------------------------------------------------------
+PRO cvcDataERAInt::Cleanup
+    
+    self->cvcData::Cleanup
+END
+;--------------------------------------------------------------------
+;+
+; :Description:
+;    Reads data array from ERA40-file. Accepts time range.
+;
+; :Params:
+;   in_pFile - pointer to an array of pointers to structures of file informations
+;   in_sRequest - structure:
+;     sTimeRng - structure of type structTimeSeg - time range to read
+;     lev - level
+;     varName - variable name
+;   out_sData - structure:
+;     aData - data array of size n_elements(aLons) x n_elements(aLats) x number of time steps
+;     aLons - array of longitudes
+;     aLats - array of latitudes
+;     minVal - minimum value in aData
+;     maxVal - maximum value in aData
+;     missingVal - value in aData which means missing data
+;     sTimeRng - time range
+;     aLev - array of levels (only one element)
+;     nLev - number of levels (always 1)
+;     resultCode - error code (ERROR_OK if no errors)
+;
+; :Author: garry
+;-
+FUNCTION cvcDataERAInt::Read, in_aArea, in_aTimeRng, in_level, out_sData
+
+    levPos = where(self.sRequest.aLevel eq in_level)
+    if (levPos[0] eq -1) then return, self->SayError(self.ERROR_WRONGLEV)
+    
+    reqTimeJD = dblarr(2)
+    actualDateRangeJD = dblarr(2)
+    self->DayMonthYear, in_aTimeRng[0], reqYear, reqMonth, reqDay, reqHour
+    reqTimeJD[0] = julday(reqMonth, reqDay, reqYear, reqHour)
+    self->DayMonthYear, in_aTimeRng[1], reqYear, reqMonth, reqDay, reqHour
+    reqTimeJD[1] = julday(reqMonth, reqDay, reqYear, reqHour)
+
+    xScale = 0.25
+    yScale = 0.25
+    nTimes = 36
+    missingVal = -999.0
+
+    ; borders of the requested area
+    minLon = min(in_aArea[0, *], max = maxLon)
+    minLat = min(in_aArea[1, *], max = maxLat)
+
+    lonStart = minLon
+    lonEnd = maxLon
+    latStart = minLat
+    latEnd = maxLat
+
+    xSize = (lonEnd - lonStart) / xScale + 1
+    ySize = (latEnd - latStart) / yScale + 1
+
+    aLons = lonStart + indgen(xSize)*xScale
+    aLats = latStart + indgen(ySize)*yScale
+    
+    minVal = 1e6
+    maxVal = -1e6
+
+    for fileIdx = 0, self.numberOfDataFiles-1 do begin
+      if ((*self.pDataFile)[levPos, fileIdx].type eq 'MISSING') then continue
+      asCurFileInfo = *(*self.pDataFile)[levPos, fileIdx].pInfo
+      oShape = obj_new("IDLffShape")
+      res = oShape->Open((*self.pDataFile)[levPos, fileIdx].name)
+      oShape->GetProperty, n_entities = nEnts
+      oShape->GetProperty, attribute_names = attrNames
+      varPos = (where(attrNames eq self.sRequest.varName))[0]
+      if (varPos eq -1) then return, self.ERROR_NOVARNAME        
+      lonPos = (where(attrNames eq 'LONGITUDE'))[0]
+      latPos = (where(attrNames eq 'LATITUDE'))[0]    
+      yearPos = where(attrNames eq 'YEAR') 
+      monthPos = where(attrNames eq 'MONTH')
+      dekadPos = where(attrNames eq 'DEKAD')
+      startAttr = oShape->GetAttributes(0)
+      endAttr = oShape->GetAttributes(nTimes-1)
+      actualDateRangeJD[0] = julday(startAttr.(monthPos), (startAttr.(dekadPos)-1)*10+1, startAttr.(yearPos))
+      actualDateRangeJD[1] = julday(endAttr.(monthPos), endAttr.(dekadPos)*10, endAttr.(yearPos))
+      
+      if ((reqTimeJD[1] ge actualDateRangeJD[0]) and (reqTimeJD[0] le actualDateRangeJD[1])) then begin
+
+        if (self.debugMode) then begin
+          self->printLog, "(cvcDataERAINT::Read) Reading file: ", (*self.pDataFile)[levPos, fileIdx].name  
+          self->printLog, "(cvcDataERAINT::Read) Requesting variable: ", self.sRequest.varName, ", level: ", in_level, ", time: ", in_aTimeRng
+        endif
+        
+        llIdxs = where((asCurFileInfo.bounds[0] ge lonStart) and (asCurFileInfo.bounds[0] le lonEnd) and $
+                       (asCurFileInfo.bounds[1] ge latStart) and (asCurFileInfo.bounds[1] le latEnd))
+                     
+        asRawAttr = oShape->GetAttributes(llIdxs)
+        timeLine = julday(asRawAttr.(monthPos), (asRawAttr.(dekadPos)-1)*10+1, asRawAttr.(yearPos))
+        timeIdxs = where((timeLine ge reqTimeJD[0]) and (timeLine le reqTimeJD[1]), nPoints)
+        tSize = n_elements(where(timeIdxs lt nTimes))
+        tStart = min(timeIdxs)
+        aTimes = timeLine[timeIdxs[0:tSize-1]]
+
+        aData = fltarr(xSize, ySize, tSize) & aData[*] = missingVal
+        lonShift = round(lonStart / xScale)
+        latShift = round(latStart / yScale)
+        for i = 0L, nPoints-1 do begin
+          xCoord = round(asCurFileInfo[llIdxs[timeIdxs[i]]].bounds[0] / xScale) - lonShift
+          yCoord = round(asCurFileInfo[llIdxs[timeIdxs[i]]].bounds[1] / yScale) - latShift
+          tCoord = (i mod tSize) ; we assume that all variables have the asme number of time steps - tSize
+          aData(xCoord, yCoord, tCoord) = asRawAttr[timeIdxs[i]].(varPos)
+          if (aData(xCoord, yCoord, tCoord) lt minVal) then minVal = aData(xCoord, yCoord, tCoord)
+          if (aData(xCoord, yCoord, tCoord) gt maxVal) then maxVal = aData(xCoord, yCoord, tCoord)
+        endfor
+        
+        dataDims = size(aData, /dimensions)
+        newDims = dataDims[where(dataDims ne 1)]
+        if (n_elements(newDims) ne n_elements(dataDims)) then begin
+          aData = reform(aData, newDims, /overwrite)
+        endif
+        if (n_elements(aAllData)) then begin
+          aAllData = [[[temporary(aAllData)]], [[temporary(aData)]]]
+        endif else aAllData = temporary(aData)
+      endif
+    endfor
+
+    res = self->CutROI(self.sRequest.sRegion.lon0, in_aArea, aLons, aLats, missingVal, aAllData)
+
+    goodIdxs = where(aAllData ne missingVal)
+    if (goodIdxs[0] ne -1) then minVal = min(aAllData[goodIdxs], max = maxVal)
+    
+    out_sData = { aData : aAllData, $
+                  aLons : aLons, $
+                  aLats : aLats, $
+                  aTimes : aTimes, $
+                  sTimeRng : {structTimeRng, beginning:in_aTimeRng[0], ending:in_aTimeRng[1], step:self.sRequest.sTimeSeg.step}, $
+                  lev : in_level, $
+                  minVal : MinVal, $
+                  maxVal : MaxVal, $
+                  missingVal : missingVal, $
+                  gridType : 'regular', $
+                  aLev : [in_level], $
+                  nLev : 1, $
+                  resultCode : self.ERROR_OK $
+                }
+    
+    return, self.ERROR_OK
+END
+;--------------------------------------------------------------------
+FUNCTION cvcDataERAInt::Prepare, in_varName, in_sTimeSeg, in_aLevel, in_sRegion
+
+    self.sRequest.varName = in_varName
+    self.sRequest.sTimeSeg = in_sTimeSeg ; current time segment, in_sVar.asTimeSeg is ignored
+    self.sRequest.aLevel = in_aLevel
+    self.sRequest.nLev = n_elements(in_aLevel)
+    
+    ; set data file name template
+    res = self->__SetDataFileTemplate(in_varName, in_sTimeSeg, in_aLevel, aDataFileTemplate)
+    if (res ne self.ERROR_OK) then return, res
+
+; determine number of files to open
+; WARNING! only the very first element of the templates array is used for determination...
+; ... since the only difference between templates is the name of the file for each level...
+; ... which SHOULD NOT contain templates!
+    self.numberOfDataFiles = 1
+    self->DayMonthYear, in_sTimeSeg.beginning, yr1, mn1, dy1, hr1
+    self->DayMonthYear, in_sTimeSeg.ending, yr2, mn2, dy2, hr2
+    self.numberOfDataFiles = yr2 - yr1 + 1
+       
+    self.pDataFile = ptr_new(make_array(self.sRequest.nLev, self.numberOfDataFiles, value={structDataFile}))
+;    yrc = yr1 & mnc = mn1 & dyc = dy1 & hrc = hr1
+    jdc = julday(mn1, dy1, yr1, hr1)
+    for dataFileIdx = 0, self.numberOfDataFiles - 1 do begin
+      for levIdx = 0, self.sRequest.nLev-1 do begin 
+        filename = self->__ParseFileTemplate(aDataFileTemplate[levIdx], jdc)
+        if ( file_test(filename) ) then begin
+          info = self->__QuerySHP(filename)
+          (*self.pDataFile)[levIdx, dataFileIdx].pInfo = ptr_new(info, /no_copy)
+          (*self.pDataFile)[levIdx, dataFileIdx].name = filename
+          (*self.pDataFile)[levIdx, dataFileIdx].type = self.dataFileType
+          (*self.pDataFile)[levIdx, dataFileIdx].level = self.sRequest.aLevel[levIdx]
+        endif else begin
+          (*self.pDataFile)[levIdx, dataFileIdx].pInfo = ptr_new()
+          (*self.pDataFile)[levIdx, dataFileIdx].name = filename
+          (*self.pDataFile)[levIdx, dataFileIdx].type = 'MISSING'        
+          (*self.pDataFile)[levIdx, dataFileIdx].level = self.sRequest.aLevel[levIdx]
+        endelse
+      endfor
+      self->IncYear, jdc
+    endfor
+
+    self.prepared = 1
+    return, self.ERROR_OK
+END
+;--------------------------------------------------------------------
+PRO cvcDataERAInt__define
+
+    struct = { cvcDataERAInt, $
+               INHERITS cvcData $
+             }
+END

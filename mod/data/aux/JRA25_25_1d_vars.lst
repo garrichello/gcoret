@@ -1,0 +1,7 @@
+times (start, end):
+t> 19790101 : 20091021
+
+vars (name, units, long name, levels list):
+v> SNOW_D_GDS0_SFC : m : Snow depth : anl_snow25/%year%%mm%/anl_snow25.%year%%mm%%dd%%hh%.nc
+l> ""
+

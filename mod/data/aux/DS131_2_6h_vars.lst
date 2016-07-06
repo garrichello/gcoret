@@ -1,0 +1,54 @@
+t> 18691101 20101231
+
+v> CAPE_GDS0_SFC_10 :J/kg :Convective available. potential energy : CAPE_sfc/pgrbanl_mean_%year%_CAPE_sfc.nc
+l> ""
+v> CIN_GDS0_SFC_10 :J/kg :Convective inhibition : CIN_sfc/pgrbanl_mean_%year%_CIN_sfc.nc
+l> ""
+v> C_WAT_GDS0_EATM_10 :kg/m^2 :Cloud water : CWAT_atmos-col/pgrbanl_mean_%year%_CWAT_atmos-col_sfc.nc
+l> ""
+v> HGT_GDS0_ISBL :gpm :Geopotential height : HGT_pres/pgrbanl_mean_%year%_HGT_pres.nc
+l> 10 : 20 : 30 : 50 : 70 : 100 : 150 : 200 : 250 : 300 : 350 : 400 : 450 : 500 : 550 : 600 : 650 : 700 : 750 : 800 : 850 : 900 : 950 : 1000
+v> HGT_GDS0_SFC_10 :gpm :Geopotential height : HGT_sfc/pgrbanl_mean__HGT_sfc.nc
+l> ""
+v> HGT_GDS0_TRO_10 :gpm :Geopotential height : HGT_tropopause/pgrbanl_mean_%year%_HGT_tropopause.nc
+l> ""
+v> POT_GDS0_SIGL_10 :K :Potential temperature : POT_sigma/pgrbanl_mean_%year%_POT_sigma.nc
+l> ""
+v> PRES_GDS0_SFC_10 :Pa :Pressure : PRES_sfc/pgrbanl_mean_%year%_PRES_sfc.nc
+l> ""
+v> PRES_GDS0_TRO_10 :Pa :Pressure : PRES_tropopause/pgrbanl_mean_%year%_PRES_tropopause.nc
+l> ""
+v> PRMSL_GDS0_MSL_10 :Pa :Pressure reduced to MSL : PRMSL_msl/pgrbanl_mean_%year%_PRMSL_msl.nc
+l> ""
+v> P_WAT_GDS0_EATM_10 :kg/m^2 :Precipitable water : PWAT_atmos-col/pgrbanl_mean_%year%_PWAT_atmos-col.nc
+l> ""
+v> R_H_GDS0_ISBL_10 :% :Relative humidity : RH_pres/pgrbanl_mean_%year%_RH_pres.nc
+l> 100 : 150 : 200 : 250 : 300 : 350 : 400 : 450 : 500 : 550 : 600 : 650 : 700 : 750 : 800 : 850 : 900 : 950 : 1000
+v> R_H_GDS0_SIGL_10 :% :Relative humidity : RH_sigma/pgrbanl_mean_%year%_RH_sigma.nc
+l> ""
+v> SPF_H_GDS0_ISBL_10 :kg/kg :Specific humidity : SPFH_pres/pgrbanl_mean_%year%_SPFH_pres.nc
+l> 100 : 150 : 200 : 250 : 300 : 350 : 400 : 450 : 500 : 550 : 600 : 650 : 700 : 750 : 800 : 850 : 900 : 950 : 1000
+v> TMP_GDS0_ISBL :K :Temperature : TMP_pres/pgrbanl_mean_%year%_TMP_pres.nc
+l> 10 : 20 : 30 : 50 : 70 : 100 : 150 : 200 : 250 : 300 : 350 : 400 : 450 : 500 : 550 : 600 : 650 : 700 : 750 : 800 : 850 : 900 : 950 : 1000
+v> TMP_GDS0_SIGL_10 :K :Temperature : TMP_sigma/pgrbanl_mean_%year%_TMP_sigma.nc
+l> ""
+v> TMP_GDS0_TRO_10 :K :Temperature : TMP_tropopause/pgrbanl_mean_%year%_TMP_tropopause.nc
+l> ""
+v> TOZONE_GDS0_EATM_10 :Dobson :Total ozone : TOZONE_atmos-col/pgrbanl_mean_%year%_TOZONE_atmos-col.nc
+l> ""
+v> U_GRD_GDS0_TRO_10 :m/s :u-component of wind : UGRD_tropopause/pgrbanl_mean_%year%_UGRD_tropopause.nc
+l> ""
+v> U_GRD_GDS0_ISBL :m/s :u-component of wind : UGRD_pres/pgrbanl_mean_%year%_UGRD_pres.nc
+l> 10 : 20 : 30 : 50 : 70 : 100 : 150 : 200 : 250 : 300 : 350 : 400 : 450 : 500 : 550 : 600 : 650 : 700 : 750 : 800 : 850 : 900 : 950 : 1000
+v> U_GRD_GDS0_SIGL_10 :m/s :u-component of wind : UGRD_sigma/pgrbanl_mean_%year%_UGRD_sigma.nc
+l> ""
+v> V_GRD_GDS0_ISBL :m/s :v-component of wind : VGRD_pres/pgrbanl_mean_%year%_VGRD_pres.nc
+l> 10 : 20 : 30 : 50 : 70 : 100 : 150 : 200 : 250 : 300 : 350 : 400 : 450 : 500 : 550 : 600 : 650 : 700 : 750 : 800 : 850 : 900 : 950 : 1000
+v> V_GRD_GDS0_SIGL_10 :m/s :v-component of wind : VGRD_sigma/pgrbanl_mean_%year%_VGRD_sigma.nc
+l> ""
+v> V_GRD_GDS0_TRO_10 :m/s :v-component of wind : VGRD_tropopause/pgrbanl_mean_%year%_VGRD_tropopause.nc
+l> ""
+v> V_VEL_GDS0_ISBL_10 :Pa/s :Pressure vertical velocity : VVEL_pres/pgrbanl_mean_%year%_VVEL_pres.nc
+l> 100 : 150 : 200 : 250 : 300 : 350 : 400 : 450 : 500 : 550 : 600 : 650 : 700 : 750 : 800 : 850 : 900 : 950 : 1000
+v> V_VEL_GDS0_SIGL_10 :Pa/s :Pressure vertical velocity : VVEL_sigma/pgrbanl_mean_%year%_VVEL_sigma.nc
+l> ""
