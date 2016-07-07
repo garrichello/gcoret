@@ -5,7 +5,7 @@ pro gcoret, argv
 ; parameters
 ; passed from daemon
     if (n_elements(argv) ne 0) then begin
-      print, 'Ran by daemon with arguments:', argv
+      print, 'Ran by daemon with the following arguments:', argv
     endif else begin
 ; passed from command line
       argv = command_line_args()
