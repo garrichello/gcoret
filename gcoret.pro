@@ -1,6 +1,6 @@
 pro gcoret, argv
 
-;    !PATH = '/opt/gcoret/base:' + '/opt/gcoret/extra:' + !PATH
+    !PATH = '/opt/gcoret/base:' + '/opt/gcoret/extra:' + !PATH
 
 ; parameters
 ; passed from daemon
