@@ -10,7 +10,7 @@ pro gcoret, argv
 ; passed from command line
       argv = command_line_args()
       print, 'GCore v.3.0a'
-      print, 'Ran from command line with arguments:', argv      
+      print, 'Ran from command line with the arguments:', argv      
     endelse
 
     oApp = OBJ_NEW( 'cvcMainApp', argv )
