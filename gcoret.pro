@@ -1,6 +1,6 @@
 pro gcoret, argv
 
-    !PATH = '~/Work/GDLWorkspace/gcoret/base:' + '/opt/gcoret/base:' + '/opt/gcoret/extra:' + !PATH
+    !PATH = '~/Work/GDLWorkspace/gcoret/base:' + '~/Work/GDLWorkspace/gcoret/extra:' + '/opt/gcoret/base:' + '/opt/gcoret/extra:' + !PATH
 
 ; parameters
 ; passed from daemon
