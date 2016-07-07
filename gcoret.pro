@@ -1,6 +1,6 @@
 pro gcoret, argv
 
-    !PATH = '/opt/gcoret/base:' + '/opt/gcoret/extra:' + !PATH
+;    !PATH = '/opt/gcoret/base:' + '/opt/gcoret/extra:' + !PATH
 
 ; parameters
 ; passed from daemon
@@ -9,7 +9,7 @@ pro gcoret, argv
     endif else begin
 ; passed from command line
       argv = command_line_args()
-      print, 'GCore v.3.0a *MASTER*'
+      print, 'GCore v.3.0a'
       print, 'Ran from command line with arguments:', argv      
     endelse
 
