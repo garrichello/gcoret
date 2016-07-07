@@ -9,8 +9,13 @@ pro gcoret, argv
     endif else begin
 ; passed from command line
       argv = command_line_args()
+<<<<<<< HEAD
       print, 'GCore v.3.0a'
       print, 'Ran from command line with the arguments:', argv      
+=======
+      print, 'GCore v.3.0a *MASTER*'
+      print, 'Ran from command line with arguments:', argv      
+>>>>>>> testing
     endelse
 
     oApp = OBJ_NEW( 'cvcMainApp', argv )
