@@ -9,7 +9,7 @@ pro gcoret, argv
     endif else begin
 ; passed from command line
       argv = command_line_args()
-      print, 'GCore v.3.0a'
+      print, 'GCore v.3.0a change'
       print, 'Ran from command line with arguments:', argv      
     endelse
 
