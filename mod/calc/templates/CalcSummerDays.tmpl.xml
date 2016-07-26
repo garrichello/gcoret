@@ -68,7 +68,7 @@
     </destination>
     
     <data uid='Result_1' type='array'>
-    	<description title='Number of summer days' name='Summer days' units='days'>
+    	<description title='Number of summer days' name='Summer days' units='days'/>
 	<time uid='Output_1' template='YYYYMMDDHH'>
 	    <!-- <segment name='' beginning=[/START_DATE/] ending=[/END_DATE/]/> -->
 	    <segment name='Seg1' beginning='1961010100' ending='1962123118'/>    
