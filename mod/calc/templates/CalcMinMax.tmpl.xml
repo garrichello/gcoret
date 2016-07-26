@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE task SYSTEM "ctdl.dtd">
 <task uid='Task1' owner='Owner1' description='' root_path='/opt/gcoret/' data_module_path=''>
-<service processingClass='' calculationParameter='' trend='' isBaseLayer=''><!-- GUI service params -->
+    <service processingClass='' calculationParameter='' trend='' isBaseLayer=''><!-- GUI service params -->
       <timePeriod type=''>
         <dateStart year='' month='' day=''/>
         <dateEnd year='' month='' day=''/>
@@ -9,8 +9,8 @@
     </service>
     <metadb host='localhost' name='cvcdatadb' user='dbuser' password=''/>
     <computing system="calculator" type="LOCAL" ip="127.0.0.1"/>
-    
 <!-- Data segment. Order is not important. -->
+
     <data uid='Data_1' type='dataset'> <!-- type: dataset, array -->
     	<description title='Collection long name' name='Temperature' units='K'/>
 	<dataset name='ERA40' resolution='2.5x2.5' time_step='6h' scenario='-'/>  <!-- ERAINT -->
@@ -25,10 +25,9 @@
 	<levels values='2m'/>
 	<time uid='Input_1' template='YYYYMMDDHH'>
 	    <!-- <segment name='' beginning=[/START_DATE/] ending=[/END_DATE/]/> -->
-	    <segment name='Seg1' beginning='1961010100' ending='1961123118'/>    
-	    <segment name='Seg2' beginning='1962010100' ending='1962123118'/>
+	    <segment name='Seg1' beginning='1961010100' ending='1961123118'/>
 	</time>
-    </data>
+    </data>  
     
     <destination uid='Image_1' type='image'> <!-- type: 'image', 'raw' -->
 	<file name='../output/output.tiff' type='geotiff'/> <!-- if graphics.kind=='shaded', then file.type='eps' OR 'geotiff'; graphics.kind=='vector': file.type='shape'; graphics.kind=='multiline': file.type='eps'; for kind=='tile' : 'geotiff24' -->
@@ -46,7 +45,7 @@
 	<graphics title='' kind='shaded'> <!-- kind: 'shaded', 'vector' (replaces 'contour', 'station', and 'vector'); 'tile', 'multiline', 'regress2d' -->
 	    <width units='pixels'>3072</width>
 	    <height units='pixels'>2304</height>
-	    <legend title='Number of frost days' kind='file' type='continuous' position='none'> <!-- kind: 'embedded', 'file', 'none'; position: 'right', 'left', 'top', 'bottom' (only for kind=='embedded') -->
+	    <legend title='Month max of daily min' kind='file' type='continuous' position='none'> <!-- kind: 'embedded', 'file', 'none'; position: 'right', 'left', 'top', 'bottom' (only for kind=='embedded') -->
 		<units>K</units> <!-- added after legend's title -->
 		<nlabels>11</nlabels> <!-- !!! number of labels in legend -->
 		<ncolors>10</ncolors> <!-- number of discrete colors in legend -->
@@ -68,34 +67,49 @@
     </destination>
     
     <data uid='Result_1' type='array'>
-    	<description title='Number of frost days' name='Frost days' units='days'/>
+    	<description title='Daily max' name='Temperature' units='K' source='Data_1'/>
+	<time uid='Input_1' template='YYYYMMDDHH'>
+	    <!-- <segment name='' beginning=[/START_DATE/] ending=[/END_DATE/]/> -->
+	    <segment name='Seg1' beginning='1961010100' ending='1961123118'/>
+	</time>
+    </data>
+    
+    <data uid='Result_2' type='array'>
+    	<description title='Month min of daily max' name='Temperature' units='K' source='Data_1'/>
 	<time uid='Output_1' template='YYYYMMDDHH'>
 	    <!-- <segment name='' beginning=[/START_DATE/] ending=[/END_DATE/]/> -->
-	    <segment name='Seg1' beginning='1961010100' ending='1962123118'/>    
+	    <segment name='Seg1' beginning='1961010100' ending='1961123118'/>
 	</time>
     </data>
 
     <data uid='ModuleParameters_1' type='parameter'>
-    	<param uid='Mode' type='string'>multi</param> <!-- data, day, segment -->
+    	<param uid='timeMin' type='string'>segment</param> <!-- data, day, segment -->
+    	<param uid='timeMax' type='string'>day</param> <!-- data, day, segment -->
     </data>
 
 <!-- End of data segment -->
 
 <!-- Code segment. Order is IMPORTANT! -->
 
-    <processing uid='Process_1' class='cvcCalcFrostDays' module_path=''>
+    <processing uid='Process_1' class='cvcCalcMaximum' module_path=''>
     	<input uid='P1Input1' data='Data_1'/>
     	<input uid='P1Parameter1' data ='ModuleParameters_1'/>
     	<output uid='P1Output1' data='Result_1'/>
     </processing>
     
+    <processing uid='Process_2' class='cvcCalcMinimum' module_path=''>
+    	<input uid='P1Input1' data='Result_1'/>
+    	<input uid='P1Parameter1' data ='ModuleParameters_1'/>
+    	<output uid='P1Output1' data='Result_2'/>
+    </processing>
+    
     <processing uid='Visualization_1' class='cvcOutput'>
-	<input uid='V1Data1' data='Result_1'/>
+	<input uid='V1Data1' data='Result_2'/>
 	<input uid='V1Destination1' data='Image_1'/>
     </processing>
 
     <processing uid="Output_1" class="cvcOutput">
-      <input uid="O1Data1" data="Result_1"/>
+      <input uid="O1Data1" data="Result_2"/>
       <input uid="O1Destination1" data="File_1"/>
     </processing>
             

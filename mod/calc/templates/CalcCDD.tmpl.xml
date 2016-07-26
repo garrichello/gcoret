@@ -9,12 +9,12 @@
     </service>
     <metadb host='localhost' name='cvcdatadb' user='dbuser' password=''/>
     <computing system="calculator" type="LOCAL" ip="127.0.0.1"/>
-    
 <!-- Data segment. Order is not important. -->
+
     <data uid='Data_1' type='dataset'> <!-- type: dataset, array -->
-    	<description title='Collection long name' name='Temperature' units='K'/>
-	<dataset name='ERA40' resolution='2.5x2.5' time_step='6h' scenario='-'/>  <!-- ERAINT -->
-    	<variable name='2t' tempk2c='no'/> <!-- TMP, air, 2T, TAV, precip-->
+    	<description title='Collection long name' name='prcp' units='mm'/>
+	<dataset name='ERAInt' resolution='0.75x0.75' time_step='6h' scenario='-'/>  <!-- ERAINT -->
+    	<variable name='tp' tempk2c='no'/> <!-- TMP, air, 2t, TAV, precip-->
 	<region units='degrees'>
 	    <!-- <point lon=[/LU_LON/] lat=[/LU_LAT/]/> -->
             <point lon='-180' lat='88'/>
@@ -22,11 +22,11 @@
             <point lon='180' lat='-88'/>
             <point lon='-180' lat='-88'/>
     	</region>
-	<levels values='2m'/>
+	<levels values='none'/>
 	<time uid='Input_1' template='YYYYMMDDHH'>
 	    <!-- <segment name='' beginning=[/START_DATE/] ending=[/END_DATE/]/> -->
-	    <segment name='Seg1' beginning='1961010100' ending='1961123118'/>    
-	    <segment name='Seg2' beginning='1962010100' ending='1962123118'/>
+	    <segment name='Seg1' beginning='1990010100' ending='1990013123'/>        
+	    <segment name='Seg2' beginning='1991010100' ending='1991013123'/>    
 	</time>
     </data>
     
@@ -46,7 +46,7 @@
 	<graphics title='' kind='shaded'> <!-- kind: 'shaded', 'vector' (replaces 'contour', 'station', and 'vector'); 'tile', 'multiline', 'regress2d' -->
 	    <width units='pixels'>3072</width>
 	    <height units='pixels'>2304</height>
-	    <legend title='Number of frost days' kind='file' type='continuous' position='none'> <!-- kind: 'embedded', 'file', 'none'; position: 'right', 'left', 'top', 'bottom' (only for kind=='embedded') -->
+	    <legend title='Max length of dry spell' kind='file' type='continuous' position='none'> <!-- kind: 'embedded', 'file', 'none'; position: 'right', 'left', 'top', 'bottom' (only for kind=='embedded') -->
 		<units>K</units> <!-- added after legend's title -->
 		<nlabels>11</nlabels> <!-- !!! number of labels in legend -->
 		<ncolors>10</ncolors> <!-- number of discrete colors in legend -->
@@ -68,10 +68,10 @@
     </destination>
     
     <data uid='Result_1' type='array'>
-    	<description title='Number of frost days' name='Frost days' units='days'/>
+    	<description title='Max length of dry spell' name='prcp' units='mm' source='Data_1'/>
 	<time uid='Output_1' template='YYYYMMDDHH'>
 	    <!-- <segment name='' beginning=[/START_DATE/] ending=[/END_DATE/]/> -->
-	    <segment name='Seg1' beginning='1961010100' ending='1962123118'/>    
+	    <segment name='Seg1' beginning='1990010100' ending='1991123118'/>  
 	</time>
     </data>
 
@@ -83,7 +83,7 @@
 
 <!-- Code segment. Order is IMPORTANT! -->
 
-    <processing uid='Process_1' class='cvcCalcFrostDays' module_path=''>
+    <processing uid='Process_1' class='cvcCalcCDD' module_path=''>
     	<input uid='P1Input1' data='Data_1'/>
     	<input uid='P1Parameter1' data ='ModuleParameters_1'/>
     	<output uid='P1Output1' data='Result_1'/>

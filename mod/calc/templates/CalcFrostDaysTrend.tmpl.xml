@@ -69,9 +69,18 @@
     
     <data uid='Result_1' type='array'>
     	<description title='Number of frost days' name='Frost days' units='days'/>
-	<time uid='Output_1' template='YYYYMMDDHH'>
+	<time uid='Input_1' template='YYYYMMDDHH'>
 	    <!-- <segment name='' beginning=[/START_DATE/] ending=[/END_DATE/]/> -->
-	    <segment name='Seg1' beginning='1961010100' ending='1962123118'/>    
+	    <segment name='Seg1' beginning='1961010100' ending='1961123118'/>    
+	    <segment name='Seg2' beginning='1962010100' ending='1962123118'/>
+	</time>
+    </data>
+    
+        <data uid='Result_2' type='array'>
+    	<description title='Trend of number frost days' name='Result name' units='ResUnits' units_sfx='/10yr' source='Result_1'/>
+	<time uid='Output_1' template='YYYYMMDDHH'>
+	    <!-- <segment name='' beginning='1961010100' ending='1961123118'/> -->
+	    <segment name='Seg1' beginning='1961010100' ending='1962123118'/>
 	</time>
     </data>
 
@@ -89,13 +98,19 @@
     	<output uid='P1Output1' data='Result_1'/>
     </processing>
     
+    <processing uid='Process_2' class='cvcCalcTrendTM' module_path=''>
+    	<input uid='P2Input1' data='Result_1'/>
+    	<input uid='P2Parameter1' data ='ModuleParameters_1'/>
+    	<output uid='P2Output1' data='Result_2'/>
+    </processing>
+    
     <processing uid='Visualization_1' class='cvcOutput'>
-	<input uid='V1Data1' data='Result_1'/>
+	<input uid='V1Data1' data='Result_2'/>
 	<input uid='V1Destination1' data='Image_1'/>
     </processing>
 
     <processing uid="Output_1" class="cvcOutput">
-      <input uid="O1Data1" data="Result_1"/>
+      <input uid="O1Data1" data="Result_2"/>
       <input uid="O1Destination1" data="File_1"/>
     </processing>
             

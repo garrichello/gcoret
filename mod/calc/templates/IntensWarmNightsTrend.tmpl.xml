@@ -55,7 +55,7 @@
     </data>
 
     <destination uid='Image_1' type='image'> <!-- type: 'image', 'raw' -->
-	<file name='WarmNightsTrend_intens_eraint.tiff' type='geotiff'/> <!-- type for graphics kind='shape': 'eps', 'geotiff'; kind='contour'/'station': 'eps', 'shape'; for kind=='multiline': 'eps'; for kind=='tile' : 'geotiff24' -->
+	<file name='ColdNightsTrend_intens_eraint.tiff' type='geotiff'/> <!-- type for graphics kind='shape': 'eps', 'geotiff'; kind='contour'/'station': 'eps', 'shape'; for kind=='multiline': 'eps'; for kind=='tile' : 'geotiff24' -->
 	<projection name='cylindrical'> <!-- 'azimuthal equidistant, 'cylindrical',... -->
 	    <limits units='degrees'>
 		<limit role='left'>-180</limit>
@@ -64,7 +64,7 @@
 		<limit role='bottom'>-90</limit>
 	    </limits>
 	</projection>
-	<graphics title='Warm Nights Intensity' kind='shaded'> <!-- kind: 'shaded', 'contour', 'station', 'tile'; 'multiline', 'vector', 'regress2d' -->
+	<graphics title='Cold Nights Intensity' kind='shaded'> <!-- kind: 'shaded', 'contour', 'station', 'tile'; 'multiline', 'vector', 'regress2d' -->
 	    <width units='pixels'>3072</width>
 	    <height units='pixels'>2304</height>
 	    <legend title='Intensity' kind='file' type='continuous' position='none'> <!-- kind: 'embedded', 'file', 'none'; position: 'right', 'left', 'top', 'bottom' (only for kind=='embedded') -->
@@ -74,7 +74,7 @@
 		<limited>no</limited> <!-- fixed legend limits: yes/no -->
 		<minimum>-15.0</minimum> <!-- ignored if limited == no -->
 		<maximum>15.0</maximum> <!-- ignored if limited == no -->
-		<file name='WarmNightsTrend_intens_eraint.sld' type='xml'/> <!-- file for legend (if legend kind=='file'), type: 'tiff', 'png', 'jpeg', 'gif', 'bmp', 'ppm, 'srf'  -->
+		<file name='ColdNightsTrend_intens_eraint.sld' type='xml'/> <!-- file for legend (if legend kind=='file'), type: 'tiff', 'png', 'jpeg', 'gif', 'bmp', 'ppm, 'srf'  -->
 	    </legend>
 	    <colortable>RAINBOW</colortable>  <!-- only for graphics kind=='shaded' -->
 	    <colorscale>linear</colorscale> <!-- only for graphics kind=='shaded' -->
@@ -83,7 +83,7 @@
     </destination>
 
     <destination uid='File_1' type='raw'>
-	<file name='WarmNightsTrend_intens_eraint.nc' type='netcdf'/> <!--type: 'netcdf', 'geotiff'; 'bin', xml' -->
+	<file name='ColdNightsTrend_intens_eraint.nc' type='netcdf'/> <!--type: 'netcdf', 'geotiff'; 'bin', xml' -->
     </destination>   
 
     <data uid='Result_1' type='array'> <!-- kind: 'map', 'stations', 'lines' -->
@@ -119,7 +119,7 @@
     </data>
 
     <data uid='Result_4' type='array'> <!-- kind: 'map', 'stations', 'lines' -->
-    	<description title='Intensity of warm nights' name='Intensity' units='days'/>
+    	<description title='Intensity of cold nights' name='Intensity' units='days'/>
 	<time uid='Input_1' template='YYYYMMDDHH' step='1y'>
 	    <segment name='Seg1' beginning='1991010100' ending='1991123118'/>
     	    <segment name='Seg2' beginning='1992010100' ending='1992123118'/>
@@ -128,7 +128,7 @@
     </data>
 
     <data uid='Result_5' type='array'> <!-- kind: 'map', 'stations', 'lines' -->
-        <description title='Trend of intensity of warm nights' name='Trend' units='days/10yr'/>
+        <description title='Trend of intensity of cold nights' name='Trend' units='days/10yr'/>
         <time uid='Output_1' template='YYYYMMDDHH'>
 	    <segment name='Seg1' beginning='1991010100' ending='1993123118'/>
         </time>
