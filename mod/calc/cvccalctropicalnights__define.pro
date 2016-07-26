@@ -100,7 +100,7 @@ FUNCTION cvcCalcTropicalNights::Run
             cnt = cnt + curPos
           endif else begin
             pos = (cnt ne 0)
-            idxs = where(minArr * pos gt 20)
+            idxs = where(minArr * pos gt 293.15)
             if (idxs[0] ne -1) then fdArr[idxs] = fdArr[idxs] + 1     
             curDay = curDay + 1
             minArr = sResponse.aData[*, *, i]
@@ -110,7 +110,7 @@ FUNCTION cvcCalcTropicalNights::Run
           endelse
         endfor
         pos = (cnt ne 0)
-        idxs = where(minArr * pos gt 20)
+        idxs = where(minArr * pos gt 293.15)
         if (idxs[0] ne -1) then fdArr[idxs] = fdArr[idxs] + 1
         totCnt[*, *, segIdx] = totCnt[*, *, segIdx] + pos[*, *]
         missingIdxs = where(cnt eq 0)

@@ -99,7 +99,7 @@ self->printLog, "(cvcCalcIcingDays::Run) Started..."
             cnt = cnt + curPos
           endif else begin
             pos = (cnt ne 0)
-            idxs = where(maxArr * pos lt 0)
+            idxs = where(maxArr * pos lt 273.15)
             if (idxs[0] ne -1) then idArr[idxs] = idArr[idxs] + 1     
             curDay = curDay + 1
             maxArr = sResponse.aData[*, *, i]
@@ -109,7 +109,7 @@ self->printLog, "(cvcCalcIcingDays::Run) Started..."
           endelse
         endfor
         pos = (cnt ne 0)
-        idxs = where(maxArr * pos lt 0)
+        idxs = where(maxArr * pos lt 273.15)
         if (idxs[0] ne -1) then idArr[idxs] = idArr[idxs] + 1
         totCnt[*, *, segIdx] = totCnt[*, *, segIdx] + pos
         idxs = where(totCnt[*, *, segIdx] eq 0)

@@ -98,7 +98,7 @@ FUNCTION cvcCalcSummerDays::Run
             cnt = cnt + curPos
           endif else begin
             pos = (cnt ne 0)
-            idxs = where(maxArr * pos gt 25)
+            idxs = where(maxArr * pos gt 298.15)
             if (idxs[0] ne -1) then idArr[idxs] = idArr[idxs] + 1     
             curDay = curDay + 1
             maxArr = sResponse.aData[*, *, i]
@@ -108,7 +108,7 @@ FUNCTION cvcCalcSummerDays::Run
           endelse
         endfor
         pos = (cnt ne 0)
-        idxs = where(maxArr * pos gt 25)
+        idxs = where(maxArr * pos gt 298.15)
         if (idxs[0] ne -1) then idArr[idxs] = idArr[idxs] + 1
         totCnt[*, *, segIdx] = totCnt[*, *, segIdx] + pos
         idxs = where(totCnt[*, *, segIdx] eq 0)
