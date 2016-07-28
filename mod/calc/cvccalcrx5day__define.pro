@@ -47,7 +47,7 @@ FUNCTION cvcCalcRx5Day::Run
       if (self->Assert(res)) then return, res
       calcMode = *(sParam.data)
       
-      res = aoParams[0]->Get(UID='Mode3', sParam)
+      res = aoParams[0]->Get(UID='threshold', sParam)
       if (self->Assert(res)) then return, res
       calcMode1 = *(sParam.data)
     endif else begin
