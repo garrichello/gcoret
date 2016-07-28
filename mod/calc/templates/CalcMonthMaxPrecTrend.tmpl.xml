@@ -86,7 +86,7 @@
 
     <data uid='ModuleParameters_1' type='parameter'>
     	<param uid='Mode' type='string'>multi</param> <!-- data, day, segment -->
-    	<param uid='Mode3' type='integer'>1</param> <!-- 1, 5 -->
+    	<param uid='threshold' type='integer'>1</param> <!-- 1, 5 -->
     </data>
 
 <!-- End of data segment -->
