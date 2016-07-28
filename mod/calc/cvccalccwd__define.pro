@@ -194,16 +194,9 @@ FUNCTION cvcCalcCWD::Run
     endif else begin
       if (calcMode eq 'multi') then begin
         if (sResponse.gridType ne 'station') then begin ; for non-station data
-          aDataArray = totSum
+          aDataArray = totCWD
         endif else begin ; for station data
-          sz = size(totSum[*, 0])
-          aDataArray = fltarr(sz[1], numTimeSeg)
-          for segIdx = 0, numTimeSeg - 1 do begin
-            sum = totSum[*, segIdx] / totCnt[*, segIdx]
-            idxs = where(totCnt[*, segIdx] eq 0)
-            if (idxs[0] ne -1) then sum[idxs] = sResponse.missingVal
-            aDataArray[*, segIdx] = sum
-          endfor
+          aDataArray = totCWD
         endelse
       endif else begin
         self->printLog, '(cvcCalcTimeMean) Error! Unknown calculation mode: ', mode
