@@ -356,10 +356,7 @@ FUNCTION cvcCalcMinimum::Run
                     midSeg[segIdx] = reqTimeJD_0 + (long(reqTimeJD_1) - long(reqTimeJD_0))/2
                   endfor 
                 end
-      else: begin
-        self->printLog, '(cvcCalcMinimum::Run) calcModes of data and mean do not have time grid '
-        return, -1
-      end
+      else: self->printLog, '(cvcCalcMinimum::Run) calcModes of data and mean do not have time grid '
     endcase
     
     ; put result

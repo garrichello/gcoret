@@ -86,6 +86,7 @@ FUNCTION cvcDataFLEXPART::Read, in_aArea, in_aTimeRng, in_level, out_sData
                   aLev : [in_level], $
                   nLev : in_nLev, $
                   gridType : 'regular', $
+		  units : '', $ ; this field is filled in the cvcDataAccess::Get() method
                   resultCode : self.ERROR_OK $
                 }
 

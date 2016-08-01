@@ -257,7 +257,10 @@ FUNCTION cvcCalcMaximum::Run
                     if (zdxs[0] ne -1) then totMax[zdxs] = sResponse.missingVal
                   endif
                 end 
-              else: self->printLog, '(cvcCalcMaximum) Error! Unknown calculation mode: ', mode
+              else: begin
+		      self->printLog, '(cvcCalcMaximum) Error! Unknown calculation mode: ', calcMode
+		      return, -1
+		    end
             endcase
       endif else begin ; station data process
 	sExtra = { aStNames : sResponse.aNames, aStCodes : sResponse.aCodes }
@@ -302,7 +305,10 @@ FUNCTION cvcCalcMaximum::Run
                        if (zdxs[0] ne -1) then totMax[zdxs] = sResponse.missingVal
                      endif 
                    end
-            else: self->printLog, '(cvcCalcMaximum::Run) Error! Unknown calculation mode: ', mode
+            else: begin
+		self->printLog, '(cvcCalcMaximum::Run) Error! Unknown calculation mode: ', calcMode
+		return, -1
+	    end
         endcase
       endelse
     endfor
@@ -369,7 +375,10 @@ FUNCTION cvcCalcMaximum::Run
       'segment': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, timeGRID = midSeg, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
       'data': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
       'mean': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
-    else: self->printLog, '(cvcCalcMaximum::Run) Error! Unknown calculation mode: ', mode
+    else: begin
+	    self->printLog, '(cvcCalcMaximum::Run) Error! Unknown calculation mode: ', calcMode
+	    return, -1
+	  end
     endcase
     if (self->Assert(res)) then return, res
 

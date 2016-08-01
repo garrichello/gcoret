@@ -299,6 +299,7 @@ self->printLog, '(cvcDataArray) gridFlag: ', gridFlag
                 gridType : gridType, $
                 aLev : aLev, $
                 nLev : 1, $
+		units : '', $ ; this field is filled in the cvcDataAccess::Get() method
                 resultCode : self.ERROR_OK $
               }
   

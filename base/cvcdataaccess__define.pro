@@ -378,7 +378,10 @@ FUNCTION cvcDataAccess::Get, Time = in_sTimeSeg, Level = in_level, Region = in_s
     sResult.minVal = sResult.minVal - 273.15
     sResult.maxVal = sResult.maxVal - 273.15
   endif
-  
+
+; Add variable units to the result
+  sResult.units = localData.description.units
+ 
   out_sResult = temporary(sResult)
   
   return, retCode

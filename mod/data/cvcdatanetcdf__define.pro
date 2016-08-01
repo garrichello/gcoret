@@ -845,6 +845,7 @@ self->printLog, 'OK', /notimestamp
                   gridType : gridType, $
                   aLev : [aLevel], $
                   nLev : 1, $
+		  units : '', $ ; this field is filled in the cvcDataAccess::Get() method
                   resultCode : self.ERROR_OK $
                 }
 
