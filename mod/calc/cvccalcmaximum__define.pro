@@ -108,6 +108,26 @@ PRO cvcCalcMaximum::regSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLeve
     totMax[*, *, segIdx] = maxArr     
 END
 ;--------------------------------------------------------------------
+FUNCTION cvcCalcMaximum::stDailyMax, in_aData, in_aUniqDays
+
+  sz = size(in_aData, /dim)
+  nStations = sz[0] ; number of stations
+  nDays = n_elements(in_aUniqDays) ; number of unique days
+  
+  aMaxData = fltarr(nStations, nDays, /nozero) ; output array with maximum values for each station and day
+
+; array in_aUniqDays contains indices of the LAST element in the sequence corresponding to the whole day
+  for iSt = 0, nStations - 1 do begin
+    stDayPos = 0 ; we start from the first time point on a time grid (starting from the beginning of the first day)
+    for iDay = 0, nDays - 1 do begin ; for each unique day...
+      aMaxData[iSt, iDay] = max(in_aData[iSt, stDayPos:in_aUniqDays[iDay]]) ; ... find maximum during this day
+      stDayPos = in_aUniqDays[iDay] + 1 ; set starting point to the element corresponding to the beginning of the next day
+    endfor
+  endfor
+
+  return, aMaxData
+END
+;--------------------------------------------------------------------
 PRO cvcCalcMaximum::stDailyMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevels, aLevel, sROI, numDays, totNumDays, totMax
     self->DayMonthYear, asTimeSeg[segIdx].beginning, yr_b, mn, dy, hr
     begDay = julday(mn, dy, yr_b, hr) 
@@ -155,25 +175,18 @@ PRO cvcCalcMaximum::stDailyMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLev
     totMax[*, dataIdx, segIdx] = maxArr 
 END
 ;--------------------------------------------------------------------
-PRO cvcCalcMaximum::stSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevels, aLevel, sROI, totMax, totCnt       
-    if (segIdx eq 0) then begin
-      sz = size(sResponse.aData)
-      totMax = fltarr(sz[1], numTimeSeg)
-    endif
-    maxArr = sResponse.aData[*, 0]
-    cnt = long(maxArr ne sResponse.missingVal)
-    for i = 1, n_elements(sResponse.aTimes[0, *])-1 do begin
-      tmpArr = sResponse.aData[*, i]
-      pos = long(tmpArr ne sResponse.missingVal)
-      maxPos = long(tmpArr * pos * cnt gt maxArr * pos * cnt)
-      addPos = long(pos - cnt eq 1)
-      idxs = where(maxPos + addPos eq 1)
-      if (idxs[0] ne -1) then maxArr[idxs] = tmpArr[idxs]
-      cnt = long(cnt + addPos eq 1)
+FUNCTION cvcCalcMaximum::stSegMax, in_aData
+
+    sz = size(in_aData, /dim)
+    nStations = sz[0]; number of stations
+
+    aMaxData = fltarr(nStations, /nozero); allocate array for max values
+
+    for i = 0, nStations-1 do begin
+      aMaxData[i] = max(in_aData[i, *])
     endfor
-    idxs = where(cnt eq 0)
-    if (idxs[0] ne -1) then maxArr[idxs] = sResponse.missingVal 
-    totMax[*, segIdx] = maxArr    
+
+    return, aMaxData
 END
 ;--------------------------------------------------------------------
 FUNCTION cvcCalcMaximum::Run
@@ -265,44 +278,39 @@ FUNCTION cvcCalcMaximum::Run
       endif else begin ; station data process
 	sExtra = { aStNames : sResponse.aNames, aStCodes : sResponse.aCodes }
         case calcMode of
-          'day': self->stDailyMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, numDays, totMax
-          'segment': self->stSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMax
-          'data': begin
-                      self->stSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMax
-                      if (segIdx eq 0) then begin
-                        maxArr = totMax[*, segIdx]
-                        maxCnt = long(totMax[*, segIdx] ne sResponse.missingVal)
-                      endif else begin
-                        tmpArr = totMax[*, segIdx]
-                        pos = long(totMax[*, segIdx] ne sResponse.missingVal)
-                        maxPos = long(tmpArr * pos * maxCnt gt maxArr * pos * maxCnt)
-                        addPos = long(pos - maxCnt eq 1)
-                        idxs = where(maxPos + addPos eq 1)
-                        if (idxs[0] ne -1) then maxArr[idxs] = tmpArr[idxs]
-                        maxCnt = long(maxCnt + addPos eq 1)
-                      endelse
-                      if (segIdx eq numTimeSeg - 1) then begin
-                        idxs = where(maxCnt eq 0)
-                        if (idxs[0] ne -1) then maxArr[idxs] = sResponse.missingVal 
-                        totMax = maxArr 
-                      endif
-                    end
-          'mean': begin
-                      self->stSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMax
-                      if (segIdx eq 0) then begin
-                       sum = totMax[*, segIdx]
-                       cnt = long(totMax[*, segIdx] ne sResponse.missingVal)
-                       sum = sum * cnt
-                     endif else begin
-                       tmpArr = totMax[*, segIdx]
-                       pos = long(totMax[*, segIdx] ne sResponse.missingVal)
-                       sum = sum + tmpArr * pos
-                       cnt = cnt + pos     
-                     endelse
-                     if (segIdx eq numTimeSeg - 1) then begin
-                       idxs = where(cnt ne 0, complement = zdxs)
+          'day': begin ; find max for each station for each day in each segment separately, result is [stations, days, segments]
+		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
+    		   if (segIdx eq 0) then totMax = fltarr((size(sResponse.aData, /dim))[0], n_elements(aUniqDayPos), numTimeSeg, /nosero)
+		   totMax[*, *, segIdx] = self->stDailyMax(sResponse.aData, aUniqDays)
+		 end
+          'segment': begin ; find max for each station in each segment separately, result is [stations, segments]
+    		       if (segIdx eq 0) then totMax = fltarr((size(sResponse.aData, /dim))[0], numTimeSeg, /nozero)
+		       totMax[*, segIdx] = self->stSegMax(sResponse.aData) 
+		     end
+          'data': begin ; find max for each station over all segments, result is [stations]
+    		    if (segIdx eq 0) then begin
+		      totMax = fltarr((size(sResponse.aData, /dim))[0], /nozero)
+		      totMax[*] = -1e20 ; very negative value for the beginning
+		    endif
+                    tmpMax = self->stSegMax(sResponse.aData) 
+                    idx = where(tmpMax gt totMax, cnt)
+		    if (cnt gt 0) then totMax[idx] = tmpMax[idx]
+                  end
+          'mean': begin ; find average max for each station over all segments, result is [stations]
+                    tmpMax = self->stSegMax(sResponse.aData) 
+                    if (segIdx eq 0) then begin
+                      sum = tmpMax ; first input into sum
+                      cnt = long(tmpMax ne sResponse.missingVal) ; counter of summed elements
+                    endif else begin
+                      sumValid = long(sum ne sResponse.missingVal) ; 1 - valid value, 0 - missing value
+		      tmpValid = long(tmpMax ne sResponse.missingVal) ; 1 - valid value, 0 - missing value
+		      idxs = where(tmpValid) ; indices of elements to be summed (we exclude missing values in the array to be added)
+                      sum[idxs] = sum[idxs]*sumValid[idxs] + tmpMax[idxs] ; here we zero missing values before summing in both arrays, but only those where at least one of summed values is not missing 
+                      cnt[idxs] = cnt[idxs] + 1 ; here we simply increase counters for valid stations
+                    endelse
+                    if (segIdx eq numTimeSeg - 1) then begin ; at the last segment we calculate mean values for all stations
+                       idxs = where(cnt ne 0)
                        if (idxs[0] ne -1) then totMax[idxs] = sum[idxs] / cnt[idxs]
-                       if (zdxs[0] ne -1) then totMax[zdxs] = sResponse.missingVal
                      endif 
                    end
             else: begin
