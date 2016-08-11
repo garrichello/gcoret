@@ -176,7 +176,7 @@ FUNCTION cvcCalcMinimum::Run
 		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
     		   if (segIdx eq 0) then begin
                      sz = size(sResponse.aData, /dim) ; dimension of the original data array
-                     totMin = fltarr(sz[0], sz[1], n_elements(aUniqDaysPos), numTimeSeg, /nosero) ; define [lon, lat, days, segment]
+                     totMin = fltarr(sz[0], sz[1], n_elements(aUniqDaysPos), numTimeSeg, /nozero) ; define [lon, lat, days, segment]
 		     totNumDays = fltarr(numTimeSeg, /nozero) ; number of days in a segment
                    endif
 		   totMin[*, *, *, segIdx] = self->regDailyMin(sResponse.aData, aUniqDaysPos, sResponse.missingVal)
@@ -228,7 +228,7 @@ FUNCTION cvcCalcMinimum::Run
           'day': begin ; find min for each station for each day in each segment separately, result is [stations, days, segments]
 		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
     		   if (segIdx eq 0) then begin
-                     totMin = fltarr((size(sResponse.aData, /dim))[0], n_elements(aUniqDaysPos), numTimeSeg, /nosero)
+                     totMin = fltarr((size(sResponse.aData, /dim))[0], n_elements(aUniqDaysPos), numTimeSeg, /nozero)
                      totNumDays = fltarr(numTimeSeg, /nozero)
                    endif
 		   totMin[*, *, segIdx] = self->stDailyMin(sResponse.aData, aUniqDaysPos, sResponse.missingVal)
