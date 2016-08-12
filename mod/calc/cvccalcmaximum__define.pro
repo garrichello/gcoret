@@ -262,7 +262,7 @@ FUNCTION cvcCalcMaximum::Run
       endelse
     endfor
     aDataArray = totMax
- 
+
 ;    case sResponse.gridType of
     aLons = sResponse.aLons
     aLats = sResponse.aLats

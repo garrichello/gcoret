@@ -50,7 +50,7 @@ self->printLog, '(cvcDataArray) Data array has a time grid'
       gridFlag[3] = 1
 ;      actualDateRangeJD[0] = min(*sData.pTimeGrid, max = actualDateRangeJD[1])
 
-      reqTimeJD = dblarr(2)
+      reqTimeJD = fltarr(2)
       if ((in_aTimeRng[0] ne 0) and (in_aTimeRng[1] ne 0)) then begin ; if we have time limits
         self->DayMonthYear, in_aTimeRng[0], reqYear, reqMonth, reqDay, reqHour
         reqTimeJD[0] = julday(reqMonth, reqDay, reqYear, reqHour)
@@ -286,7 +286,7 @@ self->printLog, '(cvcDataArray) gridFlag: ', gridFlag
   minVal = min(aSubData[where(aSubData ne missingVal)], max = maxVal)
 
 ; ToDo: Here it is necessary to insert a function call for missing-valueing points-outlayers of the given area  
-   
+
   out_sData = { aData : temporary(aSubData), $
                 aLons : aSubLons, $
                 aLats : aSubLats, $
