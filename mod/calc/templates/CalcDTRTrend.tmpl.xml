@@ -116,7 +116,7 @@
     </processing>
     
     <processing uid='Process_2' class='cvcCalcMinimum' module_path=''>
-    	<input uid='P1Input1' data='Result_1'/>
+    	<input uid='P1Input1' data='Data_1'/>
     	<input uid='P1Parameter1' data ='ModuleParameters_1'/>
     	<output uid='P1Output1' data='Result_2'/>
     </processing>    
