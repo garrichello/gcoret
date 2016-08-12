@@ -158,12 +158,12 @@ FUNCTION cvcCalcMaximum::Run
       if (self->Assert(resultCode)) then return, resultCode
       if (sResponse.gridType ne 'station') then begin ; for non-station data
         case calcMode of
-          'day': begin ; find fields of max values for each day in each segment separately, result is [lon, lat, days, segments]
-		   totNumDays = fltarr(numTimeSeg, /nozero)   
+          'day': begin ; find fields of max values for each day in each segment separately, result is [lon, lat, days, segments]   
 		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
     		   if (segIdx eq 0) then begin
                      sz = size(sResponse.aData, /dim) ; dimension of the original data array
                      totMax = fltarr(sz[0], sz[1], n_elements(aUniqDaysPos), numTimeSeg, /nozero) ; define [lon, lat, days, segment]
+		     totNumDays = fltarr(numTimeSeg, /nozero)
                    endif
 		   totMax[*, *, *, segIdx] = self->regDailyMax(sResponse.aData, aUniqDaysPos)
 		   totNumDays[segIdx] = n_elements(aUniqDaysPos)
@@ -214,9 +214,11 @@ FUNCTION cvcCalcMaximum::Run
 	sExtra = { aStNames : sResponse.aNames, aStCodes : sResponse.aCodes }
         case calcMode of
           'day': begin ; find max for each station for each day in each segment separately, result is [stations, days, segments]
-		   totNumDays = fltarr(numTimeSeg, /nozero)
 		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
-    		   if (segIdx eq 0) then totMax = fltarr((size(sResponse.aData, /dim))[0], n_elements(aUniqDaysPos), numTimeSeg, /nozero)
+    		   if (segIdx eq 0) then begin
+		     totMax = fltarr((size(sResponse.aData, /dim))[0], n_elements(aUniqDaysPos), numTimeSeg, /nozero)
+		     totNumDays = fltarr(numTimeSeg, /nozero)
+		   endif
 		   totMax[*, *, segIdx] = self->stDailyMax(sResponse.aData, aUniqDaysPos)
 		   totNumDays[segIdx] = n_elements(aUniqDaysPos)
 		 end
