@@ -159,12 +159,14 @@ FUNCTION cvcCalcMaximum::Run
       if (sResponse.gridType ne 'station') then begin ; for non-station data
         case calcMode of
           'day': begin ; find fields of max values for each day in each segment separately, result is [lon, lat, days, segments]
+		   totNumDays = fltarr(numTimeSeg, /nozero)   
 		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
     		   if (segIdx eq 0) then begin
                      sz = size(sResponse.aData, /dim) ; dimension of the original data array
-                     totMax = fltarr(sz[0], sz[1], n_elements(aUniqDaysPos), numTimeSeg, /nosero) ; define [lon, lat, days, segment]
+                     totMax = fltarr(sz[0], sz[1], n_elements(aUniqDaysPos), numTimeSeg, /nozero) ; define [lon, lat, days, segment]
                    endif
 		   totMax[*, *, *, segIdx] = self->regDailyMax(sResponse.aData, aUniqDaysPos)
+		   totNumDays[segIdx] = n_elements(aUniqDaysPos)
 		 end
           'segment': begin ; find fields of max values for each segment separately, result is [lon, lat, segments]
 	    	       if (segIdx eq 0) then begin  
@@ -212,9 +214,11 @@ FUNCTION cvcCalcMaximum::Run
 	sExtra = { aStNames : sResponse.aNames, aStCodes : sResponse.aCodes }
         case calcMode of
           'day': begin ; find max for each station for each day in each segment separately, result is [stations, days, segments]
+		   totNumDays = fltarr(numTimeSeg, /nozero)
 		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
-    		   if (segIdx eq 0) then totMax = fltarr((size(sResponse.aData, /dim))[0], n_elements(aUniqDaysPos), numTimeSeg, /nosero)
+    		   if (segIdx eq 0) then totMax = fltarr((size(sResponse.aData, /dim))[0], n_elements(aUniqDaysPos), numTimeSeg, /nozero)
 		   totMax[*, *, segIdx] = self->stDailyMax(sResponse.aData, aUniqDaysPos)
+		   totNumDays[segIdx] = n_elements(aUniqDaysPos)
 		 end
           'segment': begin ; find max for each station in each segment separately, result is [stations, segments]
     		       if (segIdx eq 0) then totMax = fltarr((size(sResponse.aData, /dim))[0], numTimeSeg, /nozero)
@@ -267,7 +271,9 @@ FUNCTION cvcCalcMaximum::Run
       'day': begin
                   i = 0
                   for segIdx = 0, numTimeSeg - 1 do begin
+                 
                     if (segIdx eq 0) then midDaySeg = fltarr(numTimeSeg*totNumDays[segIdx])
+    
                     numDays = totNumDays[segIdx]
                     self->DayMonthYear, asTimeSeg[segIdx].beginning, begYear, begMonth, begDay, begHour
                     begTimeJD = julday(begMonth, begDay, begYear, begHour)
