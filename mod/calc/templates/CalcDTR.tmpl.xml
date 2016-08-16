@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <!DOCTYPE task SYSTEM "ctdl.dtd">
-<task uid='Task1' owner='Owner1' description='' root_path='/home/raa/GDLWorkspace/gcoret/' data_module_path=''>
+<task uid='Task1' owner='Owner1' description='' root_path='/opt/gcoret/' data_module_path=''>
     <service processingClass='' calculationParameter='' trend='' isBaseLayer=''><!-- GUI service params -->
       <timePeriod type=''>
         <dateStart year='' month='' day=''/>
