@@ -138,10 +138,13 @@ FUNCTION cvcCalcRx5Day::Run
         endTimeSpan = julday(mn, dy + calcMode1 -1, yr, 23)
 
 ; ToDo: Fix the following two lines
-        begIdx = n_elements(where(sResponse.aTimes[0, *] lt begTimeSpan)) ; strange and wrong!
-        endIdx = n_elements(where(sResponse.aTimes[0, *] le endTimeSpan)) ; strange and wrong!
-        
-        numTimeSteps = endIdx - begIdx
+;        begIdx = n_elements(where(sResponse.aTimes[0, *] lt begTimeSpan)) ; strange and wrong!
+;        endIdx = n_elements(where(sResponse.aTimes[0, *] le endTimeSpan)) ; strange and wrong!
+; OK, here is a better solution
+	foo = min(abs(sResponse.aTimes[0, *] - begTimeSpan), begIdx)
+	foo = min(abs(sResponse.aTimes[0, *] - endTimeSpan), endIdx)
+
+        numTimeSteps = endIdx - begIdx + 1
         curDataArray = fltarr(sz[1], numTimeSteps)
         curCntArray = fltarr(sz[1], numTimeSteps)
         iStep = 0

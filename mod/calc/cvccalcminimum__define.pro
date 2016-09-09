@@ -21,155 +21,114 @@
 ;       aLats - latitudes array, dimensions: [nLats] - for regular, [nLons, nLats] - for non-regular, [nStations] - for stations
 ;       aTimes - times (JD) array, dimensions: [nTimes]
 ;       minVal - minimum data value
-;       maxVal - maximum data value
+;       minVal - minimum data value
 ;       missingVal - missing data value
 ;       sTimeRng - date-time range of data returned
 ;       aLev - array of levels, dimensions: [nLev]
 ;       nLev - number of levels
 ;       resultCode - result code
 ;--------------------------------------------------------------------
-FUNCTION cvcCalcMinimum::Init, in_sInputs, in_sOutputs, in_hLogFile
+FUNCTION cvcCalcMinimum::Init, in_sInputs, in_sOutputs, in_hLogFile 
+
     return, self->cvcCalc::Init(in_sInputs, in_sOutputs, in_hLogFile)
 END
+
 ;--------------------------------------------------------------------
 PRO cvcCalcMinimum::Cleanup
+
     self->cvcCalc::Cleanup
+
 END
 ;--------------------------------------------------------------------
-PRO cvcCalcMinimum::regDailyMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevels, aLevel, sROI, numDays, totNumDays, totMin
-    self->DayMonthYear, asTimeSeg[segIdx].beginning, yr_b, mn, dy, hr
-    begDay = julday(mn, dy, yr_b, hr) 
-    self->DayMonthYear, asTimeSeg[segIdx].ending, yr_e, mn, dy, hr
-    endDay = julday(mn, dy, yr_e, hr) 
-    numDays = long(endDay - begDay) + 1
-    if (yr_b ne yr_e) then yr_b = yr_b + 1
-    numYrDays =long(julday(12, 31, yr_b, 18) - julday(01, 01, yr_b, 00)) + 1
-    if (numYrDays gt 365) then begin 
-      missDay = julday(2, 29, yr_b, hr)
-    endif else begin
-      missDay = sResponse.missingVal
-    endelse 
-    if (segIdx eq 0) then begin
-      sz = size(sResponse.aData)
-      totMin = fltarr(sz[1], sz[2], numDays, numTimeSeg)
-      totNumDays = fltArr(numTimeSeg)
-    endif
-    totNumDays[segIdx] = numDays
-    dayIdx = 0
-    dataIdx = 0
-    minArr = sResponse.aData[*, *, 0]
-    cnt = long(minArr ne sResponse.missingVal)
-    for i = 1, n_elements(sResponse.aTimes)-1 do begin
-      if (long(sResponse.aTimes[i] - 0.5) eq long(begDay + dayIdx)) then begin
-        tmpArr = sResponse.aData[*, *, i]
-        pos = long(tmpArr ne sResponse.missingVal)
-        minPos = long(tmpArr * cnt * pos lt minArr * cnt * pos)
-        addPos = long(pos - cnt eq 1)
-        idxs = where(minPos + addPos eq 1)
-        if (idxs[0] ne -1) then minArr[idxs] = tmpArr[idxs]
-        cnt = long(cnt + addPos eq 1)
-      endif else begin
-        idxs = where(cnt eq 0)
-        if (idxs[0] ne -1) then minArr[idxs] = sResponse.missingVal
-        totMin[*, *, dataIdx, segIdx] = minArr 
-        minArr = sResponse.aData[*, *, i]
-        cnt = long(minArr ne sResponse.missingVal)
-        if (long(sResponse.aTimes[i] - 0.5) ne long(missDay)) then dataIdx = dataIdx + 1
-        dayIdx = dayIdx + 1
-      endelse
-    endfor
-    idxs = where(cnt eq 0)
-    if (idxs[0] ne -1) then minArr[idxs] = sResponse.missingVal 
-    totMin[*, *, dataIdx, segIdx] = minArr 
+PRO cvcCalcMinimum::__findMin, inout_aMinVals, in_aCurVals, in_missVal
+
+  curValIdxs = where(in_aCurVals ne in_missVal, curValCnt) ; get indices of valid cells in current field
+  minValBigs = (inout_aMinVals eq in_missVal)*1e20 ; set very big values in cells with missing values for minimum field
+; tricky part: 
+; minValBigs is 0 for valid values and 1e20 for missing values in minimum field, thus summing does not affect good values
+; and makes missing values very big so they are greater than new minimum value FOR SURE... 
+  if (curValCnt gt 0) then begin ; ... and (if there are valid values in current field) we get indices of new minimum values
+    idxs = where(in_aCurVals[curValIdxs] lt inout_aMinVals[curValIdxs]+minValBigs[curValIdxs], cnt) 
+  endif else cnt = 0         
+  if (cnt gt 0) then inout_aMinVals[idxs] = in_aCurVals[idxs] ; which are stored in the resulting array
 END
 ;--------------------------------------------------------------------
-PRO cvcCalcMinimum::regSegMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevels, aLevel, sROI, totMin      
-    if (segIdx eq 0) then begin
-      sz = size(sResponse.aData)
-      totMin = fltarr(sz[1], sz[2], numTimeSeg)
-    endif
-    minArr = sResponse.aData[*, *, 0]
-    cnt = long(minArr ne sResponse.missingVal)
-    for i = 1, n_elements(sResponse.aTimes)-1 do begin
-      tmpArr = sResponse.aData[*, *, i]
-      pos = long(tmpArr ne sResponse.missingVal)
-      minPos = long(tmpArr * pos * cnt lt minArr * pos * cnt)
-      addPos = long(pos - cnt eq 1)
-      idxs = where(minPos + addPos eq 1)
-      if (idxs[0] ne -1) then minArr[idxs] = tmpArr[idxs]
-      cnt = long(cnt + addPos eq 1)
-    endfor
-    idxs = where(cnt eq 0)
-    if (idxs[0] ne -1) then minArr[idxs] = sResponse.missingVal 
-    totMin[*, *, segIdx] = minArr
+FUNCTION cvcCalcMinimum::regDailyMin, in_aData, in_aUniqDaysPos, in_missVal
+  sz = size(in_aData, /dim)
+  if (n_elements(sz) eq 2) then begin ; no time dimension
+    aMinData = in_aData ; nothing to search
+; ToDo: this will return 2-D array, outside 3-D is expected, may be some improvements will be required
+  endif else begin
+    nTimes = sz[2] ; time dimension
+    nDays = n_elements(in_aUniqDaysPos) ; number of unique days
+    aMinData = fltarr(sz[0], sz[1], nDays, /nozero) ; output array with fields of minimum values for each day
+
+; array in_aUniqDays contains indices of the LAST element in the sequence of times corresponding to a day
+    stDayPos = 0 ; we start from the first time point on a time grid (starting from the beginning of the first day)
+    for iDay = 0, nDays - 1 do begin ; for each unique day...
+      aMinVals = in_aData[*, *, stDayPos] ; for the start we set minimum as a field at the beginning of the day
+      for iTime = stDayPos+1, in_aUniqDaysPos[iDay] do begin ; starting from the next time step until the end of the day
+        self->__findMin, aMinVals, in_aData[*, *, iTime], in_missVal ; find minimum values of both arrays
+      endfor ; loop inside one day
+      stDayPos = in_aUniqDaysPos[iDay] + 1 ; set start position to the beginning of the next day
+      aMinData[*, *, iDay] = aMinVals
+    endfor ; loop for days
+  endelse
+
+  return, aMinData
 END
 ;--------------------------------------------------------------------
-PRO cvcCalcMinimum::stDailyMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevels, aLevel, sROI, numDays, totNumDays, totMin
-    self->DayMonthYear, asTimeSeg[segIdx].beginning, yr_b, mn, dy, hr
-    begDay = julday(mn, dy, yr_b, hr) 
-    self->DayMonthYear, asTimeSeg[segIdx].ending, yr_e, mn, dy, hr
-    endDay = julday(mn, dy, yr_e, hr) 
-    numDays = fix(endDay - begDay + 1)   
-    if (yr_b ne yr_e) then yr_b = yr_b + 1
-    numYrDays =long(julday(12, 31, yr_b, 18) - julday(01, 01, yr_b, 00)) + 1
-    if (numYrDays gt 365) then begin 
-      missDay = julday(2, 29, yr_b, hr)
-    endif else begin
-      missDay = sResponse.missingVal
-    endelse
-    if (segIdx eq 0) then begin
-      sz = size(sResponse.aData)
-      totMin = fltarr(sz[1], numDays, numTimeSeg)
-      totNumDays = fltArr(numTimeSeg)
-    endif
-    totNumDays[segIdx] = numDays
-    dayIdx = 0
-    dataIdx = 0
-    minArr = sResponse.aData[*, 0]
-    cnt = long(minArr ne sResponse.missingVal)
-    for i = 1, n_elements(sResponse.aTimes[0, *])-1 do begin
-      if (long(sResponse.aTimes[0, i] - 0.5) eq long(begDay + dayIdx)) then begin
-        tmpArr = sResponse.aData[*, i]
-        pos = long(tmpArr ne sResponse.missingVal)
-        minPos = long(tmpArr * pos * cnt lt minArr * pos * cnt)
-        addPos = long(pos - cnt eq 1)
-        idxs = where(minPos + addPos eq 1)
-        if (idxs[0] ne -1) then minArr[idxs] = tmpArr[idxs]
-        cnt = long(cnt + addPos eq 1)
-      endif else begin
-        idxs = where(cnt eq 0)
-        if (idxs[0] ne -1) then minArr[idxs] = sResponse.missingVal 
-        totMin[*, dataIdx, segIdx] = minArr 
-        minArr = sResponse.aData[*, i]
-        cnt = long(minArr ne sResponse.missingVal)
-        if (long(sResponse.aTimes[0, i] - 0.5) ne long(missDay)) then dataIdx = dataIdx + 1
-        dayIdx = dayIdx + 1
-      endelse
+FUNCTION cvcCalcMinimum::regSegMin, in_aData, in_missVal
+  sz = size(in_aData, /dim)
+  if (n_elements(sz) eq 2) then begin ; no time dimension
+    aMinData = in_aData ; nothing to search
+  endif else begin
+    nTimes = sz[2] ; time dimension
+
+    aMinVals = in_aData[*, *, 0] ; let's search along the time dimension
+    for iTime = 1, nTimes - 1 do begin
+      self->__findMin, aMinVals, in_aData[*, *, iTime], in_missVal ; find minimum values of both arrays
     endfor
-    idxs = where(cnt eq 0)
-    if (idxs[0] ne -1) then minArr[idxs] = sResponse.missingVal 
-    totMin[*, dataIdx, segIdx] = minArr 
+  endelse
+  return, aMinVals
 END
 ;--------------------------------------------------------------------
-PRO cvcCalcMinimum::stSegMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevels, aLevel, sROI, totMin       
-    if (segIdx eq 0) then begin
-      sz = size(sResponse.aData)
-      totMin = fltarr(sz[1], numTimeSeg)
-    endif
-    minArr = sResponse.aData[*, 0]
-    cnt = long(minArr ne sResponse.missingVal)
-    for i = 1, n_elements(sResponse.aTimes[0, *])-1 do begin
-      tmpArr = sResponse.aData[*, i]
-      pos = long(tmpArr ne sResponse.missingVal)
-      minPos = long(tmpArr * pos * cnt lt minArr * pos * cnt)
-      addPos = long(pos - cnt eq 1)
-      idxs = where(minPos + addPos eq 1)
-      if (idxs[0] ne -1) then minArr[idxs] = tmpArr[idxs]
-      cnt = long(cnt + addPos eq 1)
+FUNCTION cvcCalcMinimum::stDailyMin, in_aData, in_aUniqDaysPos, in_missVal
+
+  sz = size(in_aData, /dim)
+  nStations = sz[0] ; number of stations
+  nDays = n_elements(in_aUniqDaysPos) ; number of unique days
+  
+  aMinData = fltarr(nStations, nDays, /nozero) ; output array with minimum values for each station and day
+
+; array in_aUniqDays contains indices of the LAST element in the sequence corresponding to the whole day
+  for iSt = 0, nStations - 1 do begin
+    stDayPos = 0 ; we start from the first time point on a time grid (starting from the beginning of the first day)
+    for iDay = 0, nDays - 1 do begin ; for each unique day...
+      aCurData = in_aData[iSt, stDayPos:in_aUniqDaysPos[iDay]]
+      idxs = where(aCurData ne in_missVal, cnt)
+      if (cnt gt 0) then aMinData[iSt, iDay] = min(aCurData[idxs]) else aMinData[iSt, iDay] = in_missVal ; ... find minimum during this day
+      stDayPos = in_aUniqDaysPos[iDay] + 1 ; set starting point to the element corresponding to the beginning of the next day
     endfor
-    idxs = where(cnt eq 0)
-    if (idxs[0] ne -1) then minArr[idxs] = sResponse.missingVal 
-    totMin[*, segIdx] = minArr    
+  endfor
+
+  return, aMinData
+END
+;--------------------------------------------------------------------
+FUNCTION cvcCalcMinimum::stSegMin, in_aData, in_missVal
+
+    sz = size(in_aData, /dim)
+    nStations = sz[0]; number of stations
+
+    aMinData = fltarr(nStations, /nozero); allocate array for min values
+
+    for i = 0, nStations-1 do begin
+      aCurData = in_aData[i, *]
+      idxs = where(aCurData ne in_missVal, cnt)
+      if (cnt gt 0) then aMinData[i] = min(aCurData[idxs]) else aMinData[i] = in_missVal
+    endfor
+
+    return, aMinData
 END
 ;--------------------------------------------------------------------
 FUNCTION cvcCalcMinimum::Run
@@ -202,7 +161,7 @@ FUNCTION cvcCalcMinimum::Run
     levelIdx = 0
         
     ; main loop for all time segments
-    self->printLog, "(cvcCalcMinimum::Run) Get data..."
+    print, "(cvcCalcMinimum::Run) Get data..."
     cnt = 0 ; number of summed fields
 
     ; time segment to read
@@ -213,108 +172,122 @@ FUNCTION cvcCalcMinimum::Run
       if (self->Assert(resultCode)) then return, resultCode
       if (sResponse.gridType ne 'station') then begin ; for non-station data
         case calcMode of
-        'day': self->regDailyMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, numDays, totNumDays, totMin
-        'segment': self->regSegMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMin
-        'data': begin
-                     self->regSegMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMin
-                     if (segIdx eq 0) then begin
-                     minArr = totMin[*, *, segIdx]
-                     minCnt = long(totMin[*, *, segIdx] ne sResponse.missingVal) 
-                   endif else begin
-                     tmpArr = totMin[*, *, segIdx]
-                     pos = long(totMin[*, *, segIdx] ne sResponse.missingVal) 
-                     minPos = long(tmpArr * pos * minCnt lt minArr * pos * minCnt)
-                     addPos = long(pos - minCnt eq 1)
-                     idxs = where(minPos + addPos eq 1)
-                     if (idxs[0] ne -1) then minArr[idxs] = tmpArr[idxs]
-                     minCnt = long(minCnt + addPos eq 1)
-                   endelse
-                   if (segIdx eq numTimeSeg - 1) then begin
-                     idxs = where(minCnt eq 0)
-                     if (idxs[0] ne -1) then minArr[idxs] = sResponse.missingVal 
-                     totMin = minArr 
+          'day': begin ; find fields of min values for each day in each segment separately, result is [lon, lat, days, segments]
+		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
+    		   if (segIdx eq 0) then begin
+                     sz = size(sResponse.aData, /dim) ; dimension of the original data array
+                     totMin = fltarr(sz[0], sz[1], n_elements(aUniqDaysPos), numTimeSeg, /nozero) ; define [lon, lat, days, segment]
+		     totNumDays = fltarr(numTimeSeg, /nozero) ; number of days in a segment
                    endif
-                 end
-       'mean': begin
-                  self->regSegMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMin
-                  if (segIdx eq 0) then begin
-                    sum = totMin[*, *, segIdx]
-                    cnt = long(totMin[*, *, segIdx] ne sResponse.missingVal) 
-                    sum = sum * cnt
-                  endif else begin
-                    tmpArr = totMin[*, *, segIdx]
-                    pos = long(totMin[*, *, segIdx] ne sResponse.missingVal) 
-                    sum = sum + tmpArr * pos
-                    cnt = cnt + pos     
-                  endelse
-                  if (segIdx eq numTimeSeg - 1) then begin
-                    idxs = where(cnt ne 0, complement = zdxs)
-                    if (idxs[0] ne -1) then totMin[idxs] = sum[idxs] / cnt[idxs]
-                    if (zdxs[0] ne -1) then totMin[zdxs] = sResponse.missingVal
-                  endif
-                end 
-              else: begin
-                self->printLog, '(cvcCalcMinimum) Error! Unknown calculation mode: ', calcMode
-                return, -1
-              end
-            endcase
+		   totMin[*, *, *, segIdx] = self->regDailyMin(sResponse.aData, aUniqDaysPos, sResponse.missingVal)
+		   totNumDays[segIdx] = n_elements(aUniqDaysPos)
+		 end
+          'segment': begin ; find fields of min values for each segment separately, result is [lon, lat, segments]
+	    	       if (segIdx eq 0) then begin  
+                         sz = size(sResponse.aData, /dim) ; dimensions of the original data array
+    		         totMin = fltarr(sz[0], sz[1], numTimeSeg, /nozero)
+                       endif
+		       totMin[*, *, segIdx] = self->regSegMin(sResponse.aData, sResponse.missingVal) 
+		     end
+          'data': begin ; find field of min values over all segments, result is [lon, lat]
+                    aCurVals = self->regSegMin(sResponse.aData, sResponse.missingVal) ; get current data field
+    	 	    if (segIdx eq 0) then begin
+		      totMin = aCurVals
+		    endif else begin
+        	      self->__findMin, totMin, aCurVals, sResponse.missingVal ; find minimum values of both arrays
+                    endelse
+                  end
+          'mean': begin ; find field of average min values over all segments, result is [lon, lat]
+                    tmpMin = self->regSegMin(sResponse.aData, sResponse.missingVal) 
+                    if (segIdx eq 0) then begin
+		      sz = size(sResponse.aData, /dim) ; dimensions of the original data array
+		      totMin = fltarr(sz[0], sz[1], /nozero) ;  define [lon, lat] array
+		      totMin[*] = sResponse.missingVal ; fill it with a missing value for the beginning
+                      sum = tmpMin ; first input into sum
+                      cnt = long(tmpMin ne sResponse.missingVal) ; counter of summed elements
+                    endif else begin
+                      sumValid = long(sum ne sResponse.missingVal) ; 1 - valid value, 0 - missing value
+		      tmpValid = long(tmpMin ne sResponse.missingVal) ; 1 - valid value, 0 - missing value
+		      idxs = where(tmpValid) ; indices of elements to be summed (we exclude missing values in the array to be added)
+                      sum[idxs] = sum[idxs]*sumValid[idxs] + tmpMin[idxs] ; here we zero missing values before summing in both arrays, but only those where at least one of summed values is not missing 
+                      cnt[idxs] = cnt[idxs] + 1 ; here we simply increase counters for valid stations
+                    endelse
+                    if (segIdx eq numTimeSeg - 1) then begin ; at the last segment we calculate mean values for all stations
+                      idxs = where(cnt ne 0)
+                      if (idxs[0] ne -1) then totMin[idxs] = sum[idxs] / cnt[idxs]
+                    endif 
+                  end
+          else: begin
+		  self->printLog, '(cvcCalcMinimum) Error! Unknown calculation mode: ', calcMode
+		  return, -1
+		end
+        endcase
       endif else begin ; station data process
 	sExtra = { aStNames : sResponse.aNames, aStCodes : sResponse.aCodes }
         case calcMode of
-          'day': self->stDailyMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, numDays, totNumDays, totMin
-          'segment': self->stSegMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMin
-          'data': begin
-                      self->stSegMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMin
-                      if (segIdx eq 0) then begin
-                        minArr = totMin[*, segIdx]
-                        minCnt = long(totMin[*, segIdx] ne sResponse.missingVal) 
-                      endif else begin
-                        tmpArr = totMin[*, segIdx]
-                        pos = long(totMin[*, segIdx] ne sResponse.missingVal)
-                        minPos = long(tmpArr * pos * minCnt lt minArr * pos * minCnt)
-                        addPos = long(pos - minCnt eq 1)
-                        idxs = where(minPos + addPos eq 1)
-                        if (idxs[0] ne -1) then minArr[idxs] = tmpArr[idxs]
-                        minCnt = long(minCnt + addPos eq 1)
-                      endelse
-                      if (segIdx eq numTimeSeg - 1) then begin
-                        idxs = where(minCnt eq 0)
-                        if (idxs[0] ne -1) then minArr[idxs] = sResponse.missingVal 
-                        totMin = minArr 
-                      endif
-                    end
-          'mean': begin
-                      self->stSegMin, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMin
-                      if (segIdx eq 0) then begin
-                       sum = totMin[*, segIdx]
-                       cnt = long(totMin[*, segIdx] ne sResponse.missingVal)
-                       sum = sum * cnt
-                     endif else begin
-                       tmpArr = totMin[*, segIdx]
-                       pos = long(totMin[*, segIdx] ne sResponse.missingVal)
-                       sum = sum + tmpArr * pos
-                       cnt = cnt + pos     
-                     endelse
-                     if (segIdx eq numTimeSeg - 1) then begin
-                       idxs = where(cnt ne 0, complement = zdxs)
+          'day': begin ; find min for each station for each day in each segment separately, result is [stations, days, segments]
+		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
+    		   if (segIdx eq 0) then begin
+                     totMin = fltarr((size(sResponse.aData, /dim))[0], n_elements(aUniqDaysPos), numTimeSeg, /nozero)
+                     totNumDays = fltarr(numTimeSeg, /nozero)
+                   endif
+		   totMin[*, *, segIdx] = self->stDailyMin(sResponse.aData, aUniqDaysPos, sResponse.missingVal)
+                   totNumDays[segIdx] = n_elements(aUniqDaysPos)
+		 end
+          'segment': begin ; find min for each station in each segment separately, result is [stations, segments]
+    		       if (segIdx eq 0) then totMin = fltarr((size(sResponse.aData, /dim))[0], numTimeSeg, /nozero)
+		       totMin[*, segIdx] = self->stSegMin(sResponse.aData, sResponse.missingVal) 
+		     end
+          'data': begin ; find min for each station over all segments, result is [stations]
+                    aCurVals = self->stSegMin(sResponse.aData, sResponse.missingVal) 
+    		    if (segIdx eq 0) then begin
+		      totMin = aCurVals
+		    endif else begin
+        	      self->__findMin, totMin, aCurVals, sResponse.missingVal ; find minimum values of both arrays
+		    endelse
+;                    curValIdxs = where(aCurVals ne sResponse.missingVal, valCnt)
+;		    totMinBadFlag = totMin eq sResponse.missingVal
+;		    if (valCnt gt 0) then begin
+;		      idx = where(aCurVals[curValIdxs] lt totMin[curValIdxs]+totMinBadFlag[curValIdxs]*1e20, cnt)
+;		      if (cnt gt 0) then totMin[curValIdxs[idx]] = aCurVals[curValIdxs[idx]]
+;		    endif
+                  end
+          'mean': begin ; find average min for each station over all segments, result is [stations]
+                    tmpMin = self->stSegMin(sResponse.aData, sResponse.missingVal) 
+                    if (segIdx eq 0) then begin
+		      totMin = fltarr((size(sResponse.aData, /dim))[0], /nozero)
+		      totMin[*] = sResponse.missingVal
+                      sum = tmpMin ; first input into sum
+                      cnt = long(tmpMin ne sResponse.missingVal) ; counter of summed elements
+                    endif else begin
+                      sumValid = long(sum ne sResponse.missingVal) ; 1 - valid value, 0 - missing value
+		      tmpValid = long(tmpMin ne sResponse.missingVal) ; 1 - valid value, 0 - missing value
+		      idxs = where(tmpValid) ; indices of elements to be summed (we exclude missing values in the array to be added)
+                      sum[idxs] = sum[idxs]*sumValid[idxs] + tmpMin[idxs] ; here we zero missing values before summing in both arrays, but only those where at least one of summed values is not missing 
+                      cnt[idxs] = cnt[idxs] + 1 ; here we simply increase counters for valid stations
+                    endelse
+                    if (segIdx eq numTimeSeg - 1) then begin ; at the last segment we calculate mean values for all stations
+                       idxs = where(cnt ne 0)
                        if (idxs[0] ne -1) then totMin[idxs] = sum[idxs] / cnt[idxs]
-                       if (zdxs[0] ne -1) then totMin[zdxs] = sResponse.missingVal
-                     endif 
-                   end
+                    endif 
+                  end
             else: begin
-              self->printLog, '(cvcCalcMinimum) Error! Unknown calculation mode: ', calcMode
-              return, -1
-            end
+		self->printLog, '(cvcCalcMinimum::Run) Error! Unknown calculation mode: ', calcMode
+		return, -1
+	    end
         endcase
       endelse
     endfor
     aDataArray = totMin
+    idxs = where(aDataArray gt 1e20, cnt)
+    if (cnt gt 0) then aDataArray[idxs] = sResponse.missingValue
  
 ;    case sResponse.gridType of
     aLons = sResponse.aLons
     aLats = sResponse.aLats
     
 ;   time Grid
+    
     case calcMode of
       'day': begin
                   i = 0
@@ -353,7 +326,7 @@ FUNCTION cvcCalcMinimum::Run
                     reqTimeJD_0 = julday(reqMonth, reqDay, reqYear, reqHour)
                     self->DayMonthYear, asTimeSeg[segIdx].ending, reqYear, reqMonth, reqDay, reqHour
                     reqTimeJD_1 = julday(reqMonth, reqDay, reqYear, reqHour)
-                    midSeg[segIdx] = reqTimeJD_0 + (long(reqTimeJD_1) - long(reqTimeJD_0))/2
+                    midSeg[segIdx] = (long(reqTimeJD_0) + long(reqTimeJD_1))/2
                   endfor 
                 end
       else: self->printLog, '(cvcCalcMinimum::Run) calcModes of data and mean do not have time grid '
@@ -371,9 +344,9 @@ FUNCTION cvcCalcMinimum::Run
       'data': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
       'mean': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
     else: begin
-      self->printLog, '(cvcCalcMinimum::Run) Error! Unknown calculation mode: ', calcMode
-      return, -1
-    end
+	    self->printLog, '(cvcCalcMinimum::Run) Error! Unknown calculation mode: ', calcMode
+	    return, -1
+	  end
     endcase
     if (self->Assert(res)) then return, res
 

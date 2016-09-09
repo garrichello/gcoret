@@ -40,140 +40,81 @@ PRO cvcCalcMaximum::Cleanup
 
 END
 ;--------------------------------------------------------------------
-PRO cvcCalcMaximum::regDailyMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevels, aLevel, sROI, numDays, totNumDays, totMax
-    self->DayMonthYear, asTimeSeg[segIdx].beginning, yr_b, mn, dy, hr
-    begDay = julday(mn, dy, yr_b, hr) 
-    self->DayMonthYear, asTimeSeg[segIdx].ending, yr_e, mn, dy, hr
-    endDay = julday(mn, dy, yr_e, hr) 
-    numDays = long(endDay - begDay + 1) 
-    if (yr_b ne yr_e) then yr_b = yr_b + 1
-    numYrDays =long(julday(12, 31, yr_b, 18) - julday(01, 01, yr_b, 00)) + 1
-    if (numYrDays gt 365) then begin 
-      missDay = julday(2, 29, yr_b, hr)
-    endif else begin
-      missDay = sResponse.missingVal
-    endelse 
-    if (segIdx eq 0) then begin
-      sz = size(sResponse.aData)
-      totMax = fltarr(sz[1], sz[2], numDays, numTimeSeg)
-      totNumDays = fltArr(numTimeSeg)
-    endif
-    totNumDays[segIdx] = numDays
-    dayIdx = 0
-    dataIdx = 0
-    maxArr = sResponse.aData[*, *, 0]
-    cnt = long(maxArr ne sResponse.missingVal)
-    for i = 1, n_elements(sResponse.aTimes)-1 do begin
-      if (long(sResponse.aTimes[i] - 0.5) eq long(begDay + dayIdx)) then begin
-        tmpArr = sResponse.aData[*, *, i]
-        pos = long(tmpArr ne sResponse.missingVal)
-        maxPos = long(tmpArr * pos * cnt gt maxArr * pos * cnt)
-        addPos = long(pos - cnt eq 1)
-        idxs = where(maxPos + addPos eq 1)
-        if (idxs[0] ne -1) then maxArr[idxs] = tmpArr[idxs]
-        cnt = long(cnt + addPos eq 1)
-      endif else begin
-        idxs = where(cnt eq 0)
-        if (idxs[0] ne -1) then maxArr[idxs] = sResponse.missingVal 
-        totMax[*, *, dataIdx, segIdx] = maxArr 
-        maxArr = sResponse.aData[*, *, i]
-        cnt = long(maxArr ne sResponse.missingVal)
-        if (long(sResponse.aTimes[i] - 0.5) ne long(missDay)) then dataIdx = dataIdx + 1
-        dayIdx = dayIdx + 1
-      endelse
+FUNCTION cvcCalcMaximum::regDailyMax, in_aData, in_aUniqDaysPos
+  sz = size(in_aData, /dim)
+  if (n_elements(sz) eq 2) then begin ; no time dimension
+    aMaxData = in_aData ; nothing to search
+; ToDo: this will return 2-D array, outside 3-D is expected, may be some improvements will be required
+  endif else begin
+    nTimes = sz[2] ; time dimension
+    nDays = n_elements(in_aUniqDaysPos) ; number of unique days
+    aMaxData = fltarr(sz[0], sz[1], nDays, /nozero) ; output array with fields of maximum values for each day
+
+; array in_aUniqDays contains indices of the LAST element in the sequence of times corresponding to a day
+    stDayPos = 0 ; we start from the first time point on a time grid (starting from the beginning of the first day)
+    for iDay = 0, nDays - 1 do begin ; for each unique day...
+      aMaxData[*, *, iDay] = in_aData[*, *, stDayPos] ; for the start we set maximum as a field at the beginning of the day
+      for iTime = stDayPos+1, in_aUniqDaysPos[iDay] do begin ; starting from the next time step until the end of the day
+        tmpData = in_aData[*, *, iTime]; we choose data fields
+        idxs = where(tmpData gt aMaxData[*, *, iDay], cnt) ; and search for the maximum elements
+        if (cnt gt 0) then aMaxData[idxs] = tmpData[idxs] ; which are stored in the resulting array
+      endfor
+      stDayPos = in_aUniqDaysPos[iDay] + 1 ; set start position to the beginning of the next day
     endfor
-    idxs = where(cnt eq 0)
-    if (idxs[0] ne -1) then maxArr[idxs] = sResponse.missingVal 
-    totMax[*, *, dataIdx, segIdx] = maxArr 
+  endelse
+
+  return, aMaxData
 END
 ;--------------------------------------------------------------------
-PRO cvcCalcMaximum::regSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevels, aLevel, sROI, totMax       
-    if (segIdx eq 0) then begin
-      sz = size(sResponse.aData)
-      totMax = fltarr(sz[1], sz[2], numTimeSeg)
-    endif
-    maxArr = sResponse.aData[*, *, 0]
-    cnt = long(maxArr ne sResponse.missingVal)
-    for i = 1, n_elements(sResponse.aTimes)-1 do begin
-      tmpArr = sResponse.aData[*, *, i]
-      pos = long(tmpArr ne sResponse.missingVal)
-      maxPos = long(tmpArr * pos * cnt gt maxArr * pos * cnt)
-      addPos = long(pos - cnt eq 1)
-      idxs = where(maxPos + addPos eq 1)
-      if (idxs[0] ne -1) then maxArr[idxs] = tmpArr[idxs]
-      cnt = long(cnt + addPos eq 1)
+FUNCTION cvcCalcMaximum::regSegMax, in_aData
+  sz = size(in_aData, /dim)
+  if (n_elements(sz) eq 2) then begin ; no time dimension
+    aMaxData = in_aData ; nothing to search
+  endif else begin
+    nTimes = sz[2] ; time dimension
+
+    aMaxData = in_aData[*, *, 0] ; let's search along the time dimension
+    for iTime = 1, nTimes - 1 do begin
+      tmpData = in_aData[*, *, iTime]
+      idxs = where(tmpData gt aMaxData, cnt)
+      if (cnt gt 0) then aMaxData[idxs] = tmpData[idxs]
     endfor
-    idxs = where(cnt eq 0)
-    if (idxs[0] ne -1) then maxArr[idxs] = sResponse.missingVal 
-    totMax[*, *, segIdx] = maxArr     
+  endelse
+  return, aMaxData
 END
 ;--------------------------------------------------------------------
-PRO cvcCalcMaximum::stDailyMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevels, aLevel, sROI, numDays, totNumDays, totMax
-    self->DayMonthYear, asTimeSeg[segIdx].beginning, yr_b, mn, dy, hr
-    begDay = julday(mn, dy, yr_b, hr) 
-    self->DayMonthYear, asTimeSeg[segIdx].ending, yr_e, mn, dy, hr
-    endDay = julday(mn, dy, yr_e, hr) 
-    numDays = fix(endDay - begDay + 1)  
-    if (yr_b ne yr_e) then yr_b = yr_b + 1
-    numYrDays =long(julday(12, 31, yr_b, 18) - julday(01, 01, yr_b, 00)) + 1
-    if (numYrDays gt 365) then begin 
-      missDay = julday(2, 29, yr_b, hr)
-    endif else begin
-      missDay = sResponse.missingVal
-    endelse 
-    if (segIdx eq 0) then begin
-      sz = size(sResponse.aData)
-      totMax = fltarr(sz[1], numDays, numTimeSeg)
-      totNumDays = fltArr(numTimeSeg)
-    endif
-    totNumDays[segIdx] = numDays
-    dayIdx = 0
-    dataIdx = 0
-    maxArr = sResponse.aData[*, 0]
-    cnt = long(maxArr ne sResponse.missingVal)
-    for i = 1, n_elements(sResponse.aTimes[0, *])-1 do begin
-      if (long(sResponse.aTimes[0, i] - 0.5) eq long(begDay + dayIdx)) then begin
-        tmpArr = sResponse.aData[*, i]
-        pos = long(tmpArr ne sResponse.missingVal)
-        maxPos = long(tmpArr * pos * cnt gt maxArr * pos * cnt)
-        addPos = long(pos - cnt eq 1)
-        idxs = where(maxPos + addPos eq 1)
-        if (idxs[0] ne -1) then maxArr[idxs] = tmpArr[idxs]
-        cnt = long(cnt + addPos eq 1)
-      endif else begin
-        idxs = where(cnt eq 0)
-        if (idxs[0] ne -1) then maxArr[idxs] = sResponse.missingVal 
-        totMax[*, dataIdx, segIdx] = maxArr 
-        maxArr = sResponse.aData[*, i]
-        cnt = long(maxArr ne sResponse.missingVal)
-        if (long(sResponse.aTimes[0, i] - 0.5) ne long(missDay)) then dataIdx = dataIdx + 1
-        dayIdx = dayIdx + 1
-      endelse
+FUNCTION cvcCalcMaximum::stDailyMax, in_aData, in_aUniqDaysPos
+
+  sz = size(in_aData, /dim)
+  nStations = sz[0] ; number of stations
+  nDays = n_elements(in_aUniqDaysPos) ; number of unique days
+  
+  aMaxData = fltarr(nStations, nDays, /nozero) ; output array with maximum values for each station and day
+
+; array in_aUniqDays contains indices of the LAST element in the sequence corresponding to the whole day
+  for iSt = 0, nStations - 1 do begin
+    stDayPos = 0 ; we start from the first time point on a time grid (starting from the beginning of the first day)
+    for iDay = 0, nDays - 1 do begin ; for each unique day...
+      aMaxData[iSt, iDay] = max(in_aData[iSt, stDayPos:in_aUniqDaysPos[iDay]]) ; ... find maximum during this day
+      stDayPos = in_aUniqDaysPos[iDay] + 1 ; set starting point to the element corresponding to the beginning of the next day
     endfor
-    idxs = where(cnt eq 0)
-    if (idxs[0] ne -1) then maxArr[idxs] = sResponse.missingVal 
-    totMax[*, dataIdx, segIdx] = maxArr 
+  endfor
+
+  return, aMaxData
 END
 ;--------------------------------------------------------------------
-PRO cvcCalcMaximum::stSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevels, aLevel, sROI, totMax, totCnt       
-    if (segIdx eq 0) then begin
-      sz = size(sResponse.aData)
-      totMax = fltarr(sz[1], numTimeSeg)
-    endif
-    maxArr = sResponse.aData[*, 0]
-    cnt = long(maxArr ne sResponse.missingVal)
-    for i = 1, n_elements(sResponse.aTimes[0, *])-1 do begin
-      tmpArr = sResponse.aData[*, i]
-      pos = long(tmpArr ne sResponse.missingVal)
-      maxPos = long(tmpArr * pos * cnt gt maxArr * pos * cnt)
-      addPos = long(pos - cnt eq 1)
-      idxs = where(maxPos + addPos eq 1)
-      if (idxs[0] ne -1) then maxArr[idxs] = tmpArr[idxs]
-      cnt = long(cnt + addPos eq 1)
+FUNCTION cvcCalcMaximum::stSegMax, in_aData
+
+    sz = size(in_aData, /dim)
+    nStations = sz[0]; number of stations
+
+    aMaxData = fltarr(nStations, /nozero); allocate array for max values
+
+    for i = 0, nStations-1 do begin
+      aMaxData[i] = max(in_aData[i, *])
     endfor
-    idxs = where(cnt eq 0)
-    if (idxs[0] ne -1) then maxArr[idxs] = sResponse.missingVal 
-    totMax[*, segIdx] = maxArr    
+
+    return, aMaxData
 END
 ;--------------------------------------------------------------------
 FUNCTION cvcCalcMaximum::Run
@@ -217,94 +158,102 @@ FUNCTION cvcCalcMaximum::Run
       if (self->Assert(resultCode)) then return, resultCode
       if (sResponse.gridType ne 'station') then begin ; for non-station data
         case calcMode of
-        'day': self->regDailyMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, numDays, totNumDays, totMax
-        'segment': self->regSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMax
-        'data': begin
-                     self->regSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMax
-                     if (segIdx eq 0) then begin
-                       maxArr = totMax[*, *, segIdx]
-                       maxCnt = long(totMax[*, *, segIdx] ne sResponse.missingVal)
-                     endif else begin
-                     tmpArr = totMax[*, *, segIdx]
-                     pos = long(totMax[*, *, segIdx] ne sResponse.missingVal) ;totCnt[*, *, segIdx]
-                     maxPos = long(tmpArr * pos * maxCnt gt maxArr * pos * maxCnt)
-                     addPos = long(pos - maxCnt eq 1)
-                     idxs = where(maxPos + addPos eq 1)
-                     if (idxs[0] ne -1) then maxArr[idxs] = tmpArr[idxs]
-                       maxCnt = long(maxCnt + addPos eq 1)
-                     endelse
-                     if (segIdx eq numTimeSeg - 1) then begin
-                       idxs = where(maxCnt eq 0)
-                       if (idxs[0] ne -1) then maxArr[idxs] = sResponse.missingVal 
-                       totMax = maxArr 
-                     endif
-                 end
-       'mean': begin
-                  self->regSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMax
-                  if (segIdx eq 0) then begin
-                    sum = totMax[*, *, segIdx]
-                    cnt = long(totMax[*, *, segIdx] ne sResponse.missingVal)
-                    sum = sum * cnt
-                  endif else begin
-                    tmpArr = totMax[*, *, segIdx]
-                    pos = long(totMax[*, *, segIdx] ne sResponse.missingVal)
-                    sum = sum + tmpArr * pos
-                    cnt = cnt + pos     
-                  endelse
-                  if (segIdx eq numTimeSeg - 1) then begin
-                    idxs = where(cnt ne 0, complement = zdxs)
-                    if (idxs[0] ne -1) then totMax[idxs] = sum[idxs] / cnt[idxs]
-                    if (zdxs[0] ne -1) then totMax[zdxs] = sResponse.missingVal
-                  endif
-                end 
-              else: begin
-		      self->printLog, '(cvcCalcMaximum) Error! Unknown calculation mode: ', calcMode
-		      return, -1
-		    end
-            endcase
+          'day': begin ; find fields of max values for each day in each segment separately, result is [lon, lat, days, segments]
+		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
+    		   if (segIdx eq 0) then begin
+                     sz = size(sResponse.aData, /dim) ; dimension of the original data array
+                     totMax = fltarr(sz[0], sz[1], n_elements(aUniqDaysPos), numTimeSeg, /nozero) ; define [lon, lat, days, segment]
+		     totNumDays = fltarr(numTimeSeg, /nozero)
+                   endif
+		   totMax[*, *, *, segIdx] = self->regDailyMax(sResponse.aData, aUniqDaysPos)
+		   totNumDays[segIdx] = n_elements(aUniqDaysPos)
+		 end
+          'segment': begin ; find fields of max values for each segment separately, result is [lon, lat, segments]
+	    	       if (segIdx eq 0) then begin  
+                         sz = size(sResponse.aData, /dim) ; dimensions of the original data array
+    		         totMax = fltarr(sz[0], sz[1], numTimeSeg, /nozero)
+                       endif
+		       totMax[*, *, segIdx] = self->regSegMax(sResponse.aData) 
+		     end
+          'data': begin ; find field of max values over all segments, result is [lon, lat]
+    	 	    if (segIdx eq 0) then begin
+		      sz = size(sResponse.aData, /dim) ; dimensions of the original data array
+		      totMax = fltarr(sz[0], sz[1], /nozero) ; define [lon, lat] array
+		      totMax[*] = -1e20 ; very negative value for the beginning
+		    endif
+                    tmpMax = self->regSegMax(sResponse.aData) 
+                    idx = where(tmpMax gt totMax, cnt)
+		    if (cnt gt 0) then totMax[idx] = tmpMax[idx]
+                  end
+          'mean': begin ; find field of average max values over all segments, result is [lon, lat]
+                    tmpMax = self->regSegMax(sResponse.aData) 
+                    if (segIdx eq 0) then begin
+		      sz = size(sResponse.aData, /dim) ; dimensions of the original data array
+		      totMax = fltarr(sz[0], sz[1], /nozero) ;  define [lon, lat] array
+		      totMax[*] = sResponse.missingVal ; fill it with a missing value for the beginning
+                      sum = tmpMax ; first input into sum
+                      cnt = long(tmpMax ne sResponse.missingVal) ; counter of summed elements
+                    endif else begin
+                      sumValid = long(sum ne sResponse.missingVal) ; 1 - valid value, 0 - missing value
+		      tmpValid = long(tmpMax ne sResponse.missingVal) ; 1 - valid value, 0 - missing value
+		      idxs = where(tmpValid) ; indices of elements to be summed (we exclude missing values in the array to be added)
+                      sum[idxs] = sum[idxs]*sumValid[idxs] + tmpMax[idxs] ; here we zero missing values before summing in both arrays, but only those where at least one of summed values is not missing 
+                      cnt[idxs] = cnt[idxs] + 1 ; here we simply increase counters for valid stations
+                    endelse
+                    if (segIdx eq numTimeSeg - 1) then begin ; at the last segment we calculate mean values for all stations
+                      idxs = where(cnt ne 0)
+                      if (idxs[0] ne -1) then totMax[idxs] = sum[idxs] / cnt[idxs]
+                    endif 
+                  end
+          else: begin
+		  self->printLog, '(cvcCalcMaximum) Error! Unknown calculation mode: ', calcMode
+		  return, -1
+		end
+        endcase
       endif else begin ; station data process
 	sExtra = { aStNames : sResponse.aNames, aStCodes : sResponse.aCodes }
         case calcMode of
-          'day': self->stDailyMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, numDays, totMax
-          'segment': self->stSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMax
-          'data': begin
-                      self->stSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMax
-                      if (segIdx eq 0) then begin
-                        maxArr = totMax[*, segIdx]
-                        maxCnt = long(totMax[*, segIdx] ne sResponse.missingVal)
-                      endif else begin
-                        tmpArr = totMax[*, segIdx]
-                        pos = long(totMax[*, segIdx] ne sResponse.missingVal)
-                        maxPos = long(tmpArr * pos * maxCnt gt maxArr * pos * maxCnt)
-                        addPos = long(pos - maxCnt eq 1)
-                        idxs = where(maxPos + addPos eq 1)
-                        if (idxs[0] ne -1) then maxArr[idxs] = tmpArr[idxs]
-                        maxCnt = long(maxCnt + addPos eq 1)
-                      endelse
-                      if (segIdx eq numTimeSeg - 1) then begin
-                        idxs = where(maxCnt eq 0)
-                        if (idxs[0] ne -1) then maxArr[idxs] = sResponse.missingVal 
-                        totMax = maxArr 
-                      endif
-                    end
-          'mean': begin
-                      self->stSegMax, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMax
-                      if (segIdx eq 0) then begin
-                       sum = totMax[*, segIdx]
-                       cnt = long(totMax[*, segIdx] ne sResponse.missingVal)
-                       sum = sum * cnt
-                     endif else begin
-                       tmpArr = totMax[*, segIdx]
-                       pos = long(totMax[*, segIdx] ne sResponse.missingVal)
-                       sum = sum + tmpArr * pos
-                       cnt = cnt + pos     
-                     endelse
-                     if (segIdx eq numTimeSeg - 1) then begin
-                       idxs = where(cnt ne 0, complement = zdxs)
+          'day': begin ; find max for each station for each day in each segment separately, result is [stations, days, segments]
+		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
+    		   if (segIdx eq 0) then begin
+		     totMax = fltarr((size(sResponse.aData, /dim))[0], n_elements(aUniqDaysPos), numTimeSeg, /nozero)
+		     totNumDays = fltarr(numTimeSeg, /nozero)
+		   endif
+		   totMax[*, *, segIdx] = self->stDailyMax(sResponse.aData, aUniqDaysPos)
+		   totNumDays[segIdx] = n_elements(aUniqDaysPos)
+		 end
+          'segment': begin ; find max for each station in each segment separately, result is [stations, segments]
+    		       if (segIdx eq 0) then totMax = fltarr((size(sResponse.aData, /dim))[0], numTimeSeg, /nozero)
+		       totMax[*, segIdx] = self->stSegMax(sResponse.aData) 
+		     end
+          'data': begin ; find max for each station over all segments, result is [stations]
+    		    if (segIdx eq 0) then begin
+		      totMax = fltarr((size(sResponse.aData, /dim))[0], /nozero)
+		      totMax[*] = -1e20 ; very negative value for the beginning
+		    endif
+                    tmpMax = self->stSegMax(sResponse.aData) 
+                    idx = where(tmpMax gt totMax, cnt)
+		    if (cnt gt 0) then totMax[idx] = tmpMax[idx]
+                  end
+          'mean': begin ; find average max for each station over all segments, result is [stations]
+                    tmpMax = self->stSegMax(sResponse.aData) 
+                    if (segIdx eq 0) then begin
+		      totMax = fltarr((size(sResponse.aData, /dim))[0], /nozero)
+		      totMax[*] = sResponse.missingVal
+                      sum = tmpMax ; first input into sum
+                      cnt = long(tmpMax ne sResponse.missingVal) ; counter of summed elements
+                    endif else begin
+                      sumValid = long(sum ne sResponse.missingVal) ; 1 - valid value, 0 - missing value
+		      tmpValid = long(tmpMax ne sResponse.missingVal) ; 1 - valid value, 0 - missing value
+		      idxs = where(tmpValid) ; indices of elements to be summed (we exclude missing values in the array to be added)
+                      sum[idxs] = sum[idxs]*sumValid[idxs] + tmpMax[idxs] ; here we zero missing values before summing in both arrays, but only those where at least one of summed values is not missing 
+                      cnt[idxs] = cnt[idxs] + 1 ; here we simply increase counters for valid stations
+                    endelse
+                    if (segIdx eq numTimeSeg - 1) then begin ; at the last segment we calculate mean values for all stations
+                       idxs = where(cnt ne 0)
                        if (idxs[0] ne -1) then totMax[idxs] = sum[idxs] / cnt[idxs]
-                       if (zdxs[0] ne -1) then totMax[zdxs] = sResponse.missingVal
-                     endif 
-                   end
+                    endif 
+                  end
             else: begin
 		self->printLog, '(cvcCalcMaximum::Run) Error! Unknown calculation mode: ', calcMode
 		return, -1
@@ -313,7 +262,7 @@ FUNCTION cvcCalcMaximum::Run
       endelse
     endfor
     aDataArray = totMax
- 
+
 ;    case sResponse.gridType of
     aLons = sResponse.aLons
     aLats = sResponse.aLats
