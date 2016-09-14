@@ -158,7 +158,7 @@ FUNCTION cvcCalcMaximum::Run
       if (self->Assert(resultCode)) then return, resultCode
       if (sResponse.gridType ne 'station') then begin ; for non-station data
         case calcMode of
-          'day': begin ; find fields of max values for each day in each segment separately, result is [lon, lat, days, segments]
+          'day': begin ; find fields of max values for each day in each segment separately, result is [lon, lat, days, segments]   
 		   aUniqDaysPos = uniq(long(sResponse.aTimes-0.5)) ; locate indices of unique days (see uniq() )
     		   if (segIdx eq 0) then begin
                      sz = size(sResponse.aData, /dim) ; dimension of the original data array
@@ -273,7 +273,9 @@ FUNCTION cvcCalcMaximum::Run
       'day': begin
                   i = 0
                   for segIdx = 0, numTimeSeg - 1 do begin
+                 
                     if (segIdx eq 0) then midDaySeg = fltarr(numTimeSeg*totNumDays[segIdx])
+    
                     numDays = totNumDays[segIdx]
                     self->DayMonthYear, asTimeSeg[segIdx].beginning, begYear, begMonth, begDay, begHour
                     begTimeJD = julday(begMonth, begDay, begYear, begHour)
