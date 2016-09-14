@@ -171,7 +171,15 @@ FUNCTION cvcCalcTiMean::Run
       res = aoParams[0]->Get(UID='timeMean', sParam)
       if (self->Assert(res)) then return, res
       calcMode = *(sParam.data)
-    endif else calcMode = 'data'  
+      res = aoParams[0]->Get(UID='Slope', sParam)
+      if (self->Assert(res)) then calcSlope = 1. else calcSlope = *(sParam.data)
+      res = aoParams[0]->Get(UID='Intersept', sParam)
+      if (self->Assert(res)) then calcIntercept = 0. else calcIntersept = *(sParam.data)
+    endif else begin
+      calcMode = 'data'
+      calcIntercept = 0.
+      calcSlope = 1.
+    endelse
     
     ; get info about number of levels and time segments
     retCode = (aoInputs[dataIdx])->GetInfo(OUT_NTIMESEG=numTimeSeg, OUT_TIMESEGS=asTimeSeg, OUT_NLEVELS=numLevels, OUT_LEVELS=aLevel, OUT_ROI=sROI)
@@ -183,37 +191,78 @@ FUNCTION cvcCalcTiMean::Run
     ; main loop for all time segments
     self->printLog, "(cvcCalcTiMean::Run) Get data..."
     cnt = 0 ; number of summed fields
+    
+    ; number of months for month_accum and month_clim
+    nMonths = 12
 
-    ; time segment to read
-    segIdx = 0     
     for segIdx = 0, numTimeSeg - 1 do begin
-      resultCode = (aoInputs[dataIdx])->Get(Time=asTimeSeg[segIdx], Level=aLevel[levelIdx], Region=sROI, sResponse)
+      resultCode = (aoInputs[dataIdx])->Get(Time=asTimeSeg[segIdx], Level=aLevel[levelIdx], Region=sROI, sResponse) 
       if (self->Assert(resultCode)) then return, resultCode
       if (sResponse.gridType ne 'station') then begin ; for non-station data
         case calcMode of
-        'day': self->regDailyMean, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, numDays, totMean
-        'segment': self->regSegMean, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMean
-        'data': begin
-                     self->regSegMean, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMean
-                     if (segIdx eq 0) then begin
-                     meanArr = totMean[*, *, segIdx]
-                     meanCnt = long(totMean[*, *, segIdx] ne sResponse.missingVal)
-                     meanArr = meanArr * meanCnt
-                   endif else begin
-                     tmpArr = totMean[*, *, segIdx]
-                     pos = long(totMean[*, *, segIdx] ne sResponse.missingVal)
-                     meanArr = meanArr + tmpArr * pos
-                     meanCnt = meanCnt + pos
-                   endelse
-                   if (segIdx eq numTimeSeg - 1) then begin
-                     idxs = where(meanCnt ne 0, complement = zdxs)
-                     if (idxs[0] ne -1) then meanArr[idxs] = meanArr[idxs] / meanCnt[idxs]
-                     if (zdxs[0] ne -1) then meanArr[zdxs] = sResponse.missingVal 
-                     totMean = meanArr 
-                   endif
-                 end 
-              else: self->printLog, '(cvcCalcTiMean::Run) Error! Unknown calculation mode: ', mode
-            endcase
+          'day': self->regDailyMean, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, numDays, totMean
+          'segment': self->regSegMean, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMean
+          'data': begin
+                    self->regSegMean, asTimeSeg, segIdx, sResponse, numTimeSeg, numLevel, aLevel, sROI, totMean
+                    if (segIdx eq 0) then begin
+                      meanArr = totMean[*, *, segIdx]
+                      meanCnt = long(totMean[*, *, segIdx] ne sResponse.missingVal)
+                      meanArr = meanArr * meanCnt
+                    endif else begin
+                      tmpArr = totMean[*, *, segIdx]
+                      pos = long(totMean[*, *, segIdx] ne sResponse.missingVal)
+                      meanArr = meanArr + tmpArr * pos
+                      meanCnt = meanCnt + pos
+                    endelse
+                    if (segIdx eq numTimeSeg - 1) then begin
+                      idxs = where(meanCnt ne 0, complement = zdxs)
+                      if (idxs[0] ne -1) then meanArr[idxs] = meanArr[idxs] / meanCnt[idxs]
+                      if (zdxs[0] ne -1) then meanArr[zdxs] = sResponse.missingVal 
+                      totMean = meanArr 
+                    endif
+                  end
+            'month_accum' : begin
+			     sz = size(sResponse.aData, /dim) ; dimensions of the original data array
+			     totMean = fltarr(sz[0], sz[1], nMonths, numTimeSeg) ; sums [lon, lat, year, month]
+			     cnts = lonarr(sz[0], sz[1], nMonths, numTimeSeg) ; number of summed values [lon, lat, year, month]
+                             
+			     self->DayMonthYear, asTimeSeg[segIdx].beginning, yr, mn, dy, hr ; we need the starting year - yr
+			     mejd = julday(indgen(nMonths)+2, 1, yr, 23)-1 ; julian days of last day of each month
+			     
+                             startPos = 0 ; starting position in the time grid
+			     for monthIdx = 0, nMonths-1 do begin
+			       foo = min(abs(sResponse.aTimes-mejd[monthIdx]), endPos) ; endPos will point at the first day of the next month
+			       for iTime = startPos, endPos-1 do begin
+			         subData = sResponse.aData[*, *, iTime]
+			         dataValid = (subData ne sResponse.missingVal)
+			         totMean[*, *, monthIdx, segIdx] += subData*dataValid ; we sum only valid values, missing values are zeroed
+			         cnts[*, *, monthIdx, segIdx] += dataValid
+			       endfor
+			       startPos = endPos ; move pointer to the start of the next month
+			     endfor
+                           end 
+            'month_clim' : begin
+			     sz = size(sResponse.aData, /dim) ; dimensions of the original data array
+			     totMean = fltarr(sz[0], sz[1], nMonths, numTimeSeg) ; sums [lon, lat, year, month]
+			     cnts = lonarr(sz[0], sz[1], nMonths, numTimeSeg) ; number of summed values [lon, lat, year, month]
+                             
+			     self->DayMonthYear, asTimeSeg[segIdx].beginning, yr, mn, dy, hr ; we need the starting year - yr
+			     mejd = julday(indgen(nMonths)+2, 1, yr, 23)-1 ; julian days of last day of each month
+			     
+                             startPos = 0 ; starting position in the time grid
+			     for monthIdx = 0, nMonths-1 do begin
+			       foo = min(abs(sResponse.aTimes-mejd[monthIdx]), endPos) ; endPos will point at the first day of the next month
+			       for iTime = startPos, endPos-1 do begin
+			         subData = sResponse.aData[*, *, iTime]
+			         dataValid = (subData ne sResponse.missingVal)
+			         totMean[*, *, monthIdx, segIdx] += subData*dataValid ; we sum only valid values, missing values are zeroed
+			         cnts[*, *, monthIdx, segIdx] += dataValid
+			       endfor
+			       startPos = endPos ; move pointer to the start of the next month
+			     endfor
+                           end 
+          else: self->printLog, '(cvcCalcTiMean::Run) Error! Unknown calculation mode: ', mode
+        endcase
       endif else begin ; station data process
 	sExtra = { aStNames : sResponse.aNames, aStCodes : sResponse.aCodes }
         case calcMode of
@@ -237,13 +286,13 @@ FUNCTION cvcCalcTiMean::Run
                         if (zdxs[0] ne -1) then meanArr[zdxs] = sResponse.missingVal 
                         totMean = meanArr 
                       endif
-                    end
-            else: self->printLog, '(cvcCalcTiMean::Run) Error! Unknown calculation mode: ', mode
+                  end
+          else: self->printLog, '(cvcCalcTiMean::Run) Error! Unknown calculation mode: ', mode
         endcase
       endelse
     endfor
     aDataArray = totMean
- 
+
 ;    case sResponse.gridType of
     aLons = sResponse.aLons
     aLats = sResponse.aLats
@@ -277,13 +326,22 @@ FUNCTION cvcCalcTiMean::Run
                     midSeg[segIdx] = reqTimeJD_0 + (long(reqTimeJD_1) - long(reqTimeJD_0))/2
                   endfor 
                 end
-       'data': begin
+      'data': begin
                    self->DayMonthYear, asTimeSeg[0].beginning, reqYear, reqMonth, reqDay, reqHour
                    reqTimeJD_0 = julday(reqMonth, reqDay, reqYear, reqHour)
                    self->DayMonthYear, asTimeSeg[0].ending, reqYear, reqMonth, reqDay, reqHour
                    reqTimeJD_1 = julday(reqMonth, reqDay, reqYear, reqHour)
 		   midBegSeg = reqTimeJD_0 + (long(reqTimeJD_1) - long(reqTimeJD_0))/2
 	       end
+      'month_accum': begin
+		       self->DayMonthYear, asTimeSeg[0].beginning, yr0, mn, dy, hr ; we need the first year - yr0
+		       self->DayMonthYear, asTimeSeg[numTimeSeg-1].ending, yr1, mn, dy, hr ; and we need the last year - yr1
+		       nYears = yr1 - yr0 + 1 ; number of years under consideration
+		       if (size(aDataArray, /n_dim) eq 4) then aDataArray = total(aDataArray, 4) / nYears 
+		     end
+      'month_clim': begin
+		       if (size(aDataArray, /n_dim) eq 4) then aDataArray = total(aDataArray, 4) / total(cnts, 4)
+		     end
       else: self->printLog, '(cvcCalcTiMean::Run) calcModes of dataMin and tiMean do not have time grid '
     endcase
     
@@ -291,12 +349,15 @@ FUNCTION cvcCalcTiMean::Run
     ; output we want to write to, let's get the first one
     outIdx = 0    
 
+    aDataArray = calcIntercept + calcSLope*aDataArray ; apply scaling coefficients
     res = (aoOutputs[outIdx])->Put(aDataArray)
     if (self->Assert(res)) then return, res
     case calcMode of
-      'day': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, timeGRID = midDaySeg, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
-      'segment': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, timeGRID = midSeg, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
+      'day': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, timeGRID=midDaySeg, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
+      'segment': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, timeGRID=midSeg, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
       'data': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
+      'month_accum': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, timeGRID=mejd, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
+      'month_clim': res = (aoOutputs[outIdx])->SetInfo(XGRID=aLons, YGRID=aLats, timeGRID=mejd, MISSING=sResponse.missingVal, GRIDTYPE=sResponse.gridType, EXTRA=sExtra)
     else: self->printLog, '(cvcCalcTiMean::Run) Error! Unknown calculation mode: ', mode
     endcase
     if (self->Assert(res)) then return, res
