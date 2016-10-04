@@ -269,7 +269,6 @@ self->printLog, ' levDim...'
 
     ncdf_close, NCFileId
     
-
     aCount = replicate(1L, asNCVar[varId].ndims)
     aOffset = replicate(0L, asNCVar[varId].ndims)
     
@@ -599,6 +598,20 @@ self->printlog, 'Set time variable...'
 	  '6h': begin
 	    timeStep = 0.25 
             nTimes = floor((reqTimeJD[1]-reqTimeJD[0]) / timeStep + 1)
+	  end
+	  '1mc': begin ; monthly ciimatological values
+	    caldat, aTimeInFileJD, m_InFile, d_InFile, y_InFile ; months, days and years set in file time grid
+	    ; then we create a new 'required time range' by taking the same year as in the file (it must be the same for all time grid points!)
+	    reqTimeJDClim = [julday(reqMonthBeg, 1, y_InFile[0]), julday(reqMonthEnd, 31, y_InFile[0])] 
+	    ; and find time indices (suppose, we want to process monthly climatological values for a few months)
+	    timeIdxs = where((aTimeInFileJD ge reqTimeJDClim[0]) and (aTimeInFileJD le reqTimeJDClim[1]), nCurTimes)
+	    timeStep = 1
+	    nTimes = n_elements(timeIdxs)
+	  end
+	  '1yc': begin ; yearly climatology values
+	    timeIdxs = [0] ; we suppose there is only one field in a file for the yearly climatology
+	    timeStep = 1
+	    nTimes = 1
 	  end
 	  else: begin
 	    timeStep = (aTimeInFileJD[1]-aTimeInFileJD[0])
