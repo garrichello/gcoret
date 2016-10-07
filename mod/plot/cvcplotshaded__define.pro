@@ -25,6 +25,14 @@ PRO cvcPlotShaded::Cleanup
     set_plot, 'x'
 END
 ;--------------------------------------------------------------------
+FUNCTION cvcPlotShaded::__PlotFloatGeoTIFF, in_sData, in_sDestDesc
+
+END
+;--------------------------------------------------------------------
+FUNCTION cvcPlotShaded::__PlotRGBGeoTIFF, in_sData, in_sDestDesc
+
+END
+;--------------------------------------------------------------------
 FUNCTION cvcPlotShaded::__PlotGeoTIFF, in_sData, in_sDestDesc
 
     if (in_sDestDesc.graphics.kind ne 'shaded') then begin
@@ -37,12 +45,15 @@ FUNCTION cvcPlotShaded::__PlotGeoTIFF, in_sData, in_sDestDesc
 
 ; set map conversion
 self->printLog, 'Setting map projection'
-    map_set, 0, 0, name=in_sDestDesc.projection.name, xmargin = [0, 0], ymargin = [0, 0], $
-     limit=[in_sDestDesc.projection.limits.bottom, in_sDestDesc.projection.limits.left, $
-            in_sDestDesc.projection.limits.top, in_sDestDesc.projection.limits.right], /noborder   
+;    map_set, 0, 0, name=in_sDestDesc.projection.name, xmargin = [0, 0], ymargin = [0, 0], $
+;     limit=[in_sDestDesc.projection.limits.bottom, in_sDestDesc.projection.limits.left, $
+;            in_sDestDesc.projection.limits.top, in_sDestDesc.projection.limits.right], /noborder   
 
     minLon = min(in_sData.aLons, max = maxLon)
     minLat = min(in_sData.aLats, max = maxLat)
+
+    map_set, 0, 0, name=in_sDestDesc.projection.name, xmargin = [0, 0], ymargin = [0, 0], $
+     limit=[minLat, minLon, maxLat, maxLon], /noborder   
 
 ;    stop
 ; map image to the chosen projection
@@ -52,22 +63,18 @@ self->printLog, 'Mapping image'
       self->printLog, 'WARNING! Data to plot has 3 dimensions... Several files will be written.'
     endif else nSlices = 1
 
-    latmin =  in_sData.aLats[0]
-    latmax = in_sData.aLats[n_elements(in_sData.aLats)-1]
-    lonmin = in_sData.aLons[0]
-    lonmax = in_sData.aLons[n_elements(in_sData.aLons)-1] eq in_sDestDesc.projection.limits.right ? $
-	      in_sDestDesc.projection.limits.right - 0.001 : in_sData.aLons[n_elements(in_sData.aLons)-1]
+;    latmin =  in_sData.aLats[0]
+;    latmax = in_sData.aLats[n_elements(in_sData.aLats)-1]
+;    lonmin = in_sData.aLons[0]
+;    lonmax = in_sData.aLons[n_elements(in_sData.aLons)-1] eq in_sDestDesc.projection.limits.right ? $
+;	      in_sDestDesc.projection.limits.right - 0.001 : in_sData.aLons[n_elements(in_sData.aLons)-1]
  
     
-;    if ((maxLon gt 180) and (minLon lt 180)) then begin
-;      minLon = -180.
-;      maxLon = 180.
-;    endif
-;    xScale = (maxLon - minLon + 1) / imageXsize
-;    yScale = (maxLat - minLat + 1) / imageYsize
+;    xScale = (in_sDestDesc.projection.limits.right - in_sDestDesc.projection.limits.left) / (in_sDestDesc.graphics.width - 1) 
+;    yScale = (in_sDestDesc.projection.limits.top - in_sDestDesc.projection.limits.bottom) / (in_sDestDesc.graphics.height - 1) 
 
-    xScale = (in_sDestDesc.projection.limits.right - in_sDestDesc.projection.limits.left) / (in_sDestDesc.graphics.width - 1) 
-    yScale = (in_sDestDesc.projection.limits.top - in_sDestDesc.projection.limits.bottom) / (in_sDestDesc.graphics.height - 1) 
+    xScale = (maxLon - minLon) / (in_sDestDesc.graphics.width - 1) 
+    yScale = (maxLat - minLat) / (in_sDestDesc.graphics.height - 1) 
 
 ; prepare geokeys    
 self->printLog, 'Preparing geokeys'
@@ -79,15 +86,15 @@ self->printLog, 'Preparing geokeys'
     CT_PolarStereographic =	15
 
     if (in_sDestDesc.projection.name eq 'cylindrical') then begin
-
       geokeys = { MODELPIXELSCALETAG : [ xScale, yScale, 0.0D ], $
+;                MODELTIEPOINTTAG : [ 0.0D, 0.0D, 0.0D, $
+;                                     double(in_sDestDesc.projection.limits.left), double(in_sDestDesc.projection.limits.bottom), 0.0D ], $
                 MODELTIEPOINTTAG : [ 0.0D, 0.0D, 0.0D, $
-                                     double(in_sDestDesc.projection.limits.left), double(in_sDestDesc.projection.limits.bottom), 0.0D ], $
+                                     double(minLon), double(minLat), 0.0D ], $
                 GTMODELTYPEGEOKEY : ModelTypeGeographic, $
                 GTRASTERTYPEGEOKEY : RasterPixelIsArea, $
                 GEOGRAPHICTYPEGEOKEY : GCS_WGS_84 $
               }
-
     endif else if (in_sDestDesc.projection.name eq 'stereographic') then begin
       sMAP = MAP_PROJ_INIT('Stereographic', CENTER_LONGITUDE = in_sDestDesc.projection.p0lon, CENTER_LATITUDE = in_sDestDesc.projection.p0lat)
       xyCoord = map_proj_forward(in_sData.aLons[0], in_sData.aLats[0], MAP_STRUCTURE=sMAP)      
@@ -147,8 +154,10 @@ self->printLog, 'Loading color table'
 if (in_sDestDesc.projection.name eq 'cylindrical') then begin
     if (in_sDestDesc.graphics.smoothing eq 'yes') then begin
       aMappedData = map_image(in_sData.aData[*, *, iSlice], startXPos, startYPos, $
-       imageXSize, imageYSize, lonmin = lonmin, lonmax = lonmax, $
-       latmin = latmin, latmax = latmax, compress = 1, missing = in_sData.missingVal, $
+;       imageXSize, imageYSize, lonmin = lonmin, lonmax = lonmax, $
+;       latmin = latmin, latmax = latmax, compress = 1, missing = in_sData.missingVal, $
+       imageXSize, imageYSize, lonmin = minLon, lonmax = maxLon, $
+       latmin = minLat, latmax = maxLat, compress = 1, missing = in_sData.missingVal, $
        min_value = in_sData.missingVal, mask = goodMask, /bilinear)
     endif else begin
       aMappedData = map_image(in_sData.aData[*, *, iSlice], startXPos, startYPos, $
@@ -164,7 +173,7 @@ endif else begin
     imageYSize = in_sDestDesc.graphics.height
 endelse
 
-   if (in_sDestDesc.graphics.legend.limited eq 'yes') then begin
+    if (in_sDestDesc.graphics.legend.limited eq 'yes') then begin
       minVal = in_sDestDesc.graphics.legend.minimum
       maxVal = in_sDestDesc.graphics.legend.maximum
     endif else minVal = min(aMappedData[where(aMappedData ne in_sData.missingVal)], max = maxVal)
@@ -272,30 +281,18 @@ self->printLog, 'Preparing legend'
         res = self->__WriteXMLLegend(legFileName, aColorTable, OPTIONS = sLegOpts)
       endif else begin ; otherwise we try to plot a graphical file with a legend
 
-;      set_plot, 'x'
-;      device, decomposed=0
-;      window, xsize=200, ysize=500
-;      loadct, colorTableId
-;      tvlct, aColorTable, /get
-;      aColorTable[0, *] = 0b
-;      aColorTable[254, *] = 192b
-;      aColorTable[255, *] = 255b
-;      tvlct, aColorTable
-    
-      device, set_resolution=[200, 500]           
+        device, set_resolution=[200, 500]           
 
-      plot, [0, 1], [0, 1], xstyle=4, ystyle=4, pos=[0, 0, 1, 1], /nodata ; a hack to fix /norm-problem
-      res = self->__PlotALegend(OPTIONS = sLegOpts)
+        plot, [0, 1], [0, 1], xstyle=4, ystyle=4, pos=[0, 0, 1, 1], /nodata ; a hack to fix /norm-problem
+        res = self->__PlotALegend(OPTIONS = sLegOpts)
   
-      image = tvrd()
-;    stop
-;      write_image, legFileName, legFileType, image, aColorTable[*, 0], aColorTable[*, 1], aColorTable[*, 2]
-;      write_image2, legFileName, legFileType, image, red=aColorTable[*, 0], green=aColorTable[*, 1], blue=aColorTable[*, 2]
+        image = tvrd()
 self->printLog, 'Writing legend file'
-      write_tiff, legFileName, reverse(image, 2), red=aColorTable[*, 0], green=aColorTable[*, 1], blue=aColorTable[*, 2]
-    endelse ; if legend is written into file
+        write_tiff, legFileName, reverse(image, 2), red=aColorTable[*, 0], green=aColorTable[*, 1], blue=aColorTable[*, 2]
+      endelse ; if legend is written into file
+    endif else begin
 self->printLog, "(cvcPlotShaded) Don't know where to put a legend. Skipping..."
-    endif
+    endelse
 
     endfor ; loop for slices
   
