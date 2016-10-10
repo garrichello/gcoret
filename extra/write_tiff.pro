@@ -66,7 +66,7 @@ pro write_tiff, in_fileName, in_aImage, red = in_aRed, green = in_aGreen, blue =
   tmp_dir = '/tmp'
   tmp_prefix = '/gcore_tmp'
   tmp_fileName = tmp_dir+tmp_prefix+strtrim(long64(systime(1)*100),2)
-  
+
   if (n_elements(in_sGeoKeys) ne 0) then begin
     res = python('myplot', 'write_geotiff', tmp_fileName, float(image), float(keys), float(types), float(lens), float(vals), fltflag)
   endif else begin

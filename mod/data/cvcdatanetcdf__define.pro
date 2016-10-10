@@ -592,7 +592,12 @@ self->printlog, 'Set time variable...'
 	    nTimes = (reqYearEnd - reqYearBeg)*12 + reqMonthEnd - reqMonthBeg + 1
 	  end
 	  '1y': begin
-            timeStep = 1
+	    caldat, aTimeInFileJD, m_InFile, d_InFile, y_InFile ; months, days and years set in file time grid
+	    ; then we create a new 'required time range' by taking full range of years and days and months
+	    reqTimeJDYears = [julday(1, 1, y_InFile[0]), julday(12, 31, y_InFile[n_elements(y_InFile)-1])] 
+	    ; and find time indices (suppose, we want to process
+	    timeIdxs = where((aTimeInFileJD ge reqTimeJDYears[0]) and (aTimeInFileJD le reqTimeJDYears[1]), nCurTimes)
+	    timeStep = 1
 	    nTimes = (reqYearEnd - reqYearBeg) + 1
 	  end
 	  '6h': begin
