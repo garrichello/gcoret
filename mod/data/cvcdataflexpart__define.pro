@@ -66,7 +66,7 @@ FUNCTION cvcDataFLEXPART::Read, in_aArea, in_aTimeRng, in_level, out_sData
 
 ; search for min/max values
     self->printLog, '(cvcDataFLEXPART) Searching for min/max values...'
-    goodidx = where(aAllData ne missingVal)
+    goodidx = where(aAllData ne missingVal, goodcnt)
     if (goodidx[0] ne -1) then begin
       minVal = min(aAllData[goodidx], max=maxVal) 
     endif else begin
@@ -75,7 +75,7 @@ FUNCTION cvcDataFLEXPART::Read, in_aArea, in_aTimeRng, in_level, out_sData
     endelse
 
 ; apply scale/offset factors
-    if ((self.modify.scale ne 1.0) or (self.modify.offset ne 0.0)) then aAllData = self.modify.scale*aAllData + self.modify.offset
+    if (goodcnt gt 0) then if ((self.modify.scale ne 1.0) or (self.modify.offset ne 0.0)) then aAllData[goodidxs] = self.modify.scale*aAllData[goodidxs] + self.modify.offset
     
     out_sData = { aData : aAllData, $
                   aLons : aLons, $

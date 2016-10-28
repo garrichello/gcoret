@@ -453,6 +453,14 @@ FUNCTION cvcWrite::Run, in_pInputs
       return, -1
     endif
     sData = (*in_pInputs)[idx]
+
+    ; modify data
+    valIdxs = where(*(*sData.data).data ne (*sData.data).missingVal, cntVal)
+    if (cntVal gt 0) then begin
+      scale = (*sData.data).modify.scale
+      offset = (*sData.data).modify.offset
+      (*(*sData.data).data)[valIdxs] = scale*(*(*sData.data).data)[valIdxs] + offset
+    endif
         
     if (sDestDesc.file.name ne '') then begin
       outFileType = sDestDesc.file.type 

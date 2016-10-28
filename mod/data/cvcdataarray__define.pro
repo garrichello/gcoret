@@ -283,14 +283,21 @@ self->printLog, '(cvcDataArray) gridFlag: ', gridFlag
   endelse        
     
   missingVal = sData.missingVal
-  minVal = min(aSubData[where(aSubData ne missingVal)], max = maxVal)
+  valIdxs = where(aSubData ne missingVal, valCnt)
+
+  if (valCnt gt 0) then begin
+    minVal = min(aSubData[valIdxs], max = maxVal)
+  endif else begin
+    minVal = missingVal
+    maxVal = missingVal
+  endelse
 
 ; ToDo: Here it is necessary to insert a function call for missing-valueing points-outlayers of the given area  
 
 
 
 ; apply scale/offset factors
-    if ((self.modify.scale ne 1.0) or (self.modify.offset ne 0.0)) then aSubData = self.modify.scale*aSubData + self.modify.offset
+    if (valCnt gt 0) then if ((self.modify.scale ne 1.0) or (self.modify.offset ne 0.0)) then aSubData[valIdxs] = self.modify.scale*aSubData[valIdxs] + self.modify.offset
 
   out_sData = { aData : temporary(aSubData), $
                 aLons : aSubLons, $

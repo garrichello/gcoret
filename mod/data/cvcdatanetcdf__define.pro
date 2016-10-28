@@ -871,8 +871,10 @@ self->printLog, 'NOT Searching for min and max values...', format='(a, $)'
       aLats = self.sROIBounds.lat1
     endif
 
+    goodidxs = where(aAllData ne missingVal, goodcnt)
+
 ; apply scale/offset factors
-    if ((self.modify.scale ne 1.0) or (self.modify.offset ne 0.0)) then aAllData = self.modify.scale*aAllData + self.modify.offset
+    if (goodcnt gt 0) then if ((self.modify.scale ne 1.0) or (self.modify.offset ne 0.0)) then aAllData[goodidxs] = self.modify.scale*aAllData[goodidxs] + self.modify.offset
 
 self->printLog, 'OK', /notimestamp
 

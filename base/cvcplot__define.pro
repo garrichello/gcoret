@@ -321,10 +321,17 @@ aData = *in_sData.data
       endelse
     endelse
 
+    valIdxs = where(aData ne in_sData.missingVal, valCnt)
+
 ; apply modifications to data
-    if ((in_sData.modify.scale ne 1.0) or (in_sData.modify.offset ne 0.0)) then aData = in_sData.modify.scale*aData + in_sData.modify.offset
+    if (valCnt gt 0) then if ((in_sData.modify.scale ne 1.0) or (in_sData.modify.offset ne 0.0)) then aData[valIdxs] = in_sData.modify.scale*aData[valIdxs] + in_sData.modify.offset
     
-    minVal = min(aData[where(aData ne in_sData.missingVal)], max = maxVal)
+    if (valCnt gt 0) then begin
+      minVal = min(aData[valIdxs], max = maxVal)
+    endif else begin
+      minVal = in_sData.missingVal
+      maxVal = in_sData.missingVal
+    endelse
         
     out_sData = { $
                   aData : aData, $
