@@ -320,6 +320,9 @@ aData = *in_sData.data
         return, -1
       endelse
     endelse
+
+; apply modifications to data
+    if ((in_sData.modify.scale ne 1.0) or (in_sData.modify.offset ne 0.0)) then aData = in_sData.modify.scale*aData + in_sData.modify.offset
     
     minVal = min(aData[where(aData ne in_sData.missingVal)], max = maxVal)
         

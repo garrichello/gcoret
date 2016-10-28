@@ -287,6 +287,11 @@ self->printLog, '(cvcDataArray) gridFlag: ', gridFlag
 
 ; ToDo: Here it is necessary to insert a function call for missing-valueing points-outlayers of the given area  
 
+
+
+; apply scale/offset factors
+    if ((self.modify.scale ne 1.0) or (self.modify.offset ne 0.0)) then aSubData = self.modify.scale*aSubData + self.modify.offset
+
   out_sData = { aData : temporary(aSubData), $
                 aLons : aSubLons, $
                 aLats : aSubLats, $

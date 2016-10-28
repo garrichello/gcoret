@@ -31,7 +31,9 @@ FUNCTION cvcData::Init, in_pDataDesc, in_modulePath, in_oGlobal
     self.dataset.filespan = (*in_pDataDesc).dataset.filespan
     self.dataset.fileTemplate = (*in_pDataDesc).dataset.fileTemplate
     self.levVarName = (*in_pDataDesc).levVarName
-        
+    self.modify.scale = (*in_pDataDesc).modify.scale
+    self.modify.offset = (*in_pDataDesc).modify.offset
+
     self.prepared = 0
     self.debugMode = 1
     self->printLog, "(cvcData::Init) Data has been initialized"
@@ -69,6 +71,7 @@ PRO cvcData__define
                   debugMode : 0, $
                   modulePath : '', $
                   dataset : {name : '', scenario : '', res : '', tstep : '', filespan : '', path : '', fileTemplate : ''}, $
+		  modify : { scale : 1.0, offset : 0.0}, $
                   pDataFile : ptr_new(), $
 ;                  dataFileType : '', $
                   oConst : obj_new(), $

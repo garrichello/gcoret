@@ -263,6 +263,17 @@ FUNCTION cvcMainApp::__ReadDataDesc, in_oTaskNode, in_modulePath, out_pData
           endif else begin
             (*pData)[i].numTimeSeg = 1
           endelse
+
+	; Data on-the-fly modifications
+	  oModify = (oData->GetElementsByTagName('modify'))->Item(0)
+
+	  if (obj_valid(oModify)) then begin
+	    (*pData)[i].modify.scale = float(oModify->GetAttribute('scale'))
+	    (*pData)[i].modify.offset = float(oModify->GetAttribute('offset'))
+	  endif else begin
+	    (*pData)[i].modify.scale = 1.0
+	    (*pData)[i].modify.offset = 0.0
+	  endelse
         endif else begin; (dataType eq 'array')
           if ((*pData)[i].type eq 'parameter') then begin
             oAllParams = oData->GetElementsByTagName('param')

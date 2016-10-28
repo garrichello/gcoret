@@ -73,6 +73,9 @@ FUNCTION cvcDataFLEXPART::Read, in_aArea, in_aTimeRng, in_level, out_sData
       minVal = missingVal
       maxVal = missingVal
     endelse
+
+; apply scale/offset factors
+    if ((self.modify.scale ne 1.0) or (self.modify.offset ne 0.0)) then aAllData = self.modify.scale*aAllData + self.modify.offset
     
     out_sData = { aData : aAllData, $
                   aLons : aLons, $

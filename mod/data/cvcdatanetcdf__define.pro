@@ -848,6 +848,8 @@ self->printLog, 'NOT Searching for min and max values...', format='(a, $)'
 ; We suppose if aLats AND aLons are NOT vectors (1-D) we have irregular grid
     if ((size(aLons, /n_dim) gt 1) and (size(aLats, /n_dim) gt 1)) then gridType = 'irregular' else gridType = 'regular'
 
+; apply scale/offset factors
+    if ((self.modify.scale ne 1.0) or (self.modify.offset ne 0.0)) then aAllData = self.modify.scale*aAllData + self.modify.offset
 
 self->printLog, 'OK', /notimestamp
 

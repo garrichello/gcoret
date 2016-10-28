@@ -69,6 +69,10 @@ PRO structDataDesc__define
                missingVal : 0.0, $ ; missing value
                gridType : '', $ ; grid type: 'regular', 'irregular', 'station'
                data : ptr_new(), $ ; pointer to data, should be NULL for a dataset and not NULL for a memory array
+	       modify : { $
+		scale : 0.0, $ ; scale factor for data
+	        offset : 0.0 $ ; offset factor for data
+	       }, $
                numParams : 0, $ ; number of parameters
                asParam : make_array(MAX_N_PARAMS, value={structArgDesc}), $ ; array of parameters
                extra : ptr_new() $ ; extra data

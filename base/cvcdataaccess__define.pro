@@ -80,7 +80,7 @@ FUNCTION cvcDataAccess::__SetDataFileTemplate, out_fileType
     aFileNameTemplate = strarr(nLev) ; array of file name templates (one template for each level)
     for levIdx = 0, nLev-1 do begin
     ; get file name
-      qry = 'select file_id, ds_id from data where ds_id in '+$
+      qry = 'select file_id, ds_id, scale, offset from data where ds_id in '+$
     	    '(select id from ds where collection_id='+string(collection_id)+' and scenario_id='+string(scenario_id)+' and res_id='+string(res_id)+' and tstep_id='+string(tstep_id)+')'+$
             ' and var_id in (select id from var where name="'+sData.VariableName+'") and '+$
             'lvs_id in (select id from lvs where name like "%:'+sData.aLevel[levIdx]+':%");'
@@ -91,6 +91,10 @@ FUNCTION cvcDataAccess::__SetDataFileTemplate, out_fileType
       endif
       file_id = fix(python('mymydb', 'get_data', 0, 'numeric'))
       ds_id = fix(python('mymydb', 'get_data', 1, 'numeric'))
+      data_scale = float(python('mymydb', 'get_data', 2, 'numeric'))
+      data_offset = float(python('mymydb', 'get_data', 3, 'numeric'))
+      (*self.pData).modify.scale = data_scale
+      (*self.pData).modify.offset = data_offset
 
       ; get subdataset root path
       res = python('mymydb', 'query_db', 'select rootpath from dsroot where id in'+$
