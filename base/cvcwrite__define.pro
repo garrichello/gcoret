@@ -363,6 +363,66 @@ FUNCTION cvcWrite::__WriteXML, in_sData, in_sDestDesc
     return, self.ERROR_OK
 END
 ;--------------------------------------------------------------------
+FUNCTION cvcWrite::__WriteASCII, in_sData, in_sDestDesc
+
+    monNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    nInputs = n_elements(in_sData)
+    
+    for i = 0, nInputs-1 do $
+      if ((*in_sData[i].data).type eq 'parameter') then begin ; find  parameter input
+        sParam = *in_sData[i].data ; parameter input structure
+        break
+      endif
+
+    nData = nInputs - 1 ; number of data inputs
+    dataIdxs = intarr(nData, /nozero) ; array of indices of data inputs
+    iData = 0
+    for i = 0, nData-1 do begin ; find indices of data inputs and put them into dataIdxs array
+      if ((*in_sData[i].data).type eq 'array') then begin
+        dataIdxs[iData] = i
+        iData += 1
+      endif
+    endfor
+
+; get format string
+    for iParam = 0, sParam.numParams-1 do $
+      if (sParam.asParam[iParam].UID eq 'format') then begin
+        fmtString = *sParam.asParam[iParam].data
+        break
+      endif
+
+; open output file
+    openw, outLUN, in_sDestDesc.file.name, /get_lun
+
+; print data
+    for iData = 0, nData-1 do begin ; main loop by data arrays
+      dataIdx = dataIdxs[iData]
+
+      dataName = (*in_sData[dataIdx].data).description.name ; get data name
+      aData = *(*in_sData[dataIdx].data).data ; get current data input
+      sz = size(aData, /dim) ; get data array dimensions
+      nLons = sz[0]
+      nLats = sz[1]
+      nTimes = sz[2]
+
+      printf, outLUN, dataName+': ', format = '(a50,$)'
+      for iLats = 0, nLats-1 do begin
+        for iTimes = 0, nTimes-1 do begin
+      	  for iLons = 0, nLons-1 do begin
+	    printf, outLUN, aData[iLons, iLats, iTimes], format='('+fmtString+',$)'
+          endfor
+	  printf, outLUN, '   ', format='(a3,$)'
+        endfor
+	printf, outLUN
+      endfor
+    endfor ; loop by data arrays
+
+; close output file
+    free_lun, outLun
+
+    return, self.ERROR_OK
+END
+;--------------------------------------------------------------------
 FUNCTION cvcWrite::__CheckGrid, in_sData 
     
     if (ptr_valid(in_sData.pData)) then dataSize = size(*in_sData.pData)
@@ -407,6 +467,7 @@ FUNCTION cvcWrite::Run, in_pInputs
       'geotiff': ret = self->__WriteGeoTIFF(sData, sDestDesc)
       'bin': ret = self->__WriteBin(sData, sDestDesc)
       'xml': ret = self->__WriteXML(sData, sDestDesc)
+      'ascii': ret = self->__WriteASCII(sData, sDestDesc)
       else: begin
         self->printLog, 'Error! Bad file type!'
         return, -1

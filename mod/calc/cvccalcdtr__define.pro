@@ -82,6 +82,7 @@ if (self->Assert(resultCode2)) then return, resultCode2
 	endif  
 	maxArr = sResponseMax.adata
 	minArr = sResponseMin.adata                           
+	
 	for iTime=0, numTime-1 do begin
 	    SumDef[*,*,segIdx] = SumDef[*,*,segIdx] + maxArr[*,*,iTime]-minArr[*,*,iTime]
 	endfor      

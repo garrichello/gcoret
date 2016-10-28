@@ -274,9 +274,15 @@ self->printLog, ' levDim...'
     
     if (size(aLons, /n_dim) eq 1) then begin ; if aLons is 1-D then we suppose all grids are 1-D
 	iii = where((aLats gt self.sROIBounds.lat0) and (aLats lt self.sROIBounds.lat1), latCnt)
-	latOffs = max([0, iii[0] - 1])
-	latCnt = min([latSize-latOffs, latCnt + 1]) ; add one at the top
-	latCnt = min([latSize-latOffs, latCnt + 1]) ; add one at the bottom
+        if (latCnt eq 0) then begin ; no points inside the range
+          pairIdxs = (sort(abs(aLats-self.sROIBounds.lat0)))[0:1] ; let's find the two closest to the required latitude grid points
+	  latOffs =  min(pairIdxs) ; we take the 'left' grid point as an offset
+	  latCnt = 2
+        endif else begin
+          latOffs = max([0, iii[0] - 1])
+	  latCnt = min([latSize-latOffs, latCnt + 1]) ; add one at the top
+	  latCnt = min([latSize-latOffs, latCnt + 1]) ; add one at the bottom
+        endelse
 	latIdxs = indgen(latCnt)+latOffs
     endif else begin
 	; we suppose 2D-grids are used for irregular grids thus prepare count and offset arrays for reading of the whole area represented in a file
@@ -334,9 +340,15 @@ self->printLog, ' levDim...'
 	        endif
 	      endif else begin ; required area fall into the LEFT or RIGHT half of the 0-360 field, so it easy here...
 	        iii = where((aLons gt (self.sROIBounds.lon0 + 360) mod 360) and (aLons lt (self.sROIBounds.lon1 + 360) mod 360), lonCnt)
-	        lonOffs = max([0, iii[0] - 1])
-	        lonCnt = lonCnt gt 0 ? min([lonSize-lonOffs, lonCnt + 1]) : 0 ; add one at the left
-	        lonCnt = lonCnt gt 0 ? min([lonSize-lonOffs, lonCnt + 1]) : 0 ; and another at the right
+        	if (lonCnt eq 0) then begin ; no points inside the range
+            	  pairIdxs = (sort(abs(aLons-self.sROIBounds.lon0)))[0:1] ; let's find the two closest to the required latitude grid points
+	    	  lonOffs =  min(pairIdxs) ; we take the 'left' grid point as an offset
+		  lonCnt = 2
+		endif else begin
+                  lonOffs = max([0, iii[0] - 1])
+	          lonCnt = lonCnt gt 0 ? min([lonSize-lonOffs, lonCnt + 1]) : 0 ; add one at the left
+	          lonCnt = lonCnt gt 0 ? min([lonSize-lonOffs, lonCnt + 1]) : 0 ; and another at the right
+                endelse
 	        lonIdxs = lonCnt gt 0 ? indgen(lonCnt)+lonOffs : 0
 	      endelse
 	    endif else begin ; otherwise we have usual -180-+180 latitude grid
@@ -697,7 +709,6 @@ self->printLog, 'OK', /NoTimeStamp
 	  self->printLog, 'Warning! Area is empty! No data to read! Skipping file!'
 	  continue
 	endelse
-
 	
 ; let's set longitudes for the SECOND area (if it is present!)
 	if (lonCnt2[0] ne -1) then begin
@@ -847,6 +858,18 @@ self->printLog, 'NOT Searching for min and max values...', format='(a, $)'
 
 ; We suppose if aLats AND aLons are NOT vectors (1-D) we have irregular grid
     if ((size(aLons, /n_dim) gt 1) and (size(aLats, /n_dim) gt 1)) then gridType = 'irregular' else gridType = 'regular'
+
+; Simple case: single point is requested, we need to interpolate to it
+; ToDo: Should be expanded in the future to correct borders of the region
+    if ((n_elements(aLons) eq 2) and (n_elements(aLats) eq 2)) then begin
+      lonScale = (self.sROIBounds.lon0 - aLons[0]) / (aLons[1] - aLons[0])
+      latScale = (self.sROIBounds.lat0 - aLats[0]) / (aLats[1] - aLats[0])
+      aData0 = (aAllData[1, 0, *] - aAllData[0, 0, *]) * lonScale + aAllData[0, 0, *]
+      aData1 = (aAllData[1, 1, *] - aAllData[0, 1, *]) * lonScale + aAllData[0, 1, *]
+      aAllData = (aData1 - aData0) * latScale + aData0
+      aLons = self.sROIBounds.lon0
+      aLats = self.sROIBounds.lat1
+    endif
 
 ; apply scale/offset factors
     if ((self.modify.scale ne 1.0) or (self.modify.offset ne 0.0)) then aAllData = self.modify.scale*aAllData + self.modify.offset

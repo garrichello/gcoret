@@ -347,7 +347,7 @@ FUNCTION cvcDataAccess::Get, Time = in_sTimeSeg, Level = in_level, Region = in_s
         self->printLog, 'Warning! No parameter with such UID: '+in_uid
         return, -1
       endelse
-    endif else out_sResult = localData.asParam
+    endif else out_sResult = localData.asParam    
     return, self.ERROR_OK
   endif
   
